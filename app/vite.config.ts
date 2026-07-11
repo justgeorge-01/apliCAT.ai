@@ -3,9 +3,10 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 
-// GitHub Pages serves the site from a sub-path. Overridable for local preview
-// or for deploying the new app to a nested path next to the legacy site.
-const base = process.env.BASE_PATH || '/admitica-ai/'
+// GitHub Pages serves a project site from a sub-path (/<repo>/). A relative
+// base makes the built assets path-independent, so the site works under any
+// repo name without hardcoding it. Overridable via BASE_PATH when needed.
+const base = process.env.BASE_PATH || './'
 
 export default defineConfig({
   base,

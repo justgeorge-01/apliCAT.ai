@@ -1,29 +1,17 @@
-# Admitica — деплой на GitHub Pages через Actions.
+# Deploy the Vite app to GitHub Pages.
 #
-# БЕЗОПАСНОСТЬ (фаза 0):
-#   • Запуск ТОЛЬКО вручную (workflow_dispatch) — сам по себе не срабатывает.
-#   • Пока в Settings → Pages источник = "Deploy from a branch", деплой-шаг
-#     просто упадёт с ошибкой и НИЧЕГО не перезапишет (двойной предохранитель).
-#   • Режим по умолчанию — preview: старый сайт копируется в корень КАК ЕСТЬ,
-#     новый Vite-апп кладётся рядом на /admitica-ai/next/. Старые URL не меняются.
-#   • Режим prod (новый апп в корне /admitica-ai/) — выбирается явно при запуске,
-#     только когда решим переходить.
+# Runs automatically on every push to main, and can also be triggered manually.
+# Prerequisite (one-time): repo Settings → Pages → Source = "GitHub Actions".
 #
-# Файл должен попасть в main, чтобы в UI появилась кнопка Run workflow
-# (это безопасно: добавление файла workflow не влияет на живой сайт).
+# The app uses a relative base (see app/vite.config.ts), so the built site works
+# at the project URL https://<user>.github.io/<repo>/ without hardcoding a path.
 
 name: Deploy to GitHub Pages
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      mode:
-        description: "Режим деплоя"
-        type: choice
-        default: preview
-        options:
-          - preview   # легаси в корне + новый апп на /next/ (старый сайт не трогаем)
-          - prod      # новый апп в корне /admitica-ai/ (ТОЛЬКО при переходе на прод)
 
 permissions:
   contents: read
@@ -50,32 +38,15 @@ jobs:
         working-directory: app
         run: npm ci
 
-      - name: Build (base path depends on mode)
+      - name: Build
         working-directory: app
-        env:
-          BASE_PATH: ${{ inputs.mode == 'prod' && '/admitica-ai/' || '/admitica-ai/next/' }}
         run: npm run build
-
-      - name: Assemble site
-        run: |
-          mkdir -p site
-          if [ "${{ inputs.mode }}" = "prod" ]; then
-            cp -r app/dist/* site/
-          else
-            # Legacy desktop site verbatim at the root — live URLs stay identical.
-            # (Legacy mobile build was removed — the new responsive app serves phones.)
-            cp index.html onboarding.html styles.css config.example.js site/ 2>/dev/null || true
-            cp -r data src site/
-            # New app next to it
-            mkdir -p site/next
-            cp -r app/dist/* site/next/
-          fi
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: app/dist
 
   deploy:
     needs: build
