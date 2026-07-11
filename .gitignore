@@ -8,3 +8,10 @@ node_modules/
 dist/
 _pagesroot/
 *.local
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Archived snapshot of the old project (kept on disk, not versioned here;
+# contains its own nested .git history)
+legacy/

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "admitica-ai-dev",
+      "runtimeExecutable": "C:\\Users\\User\\OneDrive\\Desktop\\Admitica\\admitica-ai\\app\\node_modules\\.bin\\vite.cmd",
+      "runtimeArgs": ["C:\\Users\\User\\OneDrive\\Desktop\\Admitica\\admitica-ai\\app", "--base", "/", "--port", "5190", "--strictPort", "--host"],
+      "port": 5190
+    }
+  ]
+}
