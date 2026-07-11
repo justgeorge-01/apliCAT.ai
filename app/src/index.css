@@ -1,0 +1,183 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ============================================================
+   Admitica design tokens – teal accent.
+   Dark theme is the default; light theme is activated with
+   [data-theme="light"] on <html>.
+
+   Color usage rules:
+   - teal TEXT/icons on page background  → --color-accent-text
+   - teal FILLS (buttons, active pills)  → --color-accent,
+     with --color-accent-fg for the text on top (semibold labels)
+   - glows/shadows                       → --color-accent-glow
+   ============================================================ */
+
+@theme {
+  /* Type */
+  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Radii: the product default is rounded-2xl */
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+
+  /* Motion: ease-out, 200–300ms */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 200ms;
+  --duration-base: 250ms;
+  --duration-slow: 300ms;
+
+  /* Dark surface scale (default theme) */
+  --color-bg: #0a0c0c;
+  --color-surface: #101414;
+  --color-card: #151a1a;
+  --color-card-2: #1b2121;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+
+  /* Text scale */
+  --color-fg: #f4f7f6;
+  --color-fg-muted: #99a3a1;
+  --color-fg-faint: #5e6766;
+
+  /* Teal accent – bright on dark surfaces */
+  --color-accent: #2dd4bf;
+  --color-accent-soft: rgba(45, 212, 191, 0.12);
+  --color-accent-fg: #04201d;
+  --color-accent-text: #2dd4bf;
+  --color-accent-glow: rgba(45, 212, 191, 0.3);
+
+  /* Semantic */
+  --color-positive: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  /* text on a danger fill – dark danger is a light red, so white text fails contrast */
+  --color-danger-fg: #2a0a0a;
+}
+
+/* ---- Light theme: darker teal for readability on light surfaces ---- */
+[data-theme="light"] {
+  --color-bg: #f3f7f6;
+  --color-surface: #ffffff;
+  --color-card: #ffffff;
+  --color-card-2: #e9f1ef;
+  --color-border: rgba(12, 40, 36, 0.1);
+  --color-border-strong: rgba(12, 40, 36, 0.18);
+
+  --color-fg: #0d1a18;
+  --color-fg-muted: #4c5a58;
+  --color-fg-faint: #7a8987;
+
+  --color-accent: #0d9488;
+  --color-accent-soft: rgba(13, 148, 136, 0.12);
+  --color-accent-fg: #ffffff;
+  --color-accent-text: #0f766e;
+  --color-accent-glow: rgba(13, 148, 136, 0.18);
+
+  --color-positive: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-danger-fg: #ffffff;
+}
+
+/* ---- Base ---- */
+html {
+  color-scheme: dark;
+}
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html {
+  /* Reserve the scrollbar gutter so pages that toggle between scrolling and
+     non-scrolling (e.g. onboarding screens) don't shift horizontally. No-op on
+     mobile overlay scrollbars. */
+  scrollbar-gutter: stable;
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* kill the default dark flash when tapping buttons on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection { background: var(--color-accent); color: var(--color-accent-fg); }
+
+/* Soft ambient glow behind the hero */
+.hero-glow {
+  background:
+    radial-gradient(600px 320px at 18% 0%, var(--color-accent-glow), transparent 70%),
+    radial-gradient(480px 260px at 85% 12%, rgba(255, 255, 255, 0.05), transparent 70%);
+}
+/* On light surfaces the white radial is invisible – keep only the (already
+   muted) teal glow so the hero stays clean. */
+[data-theme="light"] .hero-glow {
+  background: radial-gradient(600px 320px at 18% 0%, var(--color-accent-glow), transparent 70%);
+}
+
+/* White cards on a light page need a soft shadow to keep depth */
+[data-theme="light"] [data-slot="card"] {
+  box-shadow:
+    0 1px 2px rgba(13, 26, 24, 0.04),
+    0 12px 32px -20px rgba(13, 26, 24, 0.18);
+}
+
+/* Range sliders (GPA, budget, tuition filter) – system track + accent thumb
+   instead of the per-browser UA defaults */
+input[type="range"] {
+  appearance: none;
+  height: 20px;
+  background: transparent;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-fg) 8%, transparent);
+}
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-fg) 8%, transparent);
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  border: none;
+  background: var(--color-accent);
+  box-shadow: 0 2px 8px var(--color-accent-glow);
+  cursor: grab;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  border: none;
+  background: var(--color-accent);
+  box-shadow: 0 2px 8px var(--color-accent-glow);
+  cursor: grab;
+}
+input[type="range"]:focus-visible {
+  outline: none;
+}
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+input[type="range"]:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

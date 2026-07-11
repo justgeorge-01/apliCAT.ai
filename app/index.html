@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // Apply the saved theme before first paint to avoid a dark flash.
+      try {
+        if (JSON.parse(localStorage.getItem("admitica.theme")) === "light")
+          document.documentElement.dataset.theme = "light";
+      } catch (e) {}
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Admitica — Поступление в Европу</title>
+    <!-- Favicons: PNG first, SVG last (Chrome picks the last supported; Safari skips SVG) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Document export libs used by src/downloads.js (same CDN builds as the legacy site) -->
+    <script defer src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+    <script defer src="https://unpkg.com/pdfmake@0.2.10/build/pdfmake.min.js"></script>
+    <script defer src="https://unpkg.com/pdfmake@0.2.10/build/vfs_fonts.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

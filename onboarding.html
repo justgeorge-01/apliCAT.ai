@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Admitica — Онбординг</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* Mobile onboarding was removed with the legacy mobile build — all devices use this page */
+(function() {
+  var params = new URLSearchParams(location.search);
+  if (params.get('view') === 'desktop') { sessionStorage.setItem('admitica.view', 'desktop'); }
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F5F0; --white:#FFFFFF; --midnight:#0C447C; --teal:#1D9E75; --purple:#534AB7;
+  --stone:#2C2C2A; --muted:#8A8880; --border:#E8E4DD;
+  --teal-tint:rgba(29,158,117,0.07); --teal-badge:#F0FBF7; --purple-badge:#F5F0FF; --blue-badge:#EAF2FB;
+  --shadow-card:0 4px 24px rgba(12,68,124,0.08); --shadow-float:0 12px 40px rgba(12,68,124,0.14);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--stone); -webkit-font-smoothing:antialiased;
+  min-height:100vh; position:relative; overflow-x:hidden;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+input,textarea{font-family:inherit;color:inherit;}
+textarea{resize:none;}
+
+/* ===== Blurred app dashboard behind the modal ===== */
+.appbg{position:fixed;inset:0;z-index:0;display:flex;filter:blur(7px) saturate(1.05);transform:scale(1.06);transform-origin:center;pointer-events:none;}
+.appdim{position:fixed;inset:0;z-index:1;background:linear-gradient(120deg,rgba(247,245,240,0.55),rgba(247,245,240,0.78));pointer-events:none;}
+.ab-side{width:240px;background:#EDE9E1;border-right:1px solid var(--border);padding:22px 16px;display:flex;flex-direction:column;gap:22px;}
+.ab-logo{font-size:20px;font-weight:800;color:var(--midnight);}
+.ab-logo::after{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--teal);margin-left:3px;vertical-align:baseline;}
+.ab-nav{display:flex;flex-direction:column;gap:8px;}
+.ab-navitem{display:flex;align-items:center;gap:12px;height:42px;border-radius:10px;padding:0 12px;}
+.ab-navitem.active{background:var(--teal-tint);}
+.ab-ic{width:20px;height:20px;border-radius:6px;background:#cfcabf;flex-shrink:0;}
+.ab-navitem.active .ab-ic{background:var(--teal);}
+.ab-bar{height:9px;border-radius:5px;background:#d6d1c6;}
+.ab-navitem.active .ab-bar{background:var(--teal);opacity:.5;}
+.ab-main{flex:1;padding:34px 44px;display:flex;flex-direction:column;gap:26px;overflow:hidden;}
+.ab-top{display:flex;justify-content:space-between;align-items:center;}
+.ab-h1{width:300px;height:30px;border-radius:9px;background:#dad5ca;}
+.ab-search{width:260px;height:42px;border-radius:21px;background:#fff;border:1px solid var(--border);}
+.ab-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.ab-stat{height:96px;border-radius:16px;background:#fff;box-shadow:var(--shadow-card);border-top:4px solid var(--teal);}
+.ab-stat:nth-child(2){border-top-color:var(--purple);}
+.ab-stat:nth-child(3){border-top-color:var(--midnight);}
+.ab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.ab-pcard{height:170px;border-radius:16px;background:#fff;box-shadow:var(--shadow-card);padding:18px;display:flex;flex-direction:column;gap:11px;}
+.ab-pcard::before{content:"";height:4px;width:60px;border-radius:3px;background:var(--teal);}
+.ab-line{height:11px;border-radius:6px;background:#e4dfd4;}
+.ab-line.w70{width:70%;}
+.ab-line.w40{width:40%;}
+.ab-line.short{width:52%;}
+.ab-chip{height:22px;width:78px;border-radius:11px;background:var(--teal-badge);margin-top:auto;}
+
+/* ===== Centered question modal ===== */
+.modal-wrap{position:fixed;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;padding:40px 24px;overflow:auto;}
+.modal{position:relative;width:600px;max-width:100%;max-height:90vh;background:var(--white);border-radius:24px;box-shadow:var(--shadow-float);display:flex;flex-direction:column;overflow:hidden;transition:width .4s cubic-bezier(.4,0,.2,1);border:1px solid rgba(255,255,255,0.6);}
+.modal.wide{width:1040px;}
+.modal.wide .modal-body{padding:40px 44px 36px;}
+#progress{height:4px;width:100%;background:var(--border);flex-shrink:0;display:none;}
+#progress.show{display:block;}
+#progress .fill{height:100%;width:11%;background:linear-gradient(90deg,#1D9E75 0%,#378ADD 60%,#0C447C 100%);transition:width .5s ease-in-out;}
+.modal-body{padding:30px 48px 24px;overflow-y:auto;display:flex;flex-direction:column;min-height:400px;}
+
+/* Screens */
+.screen{display:none;flex-direction:column;}
+.screen.active{display:flex;}
+.screen.center{justify-content:center;align-items:stretch;min-height:380px;}
+.screen.enter{animation:screenIn .35s ease-out both;}
+.screen.exit{animation:screenOut .2s ease-in both;}
+@keyframes screenIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes screenOut{from{opacity:1;transform:translateY(0);}to{opacity:0;transform:translateY(-10px);}}
+
+.wordmark{font-size:22px;font-weight:800;color:var(--midnight);text-align:center;letter-spacing:-.02em;}
+.wordmark .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--teal);margin-left:2px;vertical-align:baseline;}
+
+.kicker{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.kicker::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--teal);}
+.heading{font-size:26px;font-weight:700;color:var(--midnight);line-height:1.2;letter-spacing:-.01em;text-wrap:balance;margin:0;}
+.subtext{font-size:14px;color:var(--muted);margin:8px 0 0;}
+.hint{font-size:13px;color:var(--muted);}
+
+/* Cards */
+.cards{display:flex;flex-direction:column;gap:10px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.card{
+  position:relative;display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  border-radius:16px;border:1.5px solid var(--border);background:var(--white);padding:11px 16px;
+  min-height:64px;box-shadow:var(--shadow-card);transition:border-color .2s,background .2s,transform .15s,box-shadow .2s;
+}
+.card:hover{border-color:rgba(29,158,117,0.4);background:rgba(29,158,117,0.03);transform:translateY(-1px);box-shadow:var(--shadow-float);}
+.card.selected{border-color:#1D9E75;background:var(--teal-tint);}
+.card.pulse{animation:pulse .18s ease;}
+@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(.97);}100%{transform:scale(1);}}
+.card .emoji{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:23px;line-height:1;flex-shrink:0;background:var(--teal-badge);transition:background .2s;}
+.cards > *:nth-child(3n+2) .emoji,.grid-2 > *:nth-child(3n+2) .emoji{background:var(--purple-badge);}
+.cards > *:nth-child(3n) .emoji,.grid-2 > *:nth-child(3n) .emoji{background:var(--blue-badge);}
+.card .card-label{font-size:16px;font-weight:500;color:var(--stone);padding-right:24px;}
+.card .check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;background:var(--teal);display:none;align-items:center;justify-content:center;}
+.card.selected .check{display:flex;animation:popIn .25s cubic-bezier(.34,1.56,.64,1) both;}
+.card .check svg{width:10px;height:10px;}
+@keyframes popIn{from{transform:scale(0);}to{transform:scale(1);}}
+
+.stagger > *{opacity:1;}
+
+.card-expand{flex-direction:column;align-items:stretch;padding:0;overflow:hidden;}
+.card-expand .ce-head{display:flex;align-items:center;gap:14px;min-height:64px;padding:11px 16px;}
+.card-expand .ce-body{max-height:0;overflow:hidden;transition:max-height .3s ease-in-out;}
+.card-expand textarea{width:100%;min-height:80px;border:none;background:transparent;outline:none;padding:0 18px 18px;font-size:15px;color:var(--stone);}
+.card-expand.selected .ce-body{max-height:200px;}
+.card-expand textarea::placeholder{color:var(--muted);}
+
+.card-lg{min-height:80px;gap:18px;padding:0 22px;}
+.card-lg .emoji{width:50px;height:50px;border-radius:15px;font-size:27px;}
+.card-lg .lg-title{font-size:18px;font-weight:600;color:var(--midnight);}
+.card-lg .lg-sub{font-size:13px;color:var(--muted);margin-top:2px;}
+
+.grid-levels{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.card-level{flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:78px;padding:0;}
+.card-level .lv{font-size:24px;font-weight:800;letter-spacing:-.01em;color:var(--midnight);}
+.card-level .lv-desc{font-size:12px;color:var(--muted);}
+
+.card-field{min-height:84px;padding:8px 10px;gap:6px;flex-direction:column;align-items:flex-start;justify-content:center;}
+.card-field .card-label{font-size:13px;font-weight:500;line-height:1.15;padding-right:18px;}
+.card-field .check{width:19px;height:19px;}
+.card-field .check svg{width:11px;height:11px;}
+.span-2{grid-column:1 / -1;}
+/* hand-drawn brand sketches */
+.sketch{width:30px;height:30px;flex-shrink:0;color:var(--teal);}
+.sketch svg{width:100%;height:100%;display:block;}
+.grid-3 > *:nth-child(3n+2) .sketch,.grid-2 > *:nth-child(3n+2) .sketch{color:var(--purple);}
+.grid-3 > *:nth-child(3n) .sketch,.grid-2 > *:nth-child(3n) .sketch{color:var(--midnight);}
+.grid-3 > *:nth-child(5n+1) .sketch,.grid-2 > *:nth-child(5n+1) .sketch{color:#E08A3C;}
+/* free-text reveal under a grid («other» option) */
+.other-text{width:100%;min-height:80px;border:1.5px solid var(--border);border-radius:14px;padding:13px 16px;font-size:15px;outline:none;background:#fff;resize:none;font-family:inherit;color:var(--stone);}
+.other-text:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(29,158,117,0.15);}
+.other-text::placeholder{color:var(--muted);}
+
+.card-country{min-height:64px;gap:14px;padding:0 18px;}
+.card-country .flag{font-size:24px;width:40px;height:40px;border-radius:12px;background:#F4F1EC;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.card-country .cname{font-size:15px;font-weight:500;color:var(--stone);}
+.grid-2.dim .card:not(.selected){opacity:.4;}
+
+/* Buttons */
+.btn{height:52px;border-radius:14px;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s,transform .15s,opacity .2s,border-color .2s,color .2s;width:100%;}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 6px 18px rgba(29,158,117,0.26);}
+.btn-primary:hover{background:#188e67;transform:translateY(-1px);}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;background:var(--teal);box-shadow:none;}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--stone);}
+.btn-ghost:hover{border-color:rgba(29,158,117,0.4);color:var(--midnight);}
+.btn-text{background:none;border:none;color:var(--muted);font-size:14px;font-weight:500;height:auto;width:auto;}
+.btn-text:hover{color:var(--midnight);}
+.nav{display:flex;gap:12px;margin-top:18px;align-items:center;}
+.nav .btn-ghost{width:auto;padding:0 22px;}
+.nav .btn-primary{flex:1;}
+.skip-link{position:absolute;top:0;right:0;}
+
+/* Inputs */
+.input,.select-trigger{width:100%;height:52px;border:1.5px solid var(--border);border-radius:12px;padding:0 16px;font-size:15px;background:var(--white);transition:border-color .15s,box-shadow .15s;outline:none;}
+.input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(29,158,117,0.15);}
+.input::placeholder{color:var(--muted);}
+
+/* Dropdown */
+.dropdown{position:relative;}
+.select-trigger{display:flex;align-items:center;justify-content:space-between;height:56px;cursor:pointer;}
+.select-trigger .chev{transition:transform .25s ease;color:var(--muted);}
+.dropdown.open .select-trigger .chev{transform:rotate(180deg);}
+.dropdown.open .select-trigger{border-color:var(--teal);}
+.dd-panel{position:absolute;top:62px;left:0;right:0;background:var(--white);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:6px;transform:scaleY(0);transform-origin:top;opacity:0;pointer-events:none;transition:transform .2s ease,opacity .2s ease;z-index:20;}
+.dropdown.open .dd-panel{transform:scaleY(1);opacity:1;pointer-events:auto;}
+.dd-opt{display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 16px;border-radius:10px;font-size:15px;cursor:pointer;}
+.dd-opt:hover{background:var(--bg);}
+.dd-opt.sel{color:var(--teal);font-weight:600;}
+.dd-opt .ddot{width:8px;height:8px;border-radius:50%;background:var(--teal);display:none;}
+.dd-opt.sel .ddot{display:block;}
+
+/* Sliders */
+.slider-value{font-size:56px;font-weight:800;color:var(--midnight);text-align:center;line-height:1;letter-spacing:-.02em;}
+.slider-value.bump{animation:bump .12s ease;}
+@keyframes bump{from{opacity:.5;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.range{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:var(--border);outline:none;margin:0;
+  background-image:linear-gradient(var(--teal),var(--teal));background-repeat:no-repeat;background-size:var(--pct,50%) 100%;}
+.range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid var(--teal);box-shadow:0 2px 12px rgba(29,158,117,0.4);cursor:pointer;transition:transform .12s;}
+.range::-webkit-slider-thumb:active{transform:scale(1.08);}
+.range::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid var(--teal);box-shadow:0 2px 12px rgba(29,158,117,0.4);cursor:pointer;}
+.range::-moz-range-track{height:6px;border-radius:3px;}
+
+.reveal{display:none;}
+.reveal.open{display:block;}
+.toggle-link{font-size:14px;color:var(--muted);background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:0;}
+.toggle-link:hover{color:var(--midnight);text-decoration:underline;}
+.checkrow{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none;font-size:15px;color:var(--stone);background:none;border:none;padding:0;font-family:inherit;}
+.checkrow .cbox{width:22px;height:22px;border:1.5px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;background:#fff;}
+.checkrow .cbox svg{width:12px;height:12px;opacity:0;transition:opacity .1s;}
+.checkrow:hover .cbox{border-color:rgba(29,158,117,0.5);}
+.checkrow.checked{color:var(--teal);font-weight:600;}
+.checkrow.checked .cbox{background:var(--teal);border-color:var(--teal);}
+.checkrow.checked .cbox svg{opacity:1;}
+.gpa-box{transition:opacity .25s;}
+.gpa-box.off{opacity:.32;pointer-events:none;}
+.faded{transition:opacity .25s;opacity:.32;pointer-events:none;}
+/* full-width opt-out checkbox card */
+.card-check{display:flex;align-items:center;gap:13px;min-height:58px;padding:11px 18px;border-radius:16px;border:1.5px dashed var(--border);background:var(--white);width:100%;text-align:left;cursor:pointer;transition:border-color .2s,background .2s;}
+.card-check:hover{border-color:rgba(29,158,117,0.45);}
+.card-check .cbox{width:22px;height:22px;border:1.5px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;transition:all .15s;}
+.card-check .cbox svg{width:12px;height:12px;opacity:0;transition:opacity .1s;}
+.card-check .cc-text{font-size:15px;font-weight:600;color:var(--stone);}
+.card-check.selected{border-style:solid;border-color:var(--teal);background:var(--teal-tint);}
+.card-check.selected .cbox{background:var(--teal);border-color:var(--teal);}
+.card-check.selected .cbox svg{opacity:1;}
+.card-check.selected .cc-text{color:var(--teal);}
+.optrow{display:flex;flex-direction:column;gap:14px;margin-top:16px;}
+/* unlimited language rows */
+.lang-row{margin-top:14px;border-left:2px solid var(--teal-tint);padding-left:16px;display:flex;flex-direction:column;gap:12px;position:relative;}
+.lang-row .lang-remove{width:28px;height:28px;flex-shrink:0;border-radius:8px;border:1.5px solid var(--border);background:#fff;color:var(--muted);font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;}
+.lang-row .lang-remove:hover{border-color:rgba(29,158,117,0.45);color:var(--midnight);}
+.lang-row .lang-num{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;}
+.lang-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.lang-fields{display:flex;flex-direction:column;gap:10px;}
+.minilevels{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+.minilevel{height:44px;border-radius:11px;border:1.5px solid var(--border);background:#fff;font-size:14px;font-weight:700;color:var(--midnight);transition:all .15s;}
+.minilevel:hover{border-color:rgba(29,158,117,0.45);}
+.minilevel.sel{background:var(--midnight);color:#fff;border-color:var(--midnight);}
+/* year option grid */
+.year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;}
+.year-card{min-height:64px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:var(--midnight);}
+
+.pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{height:38px;padding:0 16px;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;color:var(--stone);transition:all .15s;}
+.pill:hover{border-color:rgba(29,158,117,0.4);}
+.pill.sel{background:var(--midnight);color:#fff;border-color:var(--midnight);}
+
+.badge{display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
+.badge-teal{background:var(--teal-badge);color:var(--teal);}
+.badge-purple{background:var(--purple-badge);color:var(--purple);}
+
+/* AI screen */
+.ai-rings{position:relative;width:240px;height:240px;margin:0 auto;}
+.ring{position:absolute;top:50%;left:50%;border-radius:50%;transform:translate(-50%,-50%);animation:ripple 2s infinite ease-out;}
+.ring-1{width:80px;height:80px;border:2px solid var(--teal);opacity:.35;}
+.ring-2{width:130px;height:130px;border:2px solid var(--teal);opacity:.35;animation-delay:.6s;}
+.ring-3{width:180px;height:180px;border:2px solid var(--purple);opacity:.2;animation-delay:1.2s;}
+.ai-dot{position:absolute;top:50%;left:50%;width:14px;height:14px;border-radius:50%;background:var(--teal);transform:translate(-50%,-50%);box-shadow:0 0 0 6px rgba(29,158,117,0.12);}
+@keyframes ripple{from{transform:translate(-50%,-50%) scale(1);}to{transform:translate(-50%,-50%) scale(1.4);opacity:0;}}
+.ai-lines{margin-top:36px;position:relative;height:44px;width:100%;}
+.ai-line{position:absolute;left:0;right:0;top:0;text-align:center;white-space:nowrap;font-size:16px;color:var(--stone);opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+.ai-line.show{opacity:1;transform:translateY(0);}
+.ai-line.hide{opacity:0;transform:translateY(-14px);}
+.ai-line.success{font-size:18px;font-weight:700;color:var(--teal);}
+/* odometer / drum number */
+.reel{display:inline-block;height:1em;overflow:hidden;vertical-align:-0.14em;}
+.reel-strip{display:flex;flex-direction:column;align-items:center;will-change:transform;}
+.reel-strip span{height:1em;line-height:1em;display:block;}
+
+/* Results */
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px;}
+.prog-card{border-radius:16px;background:#fff;box-shadow:var(--shadow-card);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;border:1px solid var(--border);}
+.prog-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-float);}
+.prog-card .accent{height:4px;width:100%;background:linear-gradient(90deg,var(--teal),var(--midnight));}
+.prog-body{padding:20px;display:flex;flex-direction:column;flex:1;}
+.prog-r1{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.prog-uni{font-size:16px;font-weight:600;color:var(--midnight);}
+.prog-loc{font-size:13px;color:var(--muted);white-space:nowrap;}
+.prog-name{font-size:14px;font-weight:500;color:var(--stone);margin-top:6px;}
+.prog-badges{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;}
+.prog-reason{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.45;}
+.prog-reason em{font-style:italic;}
+.prog-save{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
+.cbox{width:18px;height:18px;border:1.5px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.cbox svg{width:11px;height:11px;opacity:0;transition:opacity .1s;}
+.prog-save .save-lbl{font-size:14px;color:var(--muted);}
+.prog-save.checked .cbox{background:var(--teal);border-color:var(--teal);}
+.prog-save.checked .cbox svg{opacity:1;}
+.prog-save.checked .save-lbl{color:var(--teal);}
+.results-bar{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.results-bar .btns{display:flex;gap:12px;}
+.results-bar .btns .btn{width:auto;padding:0 24px;}
+
+.confetti{position:fixed;width:8px;height:8px;border-radius:50%;z-index:200;pointer-events:none;}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;}}
+</style>
+</head>
+<body>
+<!-- Blurred Admitica dashboard behind the onboarding modal -->
+<div class="appbg" aria-hidden="true">
+  <aside class="ab-side">
+    <div class="ab-logo">Admitica</div>
+    <div class="ab-nav">
+      <div class="ab-navitem active"><span class="ab-ic"></span><span class="ab-bar" style="width:90px;"></span></div>
+      <div class="ab-navitem"><span class="ab-ic"></span><span class="ab-bar" style="width:70px;"></span></div>
+      <div class="ab-navitem"><span class="ab-ic"></span><span class="ab-bar" style="width:104px;"></span></div>
+      <div class="ab-navitem"><span class="ab-ic"></span><span class="ab-bar" style="width:64px;"></span></div>
+      <div class="ab-navitem"><span class="ab-ic"></span><span class="ab-bar" style="width:88px;"></span></div>
+    </div>
+  </aside>
+  <main class="ab-main">
+    <div class="ab-top"><div class="ab-h1"></div><div class="ab-search"></div></div>
+    <div class="ab-stats"><div class="ab-stat"></div><div class="ab-stat"></div><div class="ab-stat"></div></div>
+    <div class="ab-grid">
+      <div class="ab-pcard"><div class="ab-line w70"></div><div class="ab-line w40"></div><div class="ab-line short"></div><div class="ab-chip"></div></div>
+      <div class="ab-pcard"><div class="ab-line w70"></div><div class="ab-line w40"></div><div class="ab-line short"></div><div class="ab-chip"></div></div>
+      <div class="ab-pcard"><div class="ab-line w70"></div><div class="ab-line w40"></div><div class="ab-line short"></div><div class="ab-chip"></div></div>
+      <div class="ab-pcard"><div class="ab-line w70"></div><div class="ab-line w40"></div><div class="ab-line short"></div><div class="ab-chip"></div></div>
+      <div class="ab-pcard"><div class="ab-line w70"></div><div class="ab-line w40"></div><div class="ab-line short"></div><div class="ab-chip"></div></div>
+      <div class="ab-pcard"><div class="ab-line w70"></div><div class="ab-line w40"></div><div class="ab-line short"></div><div class="ab-chip"></div></div>
+    </div>
+  </main>
+</div>
+<div class="appdim"></div>
+
+<div class="modal-wrap">
+  <div class="modal" id="modal">
+    <div id="progress"><div class="fill"></div></div>
+    <div class="modal-body">
+
+      <!-- SCREEN 1 — Name -->
+      <section class="screen center active" data-screen="1">
+        <div class="wordmark">Admitica<span class="dot"></span></div>
+        <h1 class="heading" style="text-align:center;margin-top:28px;">Привет! Как тебя зовут?</h1>
+        <p class="hint" style="text-align:center;margin-top:8px;">Мы персонализируем всё под тебя</p>
+        <input id="nameInput" class="input" style="margin-top:24px;" type="text" placeholder="Твоё имя" autocomplete="off">
+        <button id="startBtn" class="btn btn-primary" style="margin-top:16px;" disabled>Начать →</button>
+      </section>
+
+      <!-- SCREEN 2 — Motivation -->
+      <section class="screen" data-screen="2">
+        <div class="kicker">Мотивация</div>
+        <h1 class="heading" data-tpl="Зачем тебе учёба за рубежом, [Имя]?">Зачем тебе учёба за рубежом?</h1>
+        <p class="subtext">Можно выбрать несколько</p>
+        <div class="cards stagger" style="margin-top:18px;" data-group="motivation" data-select="multi">
+          <button class="card" data-val="career"><span class="emoji">💼</span><span class="card-label">Лучшие карьерные перспективы</span><span class="check">✓</span></button>
+          <button class="card" data-val="quality"><span class="emoji">📚</span><span class="card-label">Качество образования выше, чем дома</span><span class="check">✓</span></button>
+          <button class="card" data-val="experience"><span class="emoji">🌍</span><span class="card-label">Хочу новый опыт и самостоятельность</span><span class="check">✓</span></button>
+          <button class="card" data-val="scholarship"><span class="emoji">🎓</span><span class="card-label">Ищу стипендию / доступное образование</span><span class="check">✓</span></button>
+          <div class="card card-expand" data-val="other" data-expand="1">
+            <div class="ce-head"><span class="emoji">✏️</span><span class="card-label">Другое</span><span class="check">✓</span></div>
+            <div class="ce-body"><textarea placeholder="Напиши своими словами..."></textarea></div>
+          </div>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 3 — Main concern -->
+      <section class="screen" data-screen="3">
+        <div class="kicker">Сомнения</div>
+        <h1 class="heading">Что беспокоит тебя больше всего?</h1>
+        <p class="subtext">Можно выбрать несколько</p>
+        <div class="cards stagger" style="margin-top:18px;" data-group="concern" data-select="multi">
+          <button class="card" data-val="where"><span class="emoji">🗺️</span><span class="card-label">Не знаю, куда вообще подавать</span><span class="check">✓</span></button>
+          <button class="card" data-val="english"><span class="emoji">🗣️</span><span class="card-label">Английский недостаточно хорош</span><span class="check">✓</span></button>
+          <button class="card" data-val="essay"><span class="emoji">✍️</span><span class="card-label">Как писать мотивационное письмо</span><span class="check">✓</span></button>
+          <button class="card" data-val="money"><span class="emoji">💸</span><span class="card-label">Не уверен, хватит ли денег</span><span class="check">✓</span></button>
+          <div class="card card-expand" data-val="other" data-expand="1">
+            <div class="ce-head"><span class="emoji">✏️</span><span class="card-label">Другое</span><span class="check">✓</span></div>
+            <div class="ce-body"><textarea placeholder="Напиши своими словами..."></textarea></div>
+          </div>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 4 — Education level -->
+      <section class="screen" data-screen="4">
+        <div class="kicker">Уровень обучения</div>
+        <h1 class="heading">Какое образование ты хочешь получить?</h1>
+        <p class="subtext">Можно выбрать несколько</p>
+        <div class="cards stagger" style="margin-top:18px;" data-group="level" data-select="multi">
+          <button class="card card-lg" data-val="bachelor"><span class="emoji">🎓</span><span><span class="lg-title">Бакалавриат</span><span class="lg-sub" style="display:block;">3–4 года</span></span><span class="check">✓</span></button>
+          <button class="card card-lg" data-val="master"><span class="emoji">📖</span><span><span class="lg-title">Магистратура</span><span class="lg-sub" style="display:block;">1–2 года</span></span><span class="check">✓</span></button>
+          <button class="card card-lg" data-val="phd"><span class="emoji">🔬</span><span><span class="lg-title">PhD / Докторантура</span><span class="lg-sub" style="display:block;">3–4 года</span></span><span class="check">✓</span></button>
+        </div>
+        <div class="optrow">
+          <button class="checkrow" id="grantCheck" type="button"><span class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Нужно вместе с грантом / стипендией</span></button>
+          <button class="card-check" id="levelUnknown" type="button"><span class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cc-text">Пока не знаю</span></button>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 5 — Graduation year -->
+      <section class="screen" data-screen="5">
+        <div class="kicker">Сроки</div>
+        <h1 class="heading">Когда ты заканчиваешь учёбу?</h1>
+        <div class="year-grid stagger" data-group="year" data-select="single">
+          <button class="card year-card" data-val="done">Уже закончил<span class="check">✓</span></button>
+          <button class="card year-card" data-val="2025">2025<span class="check">✓</span></button>
+          <button class="card year-card" data-val="2026">2026<span class="check">✓</span></button>
+          <button class="card year-card" data-val="2027">2027<span class="check">✓</span></button>
+          <button class="card year-card" data-val="2028">2028<span class="check">✓</span></button>
+          <button class="card year-card" data-val="later">Позже<span class="check">✓</span></button>
+        </div>
+        <div class="reveal" id="yearReveal"><input class="input" id="yearCustom" data-numeric style="margin-top:14px;" placeholder="Укажи свой год — например, 2030" inputmode="numeric" maxlength="4"></div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 6 — GPA -->
+      <section class="screen" data-screen="6">
+        <div class="kicker">Средний балл</div>
+        <h1 class="heading">Какой у тебя средний балл?</h1>
+        <div class="gpa-box" id="gpaBox" style="margin-top:32px;">
+          <div class="slider-value" id="gpaValue">3.5</div>
+          <input type="range" class="range" id="gpaRange" min="2" max="5" step="0.1" value="3.5" style="margin-top:28px;">
+          <div style="display:flex;justify-content:space-between;margin-top:10px;"><span class="hint">2.0</span><span class="hint">5.0</span></div>
+        </div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:16px;">
+          <button class="checkrow" id="gpaUnknown" type="button"><span class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Не знаю свой балл</span></button>
+          <div>
+            <button class="toggle-link" id="gpaToggle">Другая система оценок ↓</button>
+            <div class="reveal" id="gpaReveal"><input class="input" style="margin-top:12px;" placeholder="Например: 85% или B+"></div>
+          </div>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 7 — English level -->
+      <section class="screen" data-screen="7">
+        <div class="kicker">ЯЗЫКИ</div>
+        <h1 class="heading">Какой у тебя уровень английского?</h1>
+        <p class="subtext">Выбери свой уровень</p>
+        <div class="grid-levels stagger" style="margin-top:18px;" data-group="english" data-select="single">
+          <button class="card card-level" data-val="A1"><span class="lv">A1</span><span class="lv-desc">Начальный</span><span class="check">✓</span></button>
+          <button class="card card-level" data-val="A2"><span class="lv">A2</span><span class="lv-desc">Элементарный</span><span class="check">✓</span></button>
+          <button class="card card-level" data-val="B1"><span class="lv">B1</span><span class="lv-desc">Средний</span><span class="check">✓</span></button>
+          <button class="card card-level" data-val="B2"><span class="lv">B2</span><span class="lv-desc">Выше среднего</span><span class="check">✓</span></button>
+          <button class="card card-level" data-val="C1"><span class="lv">C1</span><span class="lv-desc">Продвинутый</span><span class="check">✓</span></button>
+          <button class="card card-level" data-val="C2"><span class="lv">C2</span><span class="lv-desc">Свободно</span><span class="check">✓</span></button>
+        </div>
+        <div style="margin-top:18px;">
+          <button class="toggle-link" id="certToggle">+ Есть языковой сертификат?</button>
+          <div class="reveal" id="certReveal">
+            <div class="pills" style="margin-top:14px;" id="certPills">
+              <button class="pill" data-val="IELTS">IELTS</button>
+              <button class="pill" data-val="TOEFL">TOEFL</button>
+              <button class="pill" data-val="Duolingo">Duolingo</button>
+              <button class="pill" data-val="Cambridge">Cambridge</button>
+            </div>
+            <div class="reveal" id="scoreReveal"><input class="input" data-numeric style="margin-top:12px;max-width:180px;" placeholder="Балл" inputmode="numeric"></div>
+          </div>
+        </div>
+        <div style="margin-top:18px;">
+          <button class="toggle-link" id="langToggle">+ Знаю ещё один европейский язык</button>
+          <div class="reveal" id="langReveal">
+            <div id="langList"></div>
+            <button class="toggle-link" id="langAdd" style="margin-top:16px;display:none;">+ Добавить ещё язык</button>
+          </div>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 8 — Field of study -->
+      <section class="screen" data-screen="8">
+        <div class="kicker">Направление</div>
+        <h1 class="heading">Что хочешь изучать?</h1>
+        <p class="subtext">Можно выбрать несколько</p>
+        <div class="grid-3 stagger" style="margin-top:16px;" data-group="fields" data-select="multi">
+          <button class="card card-field" data-val="it"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 14.5c7-.6 15-.6 22 0 .9 0 1.4.6 1.4 1.6.3 3.6.3 7.2 0 11-7 .5-15.5.5-23 0-.3-3.7-.3-7.4 0-11 0-1 .6-1.5 1.6-1.6z"/><path d="M9 31c9-.7 21-.7 30 0 1 .9-.4 3.4-2 3.5-8.5.6-17.6.6-26 0-1.6-.1-3-2.6-2-3.5z"/></svg></span><span class="card-label">IT и технологии</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="business"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 36.5c9 .4 19 .4 28-.2"/><path d="M14 36V26"/><path d="M22 36.5V15"/><path d="M30 36V21"/><path d="M37 36.5V30"/></svg></span><span class="card-label">Бизнес и экономика</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="engineering"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="6.5"/><path d="M24 10.5v4.5M24 33v4.5M10.5 24h4.5M33 24h4.5M14.5 14.5l3.2 3.2M30.3 30.3l3.2 3.2M33.5 14.5l-3.2 3.2M17.7 30.3l-3.2 3.2"/></svg></span><span class="card-label">Инженерия</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="medicine"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 35.5C19 32 12.5 27 12.5 20.5A6 6 0 0 1 24 18a6 6 0 0 1 11.5 2.5C35.5 27 29 32 24 35.5z"/><path d="M16.5 22.5h4l2-3.2 3 6.4 2-3.2h3.5"/></svg></span><span class="card-label">Медицина</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="design"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="14" r="2.8"/><path d="M22.5 16.5L14 36M25.5 16.5L34 36"/><path d="M18.7 27h10.6"/></svg></span><span class="card-label">Дизайн и архитектура</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="law"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 13.5V36"/><path d="M16 36.5h16"/><path d="M11.5 18.5c8.5-1.5 16.5-1.5 25 0"/><path d="M11.5 18.5l-3.5 7.5h7z"/><path d="M36.5 18.5l-3.5 7.5h7z"/><circle cx="24" cy="13.5" r="1.6"/></svg></span><span class="card-label">Право и политика</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="humanities"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 16.5c-3.2-2.2-7.4-3.2-11.5-3.2v18.4c4.1 0 8.3 1 11.5 3.2 3.2-2.2 7.4-3.2 11.5-3.2V13.3c-4.1 0-8.3 1-11.5 3.2z"/><path d="M24 16.5V35"/></svg></span><span class="card-label">Гуманитарные науки</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="science"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13h7M22 13v8.5l-7.3 12.8c-.7 1.3.2 2.9 1.7 2.9h15.2c1.5 0 2.4-1.6 1.7-2.9L26 21.5V13"/><path d="M18.5 29.5c4-1.3 7-1.3 11 0"/></svg></span><span class="card-label">Точные науки</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="education"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 14l15.5 5.8L24 25.6 8.5 19.8z"/><path d="M14.5 22.8v7.4c0 1.9 4.3 3.8 9.5 3.8s9.5-1.9 9.5-3.8v-7.4"/><path d="M39.5 19.8v8.4"/></svg></span><span class="card-label">Педагогика</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="psychology"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M31 34.5V38a1.8 1.8 0 0 1-1.8 1.8H24.5v-4.6a10.5 10.5 0 1 1 6.5-2.8z"/><path d="M24 28.5c0-2.2 2.2-2.6 2.2-4.5a2.4 2.4 0 0 0-4.6-.9"/></svg></span><span class="card-label">Психология</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="undecided"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 19.5a5.7 5.7 0 0 1 11 1.6c0 3.4-4.8 4-4.8 7.3"/><path d="M24.6 33.8v.2"/><circle cx="24" cy="24" r="13"/></svg></span><span class="card-label">Ещё не решил</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="other"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M30 12.5l5.5 5.5-16.5 16.5-7 1.5 1.5-7z"/><path d="M27 15.5l5.5 5.5"/></svg></span><span class="card-label">Другое</span><span class="check">✓</span></button>
+        </div>
+        <div class="reveal" id="fieldsOtherReveal" style="margin-top:12px;"><textarea class="other-text" id="fieldsOtherText" placeholder="Что именно хочешь изучать? Напиши своими словами..."></textarea></div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 9 — Internships -->
+      <section class="screen" data-screen="9">
+        <div class="kicker">Стажировки</div>
+        <h1 class="heading">В какой сфере хочешь стажироваться?</h1>
+        <p class="subtext">Можно выбрать несколько</p>
+        <div class="grid-3 stagger" style="margin-top:16px;" data-group="internships" data-select="multi">
+          <button class="card card-field" data-val="it"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 18l-7 6 7 6"/><path d="M30 18l7 6-7 6"/><path d="M26 15l-4 18"/></svg></span><span class="card-label">IT и разработка</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="marketing"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22.5l16-6.5v17l-16-6.5z"/><path d="M14 22.5h-3a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h3"/><path d="M18 27.5v5a2.2 2.2 0 0 0 4.3.6"/></svg></span><span class="card-label">Маркетинг и PR</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="finance"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="12"/><path d="M24 17v14"/><path d="M21 20.5h5a2.6 2.6 0 0 1 0 5.2h-3.5a2.6 2.6 0 0 0 0 5.2H27"/></svg></span><span class="card-label">Финансы</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="design"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M30 12.5l5.5 5.5-16.5 16.5-7 1.5 1.5-7z"/><path d="M27 15.5l5.5 5.5"/></svg></span><span class="card-label">Дизайн и медиа</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="management"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 19.5h22a1.8 1.8 0 0 1 1.8 1.8v12.4a1.8 1.8 0 0 1-1.8 1.8H13a1.8 1.8 0 0 1-1.8-1.8V21.3A1.8 1.8 0 0 1 13 19.5z"/><path d="M19.5 19.5v-2.8a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v2.8"/><path d="M11.4 26.5h25.2"/></svg></span><span class="card-label">Менеджмент</span><span class="check">✓</span></button>
+          <button class="card card-field" data-val="research"><span class="sketch"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="22" r="8.5"/><path d="M28.5 28.5L36 36"/><path d="M22 18v8M18 22h8"/></svg></span><span class="card-label">Исследования</span><span class="check">✓</span></button>
+        </div>
+        <div class="optrow">
+          <button class="card-check" id="noInternship" type="button"><span class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cc-text">Пока не нужна стажировка</span></button>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 10 — Target countries -->
+      <section class="screen" data-screen="10">
+        <h1 class="heading">В каких странах хочешь учиться?</h1>
+        <button class="btn-text skip-link" data-skip>Пропустить →</button>
+        <p class="subtext">Выбери до 3 стран</p>
+        <div class="grid-2 stagger" style="margin-top:18px;" data-group="countries" data-select="multi" data-max="3">
+          <button class="card card-country" data-val="de"><span class="flag">🇩🇪</span><span class="cname">Германия</span><span class="check">✓</span></button>
+          <button class="card card-country" data-val="it"><span class="flag">🇮🇹</span><span class="cname">Италия</span><span class="check">✓</span></button>
+          <button class="card card-country" data-val="at"><span class="flag">🇦🇹</span><span class="cname">Австрия</span><span class="check">✓</span></button>
+          <button class="card card-country" data-val="fr"><span class="flag">🇫🇷</span><span class="cname">Франция</span><span class="check">✓</span></button>
+          <button class="card card-country" data-val="nl"><span class="flag">🇳🇱</span><span class="cname">Нидерланды</span><span class="check">✓</span></button>
+          <button class="card card-country" data-val="ie"><span class="flag">🇮🇪</span><span class="cname">Ирландия</span><span class="check">✓</span></button>
+          <button class="card card-country" data-val="es"><span class="flag">🇪🇸</span><span class="cname">Испания</span><span class="check">✓</span></button>
+          <button class="card card-country" data-val="gb"><span class="flag">🇬🇧</span><span class="cname">Великобритания</span><span class="check">✓</span></button>
+          <button class="card card-country span-2" data-val="any" data-clears="1"><span class="flag">🌍</span><span class="cname">Рассматриваю весь мир, главное - качество образования и цена</span><span class="check">✓</span></button>
+        </div>
+        <div class="optrow">
+          <button class="card-check" id="countryUnknown" type="button"><span class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cc-text">Пока не знаю</span></button>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next disabled>Дальше →</button></div>
+      </section>
+
+      <!-- SCREEN 11 — Budget -->
+      <section class="screen" data-screen="11">
+        <div class="kicker">Бюджет</div>
+        <h1 class="heading">Сколько готов тратить в год?</h1>
+        <p class="subtext">Включая стипендии, которые мы найдём</p>
+        <div class="gpa-box" id="budgetBox" style="margin-top:24px;">
+          <div class="slider-value" id="budgetValue" style="font-size:44px;">$18 000 / год</div>
+          <input type="range" class="range" id="budgetRange" min="0" max="100" step="1" value="35" style="margin-top:24px;">
+          <div style="display:flex;justify-content:space-between;margin-top:10px;"><span class="hint">$0</span><span class="hint">$50 000+ / ∞</span></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:18px;">
+            <span class="hint" style="white-space:nowrap;">Или точная сумма:</span>
+            <input class="input" id="budgetCustom" data-numeric inputmode="numeric" placeholder="например, 12000" style="height:46px;max-width:200px;">
+            <span class="hint">$ / год</span>
+          </div>
+        </div>
+        <div class="optrow">
+          <button class="card-check" id="budgetUnknown" type="button"><span class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cc-text">Не знаю пока</span></button>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-back>← Назад</button><button class="btn btn-primary" data-next>Подобрать программы →</button></div>
+      </section>
+
+      <!-- SCREEN 12 — AI processing -->
+      <section class="screen center" data-screen="12">
+        <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+          <!-- LOTTIE PLACEHOLDER — Screen 11: lottiefiles.com ("ai search" / "orbit loading"); swap .ai-rings for the player -->
+          <div class="ai-rings">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="ai-dot"></div>
+          </div>
+          <div class="ai-lines" id="aiLines">
+            <div class="ai-line" data-line="0">Анализируем твой профиль...</div>
+            <div class="ai-line" data-line="1">Подбираем программы под твои баллы...</div>
+            <div class="ai-line" data-line="2">Проверяем стипендии и дедлайны...</div>
+            <div class="ai-line" data-line="3">Финализируем подборку...</div>
+            <div class="ai-line success" data-line="4"><span class="reel" id="aiReel">0</span> программ найдено ✓</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 13 — Results -->
+      <section class="screen" data-screen="13">
+        <h1 class="heading" data-tpl="[Имя], вот что подошло под твой профиль" style="max-width:640px;">Вот что подошло под твой профиль</h1>
+        <p class="subtext">Основано на твоих баллах, бюджете и предпочтениях</p>
+        <div class="results-grid" id="resultsGrid"></div>
+        <div class="results-bar">
+          <span class="badge badge-teal" id="savedCount">0 программ выбрано</span>
+          <div class="btns">
+            <button class="btn btn-ghost">Пропустить</button>
+            <button class="btn btn-primary">Войти в Admitica</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="data/programs.js"></script>
+<script>
+/* Fallback if the dataset fails to load */
+const FALLBACK_PROGRAMS=[
+  {university:"TU Berlin",country:"Германия",flag:"🇩🇪",program:"Computer Science M.Sc.",cost:"Бесплатно",deadline:"15 янв 2026",reason:"Бесплатное обучение для иностранцев, нужен B2"},
+  {university:"University of Helsinki",country:"Финляндия",flag:"🇫🇮",program:"Computer Science B.Sc.",cost:"$1 500 / год",deadline:"25 янв 2026",reason:"Стипендия до 100%, сильная IT-программа"}
+];
+let programs = FALLBACK_PROGRAMS.slice();
+
+/* ===== Real matching against the Admitica dataset (data/programs.js) ===== */
+const FIELD_MAP={
+  it:['Computer Science'],
+  business:['Economics','Management','Business','Marketing'],
+  engineering:['Computer Science','Architecture','Mathematics'],
+  medicine:['Medicine','Biomedicine'],
+  design:['Design','Architecture'],
+  law:['Law','Political Science'],
+  humanities:['Social Sciences','European Studies','International Relations','Public Policy'],
+  science:['Mathematics','Biomedicine'],
+  education:['Social Sciences'],
+  psychology:['Psychology']
+};
+const COUNTRY_MAP={de:'Германия',it:'Италия',at:'Австрия',fr:'Франция',nl:'Нидерланды',ie:'Ирландия',es:'Испания',gb:'Великобритания'};
+function parseBudgetAmount(){
+  const s=(profile.budget||'').toString();
+  if(/∞|без огранич/i.test(s)) return Infinity;
+  if(/беспл/i.test(s)) return 0;
+  const d=s.replace(/[^0-9]/g,'');
+  return d?parseInt(d,10):Infinity;
+}
+function buildMatches(){
+  const data=window.AdmiticaData;
+  if(!data||!data.universities){ programs=FALLBACK_PROGRAMS.slice(); return; }
+  const selFields=(profile.fields||[]).filter(f=>FIELD_MAP[f]);
+  const wantFields=[].concat.apply([],selFields.map(f=>FIELD_MAP[f]));
+  const hasField=wantFields.length>0;
+  const selCountries=(profile.countries||[]);
+  const wantCountries=selCountries.filter(c=>COUNTRY_MAP[c]).map(c=>COUNTRY_MAP[c]);
+  const anyCountry=selCountries.indexOf('any')>-1||wantCountries.length===0;
+  const levels=(profile.level||[]);
+  const budget=parseBudgetAmount();
+  const scored=data.universities.map(function(u){
+    let score=0; const reasons=[];
+    const fieldHit=hasField&&wantFields.some(function(w){return (u.field||'').indexOf(w)>-1;});
+    if(fieldHit){score+=4;reasons.push('направление');}
+    const countryHit=!anyCountry&&wantCountries.indexOf(u.country)>-1;
+    if(countryHit){score+=3;reasons.push('страна');}
+    if(levels.length){
+      const dg=(u.degree||'');
+      const lvlHit=(levels.indexOf('bachelor')>-1&&/Бакалавр/i.test(dg))||(levels.indexOf('master')>-1&&/Магистрат/i.test(dg))||(levels.indexOf('phd')>-1&&/PhD|Доктор/i.test(dg));
+      if(lvlHit){score+=2;reasons.push('уровень');}
+    }
+    if(profile.grant&&u.scholarship){score+=1;reasons.push('есть стипендия');}
+    if(isFinite(budget)&&u.tuitionMax&&u.tuitionMax<=budget){score+=1;reasons.push('в бюджете');}
+    const hard=(!hasField||fieldHit)&&(anyCountry||countryHit);
+    return {u:u,score:score,reasons:reasons,hard:hard?1:0};
+  });
+  scored.sort(function(a,b){return (b.hard-a.hard)||(b.score-a.score);});
+  const top=scored.slice(0,6);
+  programs=top.map(function(it){
+    const u=it.u;
+    return {
+      id:u.id,
+      university:u.name,
+      country:u.country,
+      flag:u.flag,
+      program:u.program,
+      cost:u.tuition,
+      deadline:u.deadline,
+      reason:it.reasons.length?('совпадает '+it.reasons.join(', ')):((u.desc||'').slice(0,70))
+    };
+  });
+  if(!programs.length) programs=FALLBACK_PROGRAMS.slice();
+}
+
+const profile={name:"",saved:new Set()};
+let current=1;
+const screens={};
+document.querySelectorAll('.screen').forEach(s=>screens[+s.dataset.screen]=s);
+const modal=document.getElementById('modal');
+const progress=document.getElementById('progress');
+const progFill=progress.querySelector('.fill');
+const CHECK='<svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+document.querySelectorAll('.card .check').forEach(c=>c.innerHTML=CHECK);
+
+function applyName(){
+  const n=profile.name||'друг';
+  document.querySelectorAll('[data-tpl]').forEach(el=>el.textContent=el.dataset.tpl.replace('[Имя]',n));
+}
+function progressWidth(n){ if(n<2||n>11) return null; return (11 + (n-2)*(100-11)/9); }
+function updateChrome(){
+  const w=progressWidth(current);
+  if(w===null) progress.classList.remove('show'); else{progress.classList.add('show');progFill.style.width=w+'%';}
+  modal.classList.toggle('wide',current===13);
+}
+
+function goTo(n){
+  if(n===current||!screens[n]) return;
+  const cur=screens[current];
+  cur.classList.add('exit');
+  setTimeout(()=>{
+    cur.classList.remove('active','exit');
+    const next=screens[n];
+    next.classList.add('active','enter');
+    staggerIn(next);
+    setTimeout(()=>next.classList.remove('enter'),1000);
+    current=n;
+    updateChrome();
+    document.querySelector('.modal-body').scrollTop=0;
+    afterShow(n);
+  },200);
+}
+function next(){ if(current<13) goTo(current+1); }
+function back(){ if(current>1) goTo(current-1); }
+function staggerIn(scr){
+  scr.querySelectorAll('.stagger > *').forEach((el,i)=>{
+    el.style.transition='none'; el.style.opacity='0';
+    void el.offsetWidth;
+    el.style.transition='opacity .4s ease '+(i*45)+'ms';
+    el.style.opacity='1';
+    setTimeout(()=>{ el.style.transition=''; el.style.opacity=''; }, i*45+600);
+  });
+}
+
+// opt-out checkbox tied to each group (clears + fades the main content)
+const OPTOUT={level:'levelUnknown',internships:'noInternship',countries:'countryUnknown'};
+const FADE_TARGET={level:'.screen[data-screen="4"] .cards',internships:'.screen[data-screen="9"] .grid-3',countries:'.screen[data-screen="10"] .grid-2'};
+function groupReady(group){
+  const c=document.querySelector(`[data-group="${group}"]`);
+  if(!c) return true;
+  return c.querySelectorAll('.card.selected').length>0;
+}
+function refreshNext(){
+  const screen=screens[current];
+  const nextBtn=screen.querySelector('[data-next]');
+  if(!nextBtn) return;
+  const grp=screen.querySelector('[data-group]');
+  if(!grp){ return; }
+  let ready=groupReady(grp.dataset.group);
+  const o=OPTOUT[grp.dataset.group];
+  if(o){const btn=document.getElementById(o); if(btn&&btn.classList.contains('selected')) ready=true;}
+  nextBtn.disabled=!ready;
+}
+
+document.querySelectorAll('[data-group]').forEach(container=>{
+  const mode=container.dataset.select;
+  const group=container.dataset.group;
+  const max=container.dataset.max?+container.dataset.max:Infinity;
+  container.querySelectorAll('.card').forEach(card=>{
+    const target=card.classList.contains('card-expand')?card.querySelector('.ce-head'):card;
+    target.addEventListener('click',()=>{
+      if(mode==='single'){
+        container.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+        card.classList.add('selected');
+        profile[group]=card.dataset.val;
+      }else{
+        if(card.dataset.clears){
+          const wasSel=card.classList.contains('selected');
+          container.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+          if(!wasSel) card.classList.add('selected');
+        }else{
+          const clearer=container.querySelector('[data-clears]');
+          if(clearer) clearer.classList.remove('selected');
+          if(!card.classList.contains('selected')){
+            const count=container.querySelectorAll('.card.selected:not([data-clears])').length;
+            if(count>=max) return;
+            card.classList.add('selected');
+          }else{
+            card.classList.remove('selected');
+          }
+        }
+        profile[group]=[...container.querySelectorAll('.card.selected')].map(c=>c.dataset.val);
+        if(max!==Infinity){
+          const cnt=container.querySelectorAll('.card.selected:not([data-clears])').length;
+          container.classList.toggle('dim',cnt>=max);
+        }
+      }
+      if(OPTOUT[group]&&card.classList.contains('selected')){
+        const o=document.getElementById(OPTOUT[group]); if(o) o.classList.remove('selected');
+        const ft=document.querySelector(FADE_TARGET[group]); if(ft) ft.classList.remove('faded');
+      }
+      if(group==='year'){
+        const yr=document.getElementById('yearReveal');
+        if(card.dataset.val==='later'){ yr.classList.add('open'); setTimeout(()=>document.getElementById('yearCustom').focus(),120); }
+        else yr.classList.remove('open');
+      }
+      card.classList.remove('pulse'); void card.offsetWidth; card.classList.add('pulse');
+      refreshNext();
+      if(group==='fields'){
+        const otherSel=container.querySelector('[data-val="other"]').classList.contains('selected');
+        const rev=document.getElementById('fieldsOtherReveal');
+        rev.classList.toggle('open',otherSel);
+        if(otherSel) setTimeout(()=>document.getElementById('fieldsOtherText').focus(),120);
+      }
+      if(card.classList.contains('card-expand')&&card.classList.contains('selected'))
+        setTimeout(()=>card.querySelector('textarea').focus(),120);
+    });
+  });
+});
+
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{
+  if(current===11){ startAI(); }
+  next();
+}));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',back));
+document.querySelectorAll('[data-skip]').forEach(b=>b.addEventListener('click',next));
+
+const nameInput=document.getElementById('nameInput');
+const startBtn=document.getElementById('startBtn');
+nameInput.addEventListener('input',()=>{
+  const cleaned=nameInput.value.replace(/[^A-Za-zА-Яа-яЁё\s'-]/g,'');
+  if(cleaned!==nameInput.value) nameInput.value=cleaned;
+  startBtn.disabled=nameInput.value.trim().length<1;
+});
+nameInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!startBtn.disabled) startBtn.click();});
+startBtn.addEventListener('click',()=>{
+  profile.name=nameInput.value.trim();
+  applyName();
+  burst(window.innerWidth/2,window.innerHeight/2);
+  next();
+});
+setTimeout(()=>nameInput.focus(),200);
+
+// ---- opt-out checkboxes (clear + fade their group's content) ----
+Object.entries(OPTOUT).forEach(([group,id])=>{
+  const btn=document.getElementById(id); if(!btn) return;
+  btn.addEventListener('click',()=>{
+    const on=btn.classList.toggle('selected');
+    const cont=document.querySelector(`[data-group="${group}"]`);
+    if(on&&cont){cont.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));cont.classList.remove('dim');profile[group]=[];}
+    const fade=document.querySelector(FADE_TARGET[group]); if(fade) fade.classList.toggle('faded',on);
+    refreshNext();
+  });
+});
+// grant checkbox (independent)
+document.getElementById('grantCheck').addEventListener('click',function(){this.classList.toggle('checked');profile.grant=this.classList.contains('checked');});
+// budget opt-out dims the slider
+document.getElementById('budgetUnknown').addEventListener('click',function(){const on=this.classList.toggle('selected');document.getElementById('budgetBox').classList.toggle('off',on);profile.budgetUnknown=on;});
+
+const gpaRange=document.getElementById('gpaRange');
+const gpaValue=document.getElementById('gpaValue');
+function updGpa(){
+  const v=parseFloat(gpaRange.value);
+  gpaRange.style.setProperty('--pct',((v-2)/3*100)+'%');
+  gpaValue.textContent=v.toFixed(1);
+  gpaValue.classList.remove('bump'); void gpaValue.offsetWidth; gpaValue.classList.add('bump');
+  profile.gpa=v.toFixed(1);
+}
+gpaRange.addEventListener('input',updGpa); updGpa();
+document.getElementById('gpaToggle').addEventListener('click',()=>document.getElementById('gpaReveal').classList.toggle('open'));
+document.getElementById('gpaUnknown').addEventListener('click',function(){
+  const on=this.classList.toggle('checked');
+  document.getElementById('gpaBox').classList.toggle('off',on);
+  profile.gpaUnknown=on; if(on) profile.gpa=null; else profile.gpa=parseFloat(gpaRange.value).toFixed(1);
+});
+
+document.getElementById('certToggle').addEventListener('click',()=>document.getElementById('certReveal').classList.toggle('open'));
+document.querySelectorAll('#certPills .pill').forEach(p=>{
+  p.addEventListener('click',()=>{
+    document.querySelectorAll('#certPills .pill').forEach(x=>x.classList.remove('sel'));
+    p.classList.add('sel');
+    profile.cert=p.dataset.val;
+    document.getElementById('scoreReveal').classList.add('open');
+  });
+});
+
+const budgetRange=document.getElementById('budgetRange');
+const budgetValue=document.getElementById('budgetValue');
+const budgetCustom=document.getElementById('budgetCustom');
+const BUDGET_MAX=50000, BUDGET_SPAN=96; // slider 0..96 → $0..$50000, 97..100 → ∞
+function fmtMoney(a){return '$'+a.toLocaleString('ru-RU').replace(/,/g,' ');}
+function budgetLabel(v){
+  if(v>BUDGET_SPAN) return {t:'∞ Без ограничений',c:'var(--purple)',amt:Infinity};
+  let amt=Math.round((v/BUDGET_SPAN)*BUDGET_MAX/500)*500;
+  if(amt<=0) return {t:'Бесплатно',c:'var(--teal)',amt:0};
+  return {t:fmtMoney(amt)+' / год',c:'var(--midnight)',amt};
+}
+function updBudget(fromCustom){
+  const v=+budgetRange.value;
+  budgetRange.style.setProperty('--pct',v+'%');
+  const {t,c,amt}=budgetLabel(v);
+  budgetValue.textContent=t; budgetValue.style.color=c;
+  profile.budget=t;
+  if(!fromCustom&&budgetCustom){ budgetCustom.value=(isFinite(amt)&&amt>0)?amt:''; }
+}
+budgetRange.addEventListener('input',()=>updBudget(false)); updBudget(false);
+budgetCustom.addEventListener('keypress',e=>{if(!/[0-9]/.test(e.key))e.preventDefault();});
+budgetCustom.addEventListener('input',()=>{
+  let raw=budgetCustom.value.replace(/[^0-9]/g,''); budgetCustom.value=raw;
+  let amt=Math.min(BUDGET_MAX,+raw||0);
+  budgetRange.value=Math.round(amt/BUDGET_MAX*BUDGET_SPAN);
+  budgetRange.style.setProperty('--pct',budgetRange.value+'%');
+  if(amt<=0){budgetValue.textContent='Бесплатно';budgetValue.style.color='var(--teal)';}
+  else{budgetValue.textContent=fmtMoney(amt)+' / год';budgetValue.style.color='var(--midnight)';}
+  profile.budget=budgetValue.textContent;
+});
+
+// ---- add European languages (unlimited) ----
+const LANGS=['Немецкий','Французский','Испанский','Итальянский','Нидерландский','Польский','Чешский','Португальский','Шведский'];
+const langList=document.getElementById('langList');
+const langAdd=document.getElementById('langAdd');
+profile.langs=[];
+let langSeq=0;
+function syncLangAdd(){ langAdd.style.display=langList.children.length?'inline-flex':'none'; }
+function renumberLangs(){ [...langList.children].forEach((r,i)=>{const n=r.querySelector('.lang-num'); if(n) n.textContent='Язык '+(i+1);}); }
+function addLangRow(){
+  const entry={lang:null,level:null,cert:'',score:''};
+  profile.langs.push(entry);
+  const row=document.createElement('div');
+  row.className='lang-row';
+  row.innerHTML=`
+    <div class="lang-head"><span class="lang-num">Язык ${profile.langs.length}</span><button class="lang-remove" type="button" aria-label="Убрать">×</button></div>
+    <div class="dropdown">
+      <button class="select-trigger" type="button"><span class="dd-current">Выбери язык</span>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="dd-panel">${LANGS.map(l=>`<div class="dd-opt" data-val="${l}">${l}<span class="ddot"></span></div>`).join('')}</div>
+    </div>
+    <div class="reveal lang-details">
+      <p class="hint" style="margin:0 0 8px;">Уровень</p>
+      <div class="minilevels">${['A1','A2','B1','B2','C1','C2'].map(v=>`<button class="minilevel" type="button" data-val="${v}">${v}</button>`).join('')}</div>
+      <div class="lang-fields" style="margin-top:12px;">
+        <input class="input lang-cert" placeholder="Сертификат — например, IELTS / Goethe">
+        <input class="input lang-score" inputmode="numeric" placeholder="Балл — например, 7.5">
+      </div>
+    </div>`;
+  langList.appendChild(row);
+  const dd2=row.querySelector('.dropdown');
+  const details=row.querySelector('.lang-details');
+  dd2.querySelector('.select-trigger').addEventListener('click',e=>{e.stopPropagation();dd2.classList.toggle('open');});
+  dd2.querySelectorAll('.dd-opt').forEach(opt=>opt.addEventListener('click',()=>{
+    dd2.querySelectorAll('.dd-opt').forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');
+    const cur=dd2.querySelector('.dd-current');cur.textContent=opt.dataset.val;cur.style.color='var(--stone)';
+    entry.lang=opt.dataset.val;dd2.classList.remove('open');details.classList.add('open');
+  }));
+  row._closeDd=e=>{if(!dd2.contains(e.target)) dd2.classList.remove('open');};
+  document.addEventListener('click',row._closeDd);
+  row.querySelectorAll('.minilevel').forEach(b=>b.addEventListener('click',()=>{
+    row.querySelectorAll('.minilevel').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');entry.level=b.dataset.val;
+  }));
+  const certName=row.querySelector('.lang-cert');
+  certName.addEventListener('input',()=>{entry.cert=certName.value;});
+  const score=row.querySelector('.lang-score');
+  score.addEventListener('input',()=>{const c=score.value.replace(/[^0-9.]/g,'');if(c!==score.value)score.value=c;entry.score=score.value;});
+  score.addEventListener('keypress',e=>{if(!/[0-9.]/.test(e.key))e.preventDefault();});
+  row.querySelector('.lang-remove').addEventListener('click',()=>{
+    document.removeEventListener('click',row._closeDd);
+    const i=profile.langs.indexOf(entry); if(i>-1) profile.langs.splice(i,1);
+    row.remove(); renumberLangs(); syncLangAdd();
+  });
+  syncLangAdd();
+}
+document.getElementById('langToggle').addEventListener('click',()=>{
+  const rev=document.getElementById('langReveal');
+  const open=rev.classList.toggle('open');
+  if(open&&!langList.children.length) addLangRow();
+});
+langAdd.addEventListener('click',addLangRow);
+
+// ---- numbers-only inputs (static ones) ----
+document.querySelectorAll('[data-numeric]').forEach(inp=>{
+  if(inp.closest('.lang-row')) return;
+  inp.addEventListener('input',()=>{const c=inp.value.replace(/[^0-9.]/g,'');if(c!==inp.value)inp.value=c;});
+  inp.addEventListener('keypress',e=>{if(!/[0-9.]/.test(e.key))e.preventDefault();});
+});
+
+let aiTimers=[];
+function rollNumber(target){
+  const reel=document.getElementById('aiReel');
+  reel.innerHTML='<span class="reel-strip">'+Array.from({length:target+1},(_,i)=>'<span>'+i+'</span>').join('')+'</span>';
+  const strip=reel.querySelector('.reel-strip');
+  strip.style.transition='none';
+  strip.style.transform='translateY(0)';
+  void strip.offsetHeight;            // commit start state
+  strip.style.transition='transform 1.2s cubic-bezier(.16,1,.3,1)';
+  strip.style.transform='translateY(-'+target+'em)';
+}
+function startAI(){
+  buildMatches();
+  aiTimers.forEach(clearTimeout); aiTimers=[];
+  const lines=[...document.querySelectorAll('#aiLines .ai-line')];
+  lines.forEach(l=>l.classList.remove('show','hide'));
+  const status=lines.slice(0,4), success=lines[4];
+  let t=450;
+  status.forEach((l,i)=>{
+    aiTimers.push(setTimeout(()=>l.classList.add('show'),t));
+    aiTimers.push(setTimeout(()=>{l.classList.remove('show');l.classList.add('hide');},t+1150));
+    t+=1350;
+  });
+  aiTimers.push(setTimeout(()=>{
+    success.classList.add('show');
+    rollNumber(programs.length);
+    burst(window.innerWidth/2,window.innerHeight/2-40);
+  },t));
+  aiTimers.push(setTimeout(()=>{ if(current===12) goTo(13); },t+1700));
+}
+function countUp(el,target,dur){
+  const start=performance.now();
+  function step(t){const p=Math.min(1,(t-start)/dur);el.textContent=Math.round(p*target);if(p<1) requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+
+function renderResults(){
+  const grid=document.getElementById('resultsGrid');
+  grid.innerHTML='';
+  programs.forEach((p,i)=>{
+    const card=document.createElement('div');
+    card.className='prog-card';
+    card.innerHTML=`
+      <div class="accent"></div>
+      <div class="prog-body">
+        <div class="prog-r1"><span class="prog-uni">${p.university}</span><span class="prog-loc">${p.flag} ${p.country}</span></div>
+        <div class="prog-name">${p.program}</div>
+        <div class="prog-badges"><span class="badge badge-teal">${p.cost}</span><span class="badge badge-purple">${p.deadline}</span></div>
+        <div class="prog-reason">Подходит: <em>${p.reason}</em></div>
+        <div class="prog-save"><span class="cbox">${CHECK}</span><span class="save-lbl">Сохранить</span></div>
+      </div>`;
+    const save=card.querySelector('.prog-save');
+    save.addEventListener('click',()=>{
+      const on=save.classList.toggle('checked');
+      save.querySelector('.save-lbl').textContent=on?'Сохранено':'Сохранить';
+      const pid=programs[i].id||('fb'+i);
+      if(on){profile.saved.add(pid);const r=save.getBoundingClientRect();burst(r.left+9,r.top+9,3);}
+      else profile.saved.delete(pid);
+      updateSavedCount();
+    });
+    grid.appendChild(card);
+  });
+}
+function updateSavedCount(){
+  const n=profile.saved.size;
+  document.getElementById('savedCount').textContent=n+' '+plural(n,'программа','программы','программ')+' выбрано';
+}
+function plural(n,a,b,c){const m=n%100,d=n%10;if(m>=11&&m<=14)return c;if(d===1)return a;if(d>=2&&d<=4)return b;return c;}
+
+function afterShow(n){
+  if(n===12) startAI();
+  if(n===13){ if(!document.getElementById('resultsGrid').children.length) renderResults(); }
+}
+
+function burst(x,y,count=6){
+  const colors=['#1D9E75','#0C447C','#534AB7'];
+  for(let i=0;i<count;i++){
+    const d=document.createElement('div');
+    d.className='confetti';
+    d.style.left=x+'px'; d.style.top=y+'px';
+    d.style.background=colors[i%3];
+    document.body.appendChild(d);
+    const ang=(Math.PI*2*i/count)+(Math.random()-.5);
+    const dist=40+Math.random()*40;
+    const dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist-60;
+    d.animate([{transform:'translate(0,0)',opacity:1},{transform:`translate(${dx}px,${dy}px)`,opacity:0}],{duration:600,easing:'ease-out'});
+    setTimeout(()=>d.remove(),650);
+  }
+}
+
+updateChrome();
+
+/* ===== Completion: persist profile and enter the app ===== */
+function finishOnboarding(){
+  try{
+    var ids = [...profile.saved].filter(function(x){return /^[ugi]\d+$/.test(x);});
+    var out = {};
+    for(var k in profile){ if(k!=='saved') out[k]=profile[k]; }
+    out.savedProgramIds = ids;
+    localStorage.setItem('admitica.onboardingProfile', JSON.stringify(out));
+    localStorage.setItem('admitica.onboarded', 'true');
+    if(profile.name) localStorage.setItem('admitica.name', JSON.stringify(profile.name));
+    if(ids.length){
+      localStorage.setItem('admitica.savedIds', JSON.stringify(ids));
+      localStorage.setItem('admitica.priorities', JSON.stringify([]));
+      localStorage.setItem('admitica.roadmaps', JSON.stringify([]));
+    }
+  }catch(e){}
+  location.href = 'index.html?view=desktop';
+}
+document.querySelectorAll('.results-bar .btns .btn').forEach(function(b){
+  b.addEventListener('click', finishOnboarding);
+});
+</script>
+</body>
+</html>

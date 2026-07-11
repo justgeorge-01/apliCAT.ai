@@ -1,0 +1,10 @@
+Admitica.html
+uploads/
+*.zip
+config.js
+
+# Vite app (Phase 0 migration)
+node_modules/
+dist/
+_pagesroot/
+*.local
