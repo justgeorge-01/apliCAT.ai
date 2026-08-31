@@ -5,7 +5,7 @@
 > **Актуально на:** июнь 2026. **Стадия:** прототип; миграция на Vite **функционально завершена и слита в `main`** (см. §4).
 > **Сопутствующий документ:** [`PROJECT_SUMMARY.md`](PROJECT_SUMMARY.md) — ранний подробный разбor «как было до миграции». README имеет приоритет при расхождениях.
 >
-> ⚠️ **Важно про контекст:** репозиторий может уходить вперёд, пока идёт долгий планировочный разговор (реализация идёт в параллельных сессиях). **Всегда сверяйся с git (`git -C "full code" log --oneline -10`, `git status`) перед выводами о состоянии — не доверяй ранним чтениям в рамках длинной беседы.**
+> ⚠️ **Важно про контекст:** репозиторий может уходить вперёд, пока идёт долгий планировочный разговор (реализация идёт в параллельных сессиях). **Всегда сверяйся с git (`git log --oneline -10`, `git status`) перед выводами о состоянии — не доверяй ранним чтениям в рамках длинной беседы.**
 
 ---
 
@@ -49,7 +49,7 @@
 
 ## 2. Технический стек
 
-### Актуальный стек (новый апп в `full code/app/`)
+### Актуальный стек (новый апп в `app/`)
 | Слой | Технология |
 |------|-----------|
 | Сборка | **Vite 8** |
@@ -76,38 +76,42 @@ React 18 + **Babel Standalone через CDN, без сборки**. Чисты�
 ## 3. Структура папок
 
 ```
-C:\Users\User\OneDrive\Desktop\Admitica\        ← корень (cwd всех сессий)
+~/Desktop/Abitura/Abitura.ai/      ← КОРЕНЬ РЕПОЗИТОРИЯ = cwd всех сессий
 ├── README.md                  ← ЭТОТ ФАЙЛ
-├── PROJECT_SUMMARY.md         ← ранний разбор (история)
-├── app_dev/                   ← ASCII-junction → "full code/app" (для превью, см. §9)
-└── full code/                 ← РЕПОЗИТОРИЙ (git). Бывш. "фул код" (переименован)
-    ├── .git/                  ← ветки: main (актуальная), vite-migration (слита в main)
-    ├── .github/workflows/deploy.yml   ← деплой Vite → Pages (ТОЛЬКО workflow_dispatch)
-    │
-    ├── app/                   ← НОВЫЙ Vite-апп (АКТУАЛЬНЫЙ продукт) ──────────────┐
-    │   ├── package.json       ← Vite8/React19/TS/Tailwind4/shadcn/framer/lucide   │
-    │   ├── vite.config.ts     ← base: '/admitica-/'                                │
-    │   └── src/                                                                    │
-    │       ├── App.tsx        ← оболочка: tab-машина (зеркало legacy app.jsx)      │
-    │       ├── index.css      ← дизайн-токены @theme (БИРЮЗА, тёмная+светлая)      │
-    │       ├── main.tsx       ← вход; side-effect импорт legacy ai.js/data и т.п.  │
-    │       ├── pages/         ← Home, Find, Detail, Programs, Essay, Resume,       │
-    │       │                     Onboarding (13-экранный визард)                   │
-    │       ├── components/    ← Sidebar, ProgramCard, ProgramLogo, SettingsDialog  │
-    │       │   └── ui/        ← shadcn: button, card, dialog, select, switch, …    │
-    │       ├── data/          ← bocconi.ts, uniContent.ts (богатый Detail)         │
-    │       └── lib/           ← persist.ts, roadmap.ts, nav.ts, utils.ts           │
-    │                                                                               │
-    ├── data/programs.js       ← каталог: window.AdmiticaData (35/35/35) ───────────┘ (общий, переиспользуется)
-    │
-    ├── index.html             ← LEGACY вход (редиректит телефоны). НЕ УДАЛЁН        ┐
-    ├── styles.css             ← LEGACY стили. НЕ УДАЛЁН                             │ чистка
-    ├── src/                   ← LEGACY десктоп *.jsx. НЕ УДАЛЁН                     │ не
-    ├── src-mobile/            ← LEGACY мобайл-монолит. НЕ УДАЛЁН                    │ завершена
-    ├── onboarding.html        ← LEGACY. НЕ УДАЛЁН                                  │
-    └── Admitica.html, uploads/, _pagesroot/, config.js  …                          ┘
-        (mobile.html — УДАЛЁН)
+├── PROJECT_SUMMARY.md         ← ранний разбор (история; пути в нём — со старой Windows-машины)
+├── DESIGN.md                  ← дизайн-система (выжимка токенов)
+├── .github/workflows/deploy.yml   ← деплой Vite → Pages
+├── .claude/launch.json        ← конфиги превью (npm run dev / preview)
+│
+├── app/                   ← НОВЫЙ Vite-апп (АКТУАЛЬНЫЙ продукт) ──────────────┐
+│   ├── package.json       ← Vite8/React19/TS/Tailwind4/shadcn/framer/lucide   │
+│   ├── vite.config.ts     ← base: './' (относительный; override — BASE_PATH)  │
+│   └── src/                                                                    │
+│       ├── App.tsx        ← оболочка: tab-машина (зеркало legacy app.jsx)      │
+│       ├── index.css      ← дизайн-токены @theme (БИРЮЗА, тёмная+светлая)      │
+│       ├── main.tsx       ← вход; side-effect импорт legacy ai.js/data и т.п.  │
+│       ├── pages/         ← Home, Find, Detail, Programs, Essay, Resume,       │
+│       │                     Onboarding (13-экранный визард)                   │
+│       ├── components/    ← Sidebar, ProgramCard, ProgramLogo, SettingsDialog  │
+│       │   └── ui/        ← shadcn: button, card, dialog, select, switch, …    │
+│       ├── data/          ← bocconi.ts, uniContent.ts (богатый Detail)         │
+│       └── lib/           ← persist.ts, roadmap.ts, nav.ts, utils.ts           │
+│                                                                               │
+├── data/programs.js       ← каталог: window.AdmiticaData (35/35/35) ───────────┘ (общий, переиспользуется)
+│
+├── index.html             ← LEGACY вход (редиректит телефоны). НЕ УДАЛЁН       ┐
+├── styles.css             ← LEGACY стили. НЕ УДАЛЁН                            │ чистка
+├── src/                   ← LEGACY десктоп *.jsx. НЕ УДАЛЁН                    │ не
+└── onboarding.html        ← LEGACY. НЕ УДАЛЁН                                  ┘ завершена
+
+Не в git (в .gitignore): config.js (ключ AI), uploads/, node_modules/, dist/,
+_pagesroot/, legacy/, .claude/settings.local.json
 ```
+
+> ⚠️ **Осталось на старом Windows-ноуте, в репозиторий НЕ попало:** `src-mobile/`
+> (legacy мобайл-монолит), `Admitica.html`, `uploads/`, папка `legacy/`. Проверено по
+> `git log --all` — эти файлы никогда не коммитились. Если понадобятся — переносить
+> с той машины вручную.
 
 > **Репозиторий:** https://github.com/gurianovgo-rgb/admitica-
 > **Деплой:** https://gurianovgo-rgb.github.io/admitica-/ — что именно «живо», зависит от последнего ручного запуска воркфлоу (см. §9).
@@ -119,7 +123,7 @@ C:\Users\User\OneDrive\Desktop\Admitica\        ← корень (cwd всех �
 **Ветка:** `main` @ `b6dbb56`, рабочее дерево чистое. Миграция слита в `main` (fast-forward из `vite-migration`); поверх неё легли UI/функциональные доработки (см. «После миграции» ниже).
 
 ### Сделано ✅ — миграция функционально ЗАВЕРШЕНА
-- Полный Vite-апп в `full code/app/` со всем целевым стеком.
+- Полный Vite-апп в `app/` со всем целевым стеком.
 - **Все экраны перенесены:** оболочка (`App.tsx`), Sidebar (drawer + верхний бар под `lg`), Onboarding (13 экранов), Home, Find, Detail, Programs (roadmap-чеклисты), Essay, Resume, SettingsDialog.
 - **Бирюзовая палитра внедрена**, тёмная по умолчанию + светлая через `[data-theme="light"]` (§5).
 - **Адаптивность / мобайл:** нижняя таб-панель под `lg`, флаги-плитки (`ProgramLogo`) на мобайле, drag-to-reorder приоритетов. `mobile.html` удалён.
@@ -138,10 +142,11 @@ C:\Users\User\OneDrive\Desktop\Admitica\        ← корень (cwd всех �
 
 ### Остаётся сделать ⏭️
 1. **Cutover на прод** — деплой только ручной (`workflow_dispatch`). Шаги пользователя — §9. До запуска воркфлоу живой сайт = прежний.
-2. **Чистка legacy** — после успешного cutover удалить корневые `index.html`, `src/`, `src-mobile/`, `styles.css`, `onboarding.html`, `Admitica.html`.
+2. **Чистка legacy** — после успешного cutover удалить корневые `index.html`, `src/`, `styles.css`, `onboarding.html`.
 3. **Дальше по дорожной карте** (§8): контент-слой (Google-таблица), Cloudflare Worker, пайплайн парсинга, RAG, i18n.
 
-> ⚠️ Память сессий могла утверждать, что legacy `src-mobile` уже удалён — **по факту он на месте**. Сверяйся с диском.
+> ⚠️ Ранние версии README утверждали, что legacy `src-mobile` «на месте» — это относилось к старой
+> Windows-машине. **В репозитории его нет и не было** (см. §3). Сверяйся с диском и `git log`.
 
 ---
 
@@ -227,7 +232,7 @@ REVIEW (Sheet → потом админ-панель) → человек одо�
 
 1. ✅ **Миграция десктопа на Vite** (адаптивно, «путь Б» — один код вместо двух баз).
 2. ✅ **Мобильная специфика** в адаптив (таб-панель, drag-n-drop, флаги). `mobile.html` удалён.
-3. ⏭️ **Cutover на прод** — ручной деплой (§9), затем **удалить legacy** (`src/`, `src-mobile/`, корневые html/css).
+3. ⏭️ **Cutover на прод** — ручной деплой (§9), затем **удалить legacy** (`src/`, корневые html/css).
 4. ⏳ **Контент-слой** — чтение каталога из Google-таблицы (+ fallback).
 5. ⏳ **Cloudflare Worker** — прокси для AI-ключа.
 6. ⏳ **Пайплайн парсинга** — Фаза 1 (таблица) → Фаза 2 (админка).
@@ -248,10 +253,19 @@ REVIEW (Sheet → потом админ-панель) → человек одо�
 Пользователь запускает деплой **сам через UI Actions** (gh CLI не установлен). Код/коммиты/пуши — Claude.
 **Откат:** прежняя версия в истории git — вернуть за минуту.
 
-### Локальное превью (планировочный чат)
-- **Кириллица** в пути ломала превью → создан ASCII-**junction** `app_dev` → `full code/app`.
-- `.claude/launch.json` (в корне Admitica): **`admitica-vite-dev`** запускает `vite.cmd` через junction, `--base /`, порт **5190**. Прочие: `admitica` (:4173), `admitica-v2` (`_pagesroot`, :4180).
-- Запуск: `preview_start("admitica-vite-dev")` → скриншоты/снапшоты.
+### Окружение разработки (macOS)
+Проект переехал с Windows на MacBook (август 2026). Актуальная машина — **macOS**.
+- **Node** — через **nvm** (`~/.nvm`), LTS **v24.20.0** / npm 11.19. Загрузчик nvm прописан в `~/.zshrc`.
+- Homebrew и `gh` CLI **не установлены** — деплой запускается через веб-UI GitHub Actions.
+- Установка зависимостей: `npm install --prefix app`
+- Запуск дева: `npm run dev --prefix app` → http://localhost:5190
+
+### Локальное превью
+- `.claude/launch.json`: **`app-dev`** (`npm run dev`, порт **5190**) и **`app-preview-dist`**
+  (`npm run preview`, порт **4173**). Оба через `npm --prefix app`, без хардкода путей.
+- Запуск: `preview_start("app-dev")` → скриншоты/снапшоты.
+- Claude Code запускать **из корня репозитория**, иначе не подхватятся README, `.claude/commands`
+  и конфиги превью.
 
 ---
 
