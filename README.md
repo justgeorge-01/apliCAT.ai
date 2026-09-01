@@ -244,10 +244,12 @@ REVIEW (Sheet → потом админ-панель) → человек одо�
 ## 9. Деплой и локальный запуск
 
 ### Деплой (ручной, `workflow_dispatch`)
-Новый апп **не выкатывается сам**. Чтобы выкатить:
+Новый апп **не выкатывается сам**. С 01.09.2026 воркфлоу `deploy.yml` запускается **только вручную**
+(`workflow_dispatch`) — триггер на push в `main` убран, потому что до этого каждый пуш молча заменял
+живой сайт. Режима preview в воркфлоу нет и не было: деплой всегда идёт в корень Pages. Чтобы выкатить:
 1. `Settings → Pages → Source` = **GitHub Actions** (если ещё «Deploy from a branch»).
 2. `Settings → Actions → General → Workflow permissions` = **Read and write**.
-3. Вкладка **Actions** → запустить воркфлоу деплоя вручную (выбрать режим: preview → `/admitica-/next/`, prod → корень).
+3. Вкладка **Actions** → «Deploy to GitHub Pages» → **Run workflow** на ветке `main`.
 4. Дождаться зелёного прогона, открыть сайт.
 
 Пользователь запускает деплой **сам через UI Actions** (gh CLI не установлен). Код/коммиты/пуши — Claude.

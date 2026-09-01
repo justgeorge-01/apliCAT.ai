@@ -1,6 +1,7 @@
 # Deploy the Vite app to GitHub Pages.
 #
-# Runs automatically on every push to main, and can also be triggered manually.
+# Manual only (workflow_dispatch). A push to main must never replace the live site
+# by itself: the trigger on push was removed on 2026-09-01.
 # Prerequisite (one-time): repo Settings → Pages → Source = "GitHub Actions".
 #
 # The app uses a relative base (see app/vite.config.ts), so the built site works
@@ -9,8 +10,6 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
