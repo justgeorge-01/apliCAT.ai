@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 import { usePersist } from "@/lib/persist"
 import type { Achievement } from "@/legacy"
 import { cn } from "@/lib/utils"
@@ -25,6 +25,9 @@ const stagger = {
 }
 
 /* ---------- data (same as legacy resume.jsx) ---------- */
+/** Id for a freshly accepted achievement – kept outside the component (render purity). */
+const newAchievementId = () => "a" + Date.now()
+
 const initialAchievements: Achievement[] = [
   {
     id: "a1",
@@ -365,7 +368,7 @@ ${newMsgs.map((m) => `${m.from}: ${m.txt}`).join("\n")}`,
   }
 
   const acceptDraft = (d: DraftAchievement) => {
-    setAchievements([...achievements, { id: "a" + Date.now(), ...d }])
+    setAchievements([...achievements, { id: newAchievementId(), ...d }])
     setDraft(null)
     setMsgs((m) => [
       ...m,

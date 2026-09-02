@@ -188,7 +188,7 @@ function PriorityRow({
     // Phase 3 – Drop: quiet, authoritative landing, no bounce
     await animate(scope.current, { y: 0, scale: 1, boxShadow: REST_SHADOW }, { duration: 0.28, ease: SETTLE_EASE })
     // hand the resting shadow back to the theme stylesheet (light theme styles cards itself)
-    if (scope.current) scope.current.style.boxShadow = ""
+    scope.current?.style.removeProperty("box-shadow")
   }
 
   // A press that never crossed the 3px drag threshold gets no onDragEnd –

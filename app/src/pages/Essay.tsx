@@ -10,8 +10,9 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Segmented } from "@/components/ui/segmented"
-import { useToast } from "@/components/ui/toast"
-import { readPersist, usePersist } from "@/lib/persist"
+import { useToast } from "@/components/ui/use-toast"
+import { ESSAY_PROMPTS } from "@/lib/essayDrafts"
+import { usePersist } from "@/lib/persist"
 import { cn } from "@/lib/utils"
 import type { EssayRequirements, University } from "@/legacy"
 
@@ -27,18 +28,6 @@ const stagger = {
 }
 
 /* ---------- content (same as legacy essay.jsx) ---------- */
-interface EssayPrompt {
-  id: string
-  uniId: string
-  target: string
-}
-
-const ESSAY_PROMPTS: EssayPrompt[] = [
-  { id: "ps_bocconi", uniId: "u1", target: "Bocconi · Personal Statement" },
-  { id: "sop_lse", uniId: "u2", target: "LSE · Statement of Purpose" },
-  { id: "mot_hec", uniId: "u3", target: "HEC · Motivation Letter" },
-]
-
 const SAMPLE_ESSAY = `My fascination with economics did not start in a lecture hall. It began on a Saturday afternoon in my mother's small bakery in Tashkent, watching her decide whether to raise the price of a loaf by twenty cents. I was eleven, and I already understood that this number could feed my brother for a week – or send our regular customer back home empty-handed. That moment planted a question I have been chasing ever since: how do markets, so abstract on paper, translate into the everyday choices of real families?
 
 At Lyceum №1, I built my schedule around this question. I won the regional Olympiad in Mathematics, took two extracurricular courses in microeconomics through a partnership with HSE, and led a research project on inflation expectations among small business owners in our city. I learned that good economics requires not just elegant equations but also the humility to listen to the people behind the data.`
@@ -63,19 +52,6 @@ const initialDrafts = (): Record<string, string> => {
     else map[p.id] = ""
   })
   return map
-}
-
-/** Best essay the student wrote for a university: checks the Bank key ("uni_<id>")
- *  and any starter prompt that targets this uni. Returns the longest non-empty draft. */
-export function essayForUni(uniId: string): string {
-  const drafts = readPersist<Record<string, string>>("essayDrafts", {})
-  const keys = ["uni_" + uniId, ...ESSAY_PROMPTS.filter((p) => p.uniId === uniId).map((p) => p.id)]
-  let best = ""
-  for (const k of keys) {
-    const t = (drafts[k] || "").trim()
-    if (t.length > best.length) best = t
-  }
-  return best
 }
 
 const getReqs = (u: University | null | undefined): EssayRequirements | null =>
