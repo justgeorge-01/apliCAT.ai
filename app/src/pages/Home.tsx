@@ -28,7 +28,7 @@ const stagger = {
 
 /** Provenance line of a fact – the same three states as the card's ProvenanceBadge (spec §3.3). */
 function provenanceLabel(f: Fact): string {
-  if (f.origin === "demo") return "демо"
+  if (f.origin === "demo") return `демо · ${formatCheckedAt(f.verified_at)}`
   if (f.snapshot?.render_method === "wayback")
     return `по архивной копии от ${formatCheckedAt(f.snapshot.archived_at) || "даты снимка"}`
   if (f.origin === "manual") return `проверено вручную · ${formatCheckedAt(f.verified_at)}`

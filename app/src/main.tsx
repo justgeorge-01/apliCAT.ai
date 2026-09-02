@@ -18,7 +18,10 @@ import App from "./App"
 // loaded on demand behind FEATURES.ai, so the storefront build never calls
 // outside – the only outbound links are university pages and the partner's
 // Telegram (spec invariants).
-if (FEATURES.ai) {
+// `import.meta.env.VITE_MARKET` is replaced at build time, so for the China build
+// (the default) the whole block is dead code and the legacy chunks are not even
+// emitted into dist – FEATURES.ai alone is a runtime value the bundler keeps.
+if (FEATURES.ai && import.meta.env.VITE_MARKET === "europe") {
   void import("../../src/ai.js")
   void import("../../src/downloads.js")
 }
