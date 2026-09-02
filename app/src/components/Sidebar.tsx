@@ -4,18 +4,37 @@ import {
   Bookmark,
   Briefcase,
   ChevronDown,
+  ClipboardList,
   Home,
   PenLine,
   Search,
   Settings,
 } from "lucide-react"
 
-import type { Tab } from "@/lib/nav"
+import { FEATURES } from "@/lib/features"
+import { isProgramsTab, mainTabs, PROGRAMS_SUBTABS, type NavItem, type Tab } from "@/lib/nav"
+import type { Partner } from "@/lib/partner"
 import { cn } from "@/lib/utils"
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-/* Socials – same links as the legacy sidebar.jsx */
+type IconType = React.ComponentType<{ className?: string }>
+
+/** Icon per tab id – the labels live in lib/nav.ts. */
+const ICONS: Record<Tab, IconType> = {
+  home: Home,
+  find: Search,
+  plan: ClipboardList,
+  policy: ClipboardList,
+  p_saved: Bookmark,
+  p_priority: Bookmark,
+  essay: PenLine,
+  resume: Briefcase,
+}
+
+/* Socials of the legacy (European) site. The «Китай» storefront links out only
+   to university pages and the partner's Telegram, so the block is shown for the
+   European market only. */
 const SOCIALS = [
   {
     label: "Telegram",
@@ -30,7 +49,6 @@ const SOCIALS = [
     label: "Instagram",
     href: "https://instagram.com/admitica",
     icon: (
-      // fill-глиф (как у остальных соцсетей) – simple-icons path
       <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
       </svg>
@@ -56,143 +74,144 @@ const SOCIALS = [
   },
 ]
 
-const NAV_ITEMS = [
-  { id: "home" as Tab, label: "Главная", icon: Home },
-  { id: "find" as Tab, label: "Подобрать программу", icon: Search },
-  {
-    id: "programs",
-    label: "Мои программы",
-    icon: Bookmark,
-    sub: [
-      { id: "p_saved" as Tab, label: "Сохранённые" },
-      { id: "p_priority" as Tab, label: "Приоритеты и роадмап" },
-    ],
-  },
-  { id: "essay" as Tab, label: "Редактор эссе", icon: PenLine },
-  { id: "resume" as Tab, label: "Сборка резюме", icon: Briefcase },
-]
-
-/* Bottom tab bar (narrow screens) – mirrors the legacy mobile Tabbar,
-   extended with Эссе/Резюме for parity with the desktop sidebar. */
-const MOBILE_TABS: { id: Tab; label: string; icon: typeof Home; activeFor: (t: Tab) => boolean }[] = [
-  { id: "home", label: "Главная", icon: Home, activeFor: (t) => t === "home" },
-  { id: "find", label: "Найти", icon: Search, activeFor: (t) => t === "find" },
-  { id: "p_saved", label: "Мои", icon: Bookmark, activeFor: (t) => t.startsWith("p_") },
-  { id: "essay", label: "Эссе", icon: PenLine, activeFor: (t) => t === "essay" },
-  { id: "resume", label: "Резюме", icon: Briefcase, activeFor: (t) => t === "resume" },
-]
-
 export interface SidebarProps {
   tab: Tab
   setTab: (t: Tab) => void
-  name: string
-  plan: string
+  /** Opens the settings dialog (menu entry «Настройки» on desktop and mobile). */
   onSettings: () => void
+  /** Header brand: name / logo / tagline come from the partner config (spec §2). */
+  partner: Partner
   /** Slide-in entrance right after onboarding (mirrors the legacy animation). */
   animateIn?: boolean
 }
 
-function NavContent({ tab, setTab, name, plan, onSettings }: SidebarProps) {
-  const [progExpanded, setProgExpanded] = useState(tab.startsWith("p_"))
-  const initial = (name || "У").charAt(0).toUpperCase()
+/** Brand block of the header – partner logo when present, else the name with the accent dot. */
+function Brand({ partner, size = "base" }: { partner: Partner; size?: "base" | "lg" }) {
+  if (partner.logo) {
+    return (
+      <img
+        src={partner.logo}
+        alt={partner.name}
+        className={cn("w-auto object-contain", size === "lg" ? "h-7" : "h-6")}
+      />
+    )
+  }
+  return (
+    <span className={cn("font-bold tracking-tight", size === "lg" ? "text-lg" : "text-base")}>
+      {partner.name}
+      <span className="text-accent-text">.</span>
+    </span>
+  )
+}
+
+function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
+  const items = mainTabs()
+  const [progExpanded, setProgExpanded] = useState(isProgramsTab(tab))
+  const showSocials = FEATURES.market === "europe"
+
+  const renderItem = (it: NavItem) => {
+    const Icon = ICONS[it.id]
+    const withSub = it.id === "p_saved"
+    const isActive = withSub ? isProgramsTab(tab) : tab === it.id
+    return (
+      <div key={it.id}>
+        <button
+          className={cn(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+            isActive ? "bg-accent-soft text-accent-text" : "text-fg-muted hover:bg-fg/5 hover:text-fg",
+          )}
+          aria-current={isActive ? "page" : undefined}
+          onClick={() => {
+            if (withSub) {
+              setProgExpanded(!progExpanded)
+              if (!isActive) setTab(PROGRAMS_SUBTABS[0].id)
+            } else {
+              setTab(it.id)
+            }
+          }}
+        >
+          <Icon className="size-4.5 shrink-0" />
+          <span className="min-w-0 flex-1 truncate text-left">{it.label}</span>
+          {withSub && (
+            <ChevronDown className={cn("size-3.5 shrink-0 transition-transform duration-200", progExpanded && "rotate-180")} />
+          )}
+        </button>
+        {withSub && progExpanded && (
+          <div className="mt-0.5 mb-1 ml-7 flex flex-col gap-0.5 border-l border-border pl-3">
+            {PROGRAMS_SUBTABS.map((s) => (
+              <button
+                key={s.id}
+                className={cn(
+                  "rounded-lg px-2.5 py-2 text-left text-[13px] font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+                  tab === s.id ? "text-accent-text" : "text-fg-muted hover:text-fg",
+                )}
+                onClick={() => setTab(s.id)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      {/* logo */}
-      <div className="flex items-center px-5 pt-6 pb-5">
-        <span className="text-lg font-bold tracking-tight">
-          Admitica<span className="text-accent-text">.</span>
-        </span>
+      {/* brand */}
+      <div className="flex flex-col px-5 pt-6 pb-5">
+        <Brand partner={partner} size="lg" />
+        {partner.tagline && (
+          <span className="mt-1.5 text-xs leading-snug text-fg-faint">{partner.tagline}</span>
+        )}
       </div>
 
       {/* nav */}
-      <nav className="flex-1 overflow-y-auto px-3">
-        {NAV_ITEMS.map((it) => {
-          const Icon = it.icon
-          const isActive = tab === it.id || (it.sub?.some((s) => s.id === tab) ?? false)
-          return (
-            <div key={it.id}>
-              <button
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
-                  isActive ? "bg-accent-soft text-accent-text" : "text-fg-muted hover:bg-fg/5 hover:text-fg",
-                )}
-                onClick={() => {
-                  if (it.sub) {
-                    setProgExpanded(!progExpanded)
-                    if (!isActive) setTab(it.sub[0].id)
-                  } else {
-                    setTab(it.id as Tab)
-                  }
-                }}
-              >
-                <Icon className="size-4.5 shrink-0" />
-                <span className="min-w-0 flex-1 truncate text-left">{it.label}</span>
-                {it.sub && (
-                  <ChevronDown className={cn("size-3.5 shrink-0 transition-transform duration-200", progExpanded && "rotate-180")} />
-                )}
-              </button>
-              {it.sub && progExpanded && (
-                <div className="mt-0.5 mb-1 ml-7 flex flex-col gap-0.5 border-l border-border pl-3">
-                  {it.sub.map((s) => (
-                    <button
-                      key={s.id}
-                      className={cn(
-                        "rounded-lg px-2.5 py-2 text-left text-[13px] font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
-                        tab === s.id ? "text-accent-text" : "text-fg-muted hover:text-fg",
-                      )}
-                      onClick={() => setTab(s.id)}
-                    >
-                      {s.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )
-        })}
+      <nav className="flex-1 overflow-y-auto px-3" aria-label="Основная навигация">
+        {items.map(renderItem)}
       </nav>
 
-      {/* socials */}
-      <div className="px-5 pb-3">
-        <div className="mb-2 text-xs font-semibold tracking-widest text-fg-muted uppercase">Соцсети</div>
-        <div className="flex items-center gap-1">
-          {SOCIALS.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={s.label}
-              className="grid size-8 place-items-center rounded-lg text-fg-faint transition-colors duration-200 hover:bg-fg/5 hover:text-fg-muted"
-            >
-              {s.icon}
-            </a>
-          ))}
+      {/* socials – legacy European site only */}
+      {showSocials && (
+        <div className="px-5 pb-3">
+          <div className="mb-2 text-xs font-semibold tracking-widest text-fg-muted uppercase">Соцсети</div>
+          <div className="flex items-center gap-1">
+            {SOCIALS.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className="grid size-8 place-items-center rounded-lg text-fg-faint transition-colors duration-200 hover:bg-fg/5 hover:text-fg-muted"
+              >
+                {s.icon}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* user → settings */}
+      {/* settings */}
       <button
         className="mx-3 mb-4 flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-colors duration-200 outline-none hover:bg-fg/5 focus-visible:ring-2 focus-visible:ring-accent/60"
         onClick={onSettings}
       >
-        <div className="grid size-9 shrink-0 place-items-center rounded-full bg-accent text-sm font-semibold text-accent-fg">
-          {initial}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="truncate text-sm font-semibold">{name || "Пользователь"}</div>
-          <div className="text-xs text-fg-muted">{plan}</div>
-        </div>
-        <Settings className="size-4 shrink-0 text-fg-faint" />
+        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent-soft text-accent-text">
+          <Settings className="size-4" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-sm font-semibold">Настройки</span>
+          <span className="block text-xs text-fg-muted">Тема, данные, сброс</span>
+        </span>
       </button>
     </div>
   )
 }
 
 export function Sidebar(props: SidebarProps) {
-  const { tab, setTab, name, onSettings, animateIn } = props
-  const initial = (name || "У").charAt(0).toUpperCase()
+  const { tab, setTab, onSettings, partner, animateIn } = props
+  const mobileTabs = mainTabs().filter((it) => it.id !== "p_priority")
 
   return (
     <>
@@ -206,17 +225,15 @@ export function Sidebar(props: SidebarProps) {
         <NavContent {...props} />
       </motion.aside>
 
-      {/* Mobile top bar: logo · profile (настройки) */}
+      {/* Mobile top bar: brand · settings */}
       <header className="sticky top-0 z-40 flex h-14 items-center gap-2 border-b border-border bg-bg/80 px-4 backdrop-blur-xl lg:hidden">
-        <span className="text-base font-bold tracking-tight">
-          Admitica<span className="text-accent-text">.</span>
-        </span>
+        <Brand partner={partner} />
         <button
-          className="ml-auto grid size-8 shrink-0 place-items-center rounded-full bg-accent text-[13px] font-semibold text-accent-fg outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
-          aria-label="Настройки профиля"
+          className="ml-auto grid size-9 shrink-0 place-items-center rounded-full text-fg-muted outline-none hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-accent/60"
+          aria-label="Настройки"
           onClick={onSettings}
         >
-          {initial}
+          <Settings className="size-5" />
         </button>
       </header>
 
@@ -226,9 +243,9 @@ export function Sidebar(props: SidebarProps) {
         aria-label="Основная навигация"
       >
         <div className="mx-auto flex max-w-md items-stretch">
-          {MOBILE_TABS.map((t) => {
-            const Icon = t.icon
-            const active = t.activeFor(tab)
+          {mobileTabs.map((t) => {
+            const Icon = ICONS[t.id]
+            const active = t.id === "p_saved" ? isProgramsTab(tab) : tab === t.id
             return (
               <button
                 key={t.id}
@@ -241,11 +258,18 @@ export function Sidebar(props: SidebarProps) {
               >
                 <Icon className={cn("size-5 transition-transform duration-200", active && "scale-110")} />
                 <span className={cn("truncate text-[10px] leading-none", active ? "font-semibold" : "font-medium")}>
-                  {t.label}
+                  {t.short}
                 </span>
               </button>
             )
           })}
+          <button
+            onClick={onSettings}
+            className="flex min-w-0 flex-1 flex-col items-center gap-1 px-1 pt-2.5 pb-2 text-fg-faint outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+          >
+            <Settings className="size-5" />
+            <span className="truncate text-[10px] leading-none font-medium">Настройки</span>
+          </button>
         </div>
       </nav>
     </>
