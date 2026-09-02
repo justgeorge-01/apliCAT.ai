@@ -1,0 +1,82 @@
+import { ExternalLink } from "lucide-react"
+
+import { FactItem, FactRow } from "@/components/FactRow"
+import { Badge } from "@/components/ui/badge"
+import { cscaStatus, factsOf, formatCheckedAt, lastChecked, type CscaStatus } from "@/data/china"
+import type { University } from "@/data/china.types"
+
+/**
+ * The phased CSCA roll-out, as the storefront states it (spec §3.1 / §3.3).
+ * Not a university fact – a general note with its own source and check date,
+ * the same way `FIXED_DATES` in lib/plan.ts carries its provenance.
+ */
+const CSCA_NOTE = {
+  text:
+    "CSCA вводится поэтапно: с 2026/27 экзамен обязателен для вузов сети правительственных стипендий и для стипендии CSC. " +
+    "Распространение на все вузы и минимальные проходные баллы – план с 2028 года. " +
+    "Вузы применяют требование по-разному: статус выше – это то, что заявил именно этот вуз.",
+  source_url: "https://csca.cn/",
+  source_label: "csca.cn",
+  verified_at: "2026-08-31",
+}
+
+const STATUS_LABEL: Record<CscaStatus, string> = {
+  required: "Требуется",
+  not_required: "Не требуется",
+  unknown: "Вуз не заявил",
+}
+
+const STATUS_VARIANT: Record<CscaStatus, "default" | "secondary" | "outline"> = {
+  required: "default",
+  not_required: "secondary",
+  unknown: "outline",
+}
+
+export interface CscaBlockProps {
+  u: University
+  className?: string
+}
+
+/**
+ * The CSCA row of the university card: status badge, the `csca_required` fact
+ * with provenance, the `csca_subjects` facts (modules) beneath it, and the
+ * honest footnote about the phased roll-out. When the university has not
+ * stated the requirement the row reads «вуз не заявил · проверено <дата>».
+ */
+export function CscaBlock({ u, className }: CscaBlockProps) {
+  const status = cscaStatus(u)
+  const required = factsOf(u, "requirements.csca_required")
+  const subjects = factsOf(u, "requirements.csca_subjects")
+
+  return (
+    <FactRow
+      label="CSCA"
+      facts={required}
+      lastCheckedAt={lastChecked(u)}
+      critical
+      sublabels
+      emptyLabel="вуз не заявил"
+      className={className}
+      lead={<Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>}
+    >
+      {subjects.map((f, i) => (
+        <FactItem key={`${f.key}:${i}`} fact={f} sublabel={f.label_ru} />
+      ))}
+      <p className="text-xs leading-relaxed text-fg-faint">
+        {CSCA_NOTE.text}{" "}
+        <a
+          href={CSCA_NOTE.source_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-0.5 whitespace-nowrap text-accent-text hover:underline"
+        >
+          <ExternalLink className="size-3" aria-hidden="true" />
+          {CSCA_NOTE.source_label}
+        </a>
+        <span> · текст проверен {formatCheckedAt(CSCA_NOTE.verified_at)}</span>
+      </p>
+    </FactRow>
+  )
+}
+
+export default CscaBlock

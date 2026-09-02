@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { motion } from "framer-motion"
-import { Banknote, Briefcase, Filter, GraduationCap, Search } from "lucide-react"
+import { Banknote, Briefcase, GraduationCap, Info, Search, SlidersHorizontal } from "lucide-react"
 
 import { ProgramCard } from "@/components/ProgramCard"
+import { UniversityCard } from "@/components/UniversityCard"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -10,7 +11,34 @@ import { Input } from "@/components/ui/input"
 import { Segmented } from "@/components/ui/segmented"
 import { Select } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import type { AnyProgram, Grant, Internship, University } from "@/legacy"
+import { useToast } from "@/components/ui/use-toast"
+import { loadCatalog } from "@/data/china"
+import type { Catalog, University } from "@/data/china.types"
+import {
+  applyFilters,
+  BUDGET_MAX,
+  BUDGET_MIN,
+  BUDGET_STEP,
+  cityList,
+  DEFAULT_FILTERS,
+  formatCny,
+  HSK_LEVELS,
+  matchesQuery,
+  pluralRu,
+  profileIsFilled,
+  profileSummary,
+  sortUniversities,
+  type CatalogFilters,
+  type CscaFilter,
+  type LanguageFilter,
+  type SortKey,
+} from "@/lib/catalogView"
+import { FEATURES } from "@/lib/features"
+import { matchUniversity, PROFILE_KEY, type ChinaProfile } from "@/lib/match"
+import { getPartner } from "@/lib/partner"
+import { readPersist } from "@/lib/persist"
+import { isInPlan, loadPlan, savePlan, togglePlan, type Plan } from "@/lib/plan"
+import type { AnyProgram, Grant, Internship, University as LegacyUniversity } from "@/legacy"
 import { cn } from "@/lib/utils"
 
 /* ---------- shared motion presets (ease-out, 200–300ms) ---------- */
@@ -28,13 +56,364 @@ const cardStagger = {
   show: { transition: { staggerChildren: 0.04 } },
 }
 
-/* ---------- types ---------- */
+/* ---------- props (the shell calls both markets the same way) ---------- */
+
+export interface FindProps {
+  /** Opens the university page (Detail rewritten for the China market). */
+  openUniversity?: (u: University) => void
+  /**
+   * Shell-owned profile (`admitica.cn.profile`). Pass it when the shell keeps
+   * the profile in state: right after onboarding the storage write lands in an
+   * effect, so a fresh mount would read the old value. Absent → read storage.
+   */
+  profile?: ChinaProfile | null
+  /** Shell-owned plan; when absent the page keeps its own copy in `admitica.cn.plan`. */
+  plan?: Plan
+  onTogglePlan?: (id: string) => void
+  /** Leads to the onboarding to fill / edit the profile; without it only the hint is shown. */
+  onEditProfile?: () => void
+
+  /* Legacy (Europe) shell props – accepted for compatibility, used only with VITE_MARKET=europe. */
+  saved?: string[]
+  priorities?: string[]
+  toggleSave?: (id: string) => void
+  togglePrio?: (id: string) => void
+  openDetail?: (item: AnyProgram) => void
+}
+
+export default function Find(props: FindProps) {
+  if (FEATURES.market === "europe") return <FindEurope {...props} />
+  return <FindChina {...props} />
+}
+
+/* ---------- small shared bits ---------- */
+
+function FilterGroup({ title, children, className }: { title: string; children: React.ReactNode; className?: string }) {
+  return (
+    <div className={cn("min-w-0", className)}>
+      <div className="mb-2 text-[11px] font-semibold tracking-widest text-fg-muted uppercase">{title}</div>
+      {children}
+    </div>
+  )
+}
+
+/* =====================================================================
+   CHINA (spec §3.2)
+   ===================================================================== */
+
+const isNum = (x: unknown): x is number => typeof x === "number" && Number.isFinite(x)
+
+function ProfileNotice({
+  profile,
+  filled,
+  onEdit,
+}: {
+  profile: ChinaProfile | null
+  filled: boolean
+  onEdit?: () => void
+}) {
+  return (
+    <Card className="gap-1.5 p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <strong className="flex items-center gap-1.5 text-[13px] font-semibold">
+          <Info className="size-3.5 text-accent-text" aria-hidden="true" /> Соответствие профилю
+        </strong>
+        {onEdit && (
+          <Button variant="link" size="xs" onClick={onEdit}>
+            {filled ? "Изменить профиль" : "Заполнить профиль"}
+          </Button>
+        )}
+      </div>
+      {filled && profile ? (
+        <>
+          <p className="text-[13px] text-fg">{profileSummary(profile).join(" · ")}</p>
+          <p className="text-xs text-fg-muted">
+            Сравниваем только формальные условия по опубликованным фактам: подходит, не хватает или не проверено.
+            Нет факта – «не проверено», а не «нет». Шансы и ярусы не оцениваем.
+          </p>
+        </>
+      ) : (
+        <p className="text-[13px] text-fg-muted">
+          Профиль не заполнен – соответствие не считается. Пройдите онбординг, и у каждого вуза появится, что
+          подходит, чего не хватает и что не проверено.
+        </p>
+      )}
+    </Card>
+  )
+}
+
+function ChinaFilterPanel({
+  filters,
+  setFilters,
+  cities,
+  profile,
+}: {
+  filters: CatalogFilters
+  setFilters: (f: CatalogFilters) => void
+  cities: string[]
+  profile: ChinaProfile | null
+}) {
+  const update = <K extends keyof CatalogFilters>(key: K, val: CatalogFilters[K]) =>
+    setFilters({ ...filters, [key]: val })
+
+  const myHsk = isNum(profile?.hsk) ? profile.hsk : null
+  const levels = myHsk !== null && !HSK_LEVELS.includes(myHsk) ? [...HSK_LEVELS, myHsk].sort((a, b) => a - b) : HSK_LEVELS
+  const myBudget = isNum(profile?.budget_year_cny) ? profile.budget_year_cny : null
+  const sliderValue = filters.budgetCny ?? BUDGET_MAX
+
+  const switchRow = (label: string, key: "coversTuition" | "deadlineOpen" | "keepUnpublished") => (
+    <label className="flex cursor-pointer items-center justify-between gap-3 py-1 text-sm">
+      <span>{label}</span>
+      <Switch checked={filters[key]} onCheckedChange={(v) => update(key, v)} />
+    </label>
+  )
+
+  return (
+    <Card className="gap-0 p-4 sm:p-5">
+      <div className="flex items-center justify-between gap-3">
+        <strong className="flex items-center gap-1.5 text-[13px] font-semibold">
+          <SlidersHorizontal className="size-3.5 text-accent-text" aria-hidden="true" /> Фильтры
+        </strong>
+        <Button variant="link" size="xs" onClick={() => setFilters(DEFAULT_FILTERS)}>
+          Сбросить
+        </Button>
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
+        <FilterGroup title="Город">
+          <Select value={filters.city ?? ""} onChange={(e) => update("city", e.target.value || null)}>
+            <option value="">Все города</option>
+            {cities.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </Select>
+        </FilterGroup>
+
+        <FilterGroup title="Язык обучения">
+          <Select value={filters.language} onChange={(e) => update("language", e.target.value as LanguageFilter)}>
+            <option value="any">Любой</option>
+            <option value="zh">Китайский</option>
+            <option value="en">Английский</option>
+          </Select>
+        </FilterGroup>
+
+        <FilterGroup title="CSCA">
+          <Select value={filters.csca} onChange={(e) => update("csca", e.target.value as CscaFilter)}>
+            <option value="any">Не важно</option>
+            <option value="required">Требуется</option>
+            <option value="not_required">Не требуется</option>
+            <option value="unknown">Не опубликовано</option>
+          </Select>
+        </FilterGroup>
+
+        <FilterGroup title="HSK вуза не выше">
+          <Select
+            value={filters.hskMax === null ? "" : String(filters.hskMax)}
+            onChange={(e) => update("hskMax", e.target.value ? Number(e.target.value) : null)}
+          >
+            <option value="">Любой</option>
+            {levels.map((l) => (
+              <option key={l} value={l}>
+                HSK {l}
+                {l === myHsk ? " (мой уровень)" : ""}
+              </option>
+            ))}
+          </Select>
+        </FilterGroup>
+
+        <FilterGroup title="Стоимость в год не выше">
+          <input
+            type="range"
+            min={BUDGET_MIN}
+            max={BUDGET_MAX}
+            step={BUDGET_STEP}
+            value={sliderValue}
+            aria-label="Стоимость обучения в год не выше"
+            onChange={(e) => {
+              const v = Number(e.target.value)
+              update("budgetCny", v >= BUDGET_MAX ? null : v)
+            }}
+            className="w-full cursor-pointer accent-accent"
+          />
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs text-fg-muted">
+            <span>{filters.budgetCny === null ? "любая" : `до ${formatCny(filters.budgetCny)}`}</span>
+            {myBudget !== null && (
+              <Button
+                variant="link"
+                size="xs"
+                onClick={() => update("budgetCny", myBudget >= BUDGET_MAX ? null : Math.max(BUDGET_MIN, myBudget))}
+              >
+                мой бюджет: {formatCny(myBudget)}
+              </Button>
+            )}
+          </div>
+        </FilterGroup>
+
+        <FilterGroup title="Дополнительно">
+          {switchRow("Стипендия покрывает обучение", "coversTuition")}
+          {switchRow("Дедлайн ещё не прошёл", "deadlineOpen")}
+          {switchRow("Показывать вузы без данных по фильтру", "keepUnpublished")}
+        </FilterGroup>
+      </div>
+    </Card>
+  )
+}
+
+function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTogglePlan, onEditProfile }: FindProps) {
+  const toast = useToast()
+  const [now] = useState(() => new Date())
+  const [catalog, setCatalog] = useState<Catalog | null>(null)
+  const [q, setQ] = useState("")
+  const [filters, setFilters] = useState<CatalogFilters>(DEFAULT_FILTERS)
+  const [sort, setSort] = useState<SortKey>("deadline")
+  const [storedProfile] = useState<ChinaProfile | null>(() => readPersist<ChinaProfile | null>(PROFILE_KEY, null))
+  const profile = profileProp !== undefined ? profileProp : storedProfile
+  const [localPlan, setLocalPlan] = useState<Plan>(() => loadPlan())
+  const plan = planProp ?? localPlan
+  const partner = useMemo(() => getPartner(), [])
+
+  useEffect(() => {
+    let alive = true
+    loadCatalog().then((c) => {
+      if (alive) setCatalog(c)
+    })
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  const filled = profileIsFilled(profile)
+  const all = useMemo(() => catalog?.universities ?? [], [catalog])
+  const cities = useMemo(() => cityList(all), [all])
+
+  const searched = all.filter((u) => matchesQuery(u, q))
+  const { shown, hiddenUnpublished } = applyFilters(searched, filters, now)
+  const items = sortUniversities(shown, sort, now)
+
+  const toggle = (id: string) => {
+    const added = !isInPlan(plan, id)
+    if (onTogglePlan) {
+      onTogglePlan(id)
+    } else {
+      const next = togglePlan(localPlan, id)
+      setLocalPlan(next)
+      savePlan(next)
+    }
+    toast(added ? "Добавлено в мой план" : "Убрано из плана")
+  }
+
+  return (
+    <motion.div variants={stagger} initial="hidden" animate="show">
+      {/* page head */}
+      <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">Вузы Китая</h1>
+        <p className="mt-2 text-sm text-fg-muted">
+          {catalog
+            ? `${all.length} ${pluralRu(all.length, "вуз", "вуза", "вузов")} · факты с официальных страниц, у каждого источник и дата проверки`
+            : "Загружаем каталог"}
+        </p>
+      </motion.div>
+
+      {/* profile */}
+      <motion.div variants={fadeUp} className="mb-5">
+        <ProfileNotice profile={profile} filled={filled} onEdit={onEditProfile} />
+      </motion.div>
+
+      {/* search + sort */}
+      <motion.div variants={fadeUp} className="mb-4 flex flex-col gap-3 sm:flex-row">
+        <div className="relative min-w-0 flex-1">
+          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-fg-faint" />
+          <Input
+            className="pl-9"
+            placeholder="Поиск по названию или городу"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            aria-label="Поиск вуза"
+          />
+        </div>
+        <Select className="sm:w-52" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="Сортировка">
+          <option value="deadline">Ближайший дедлайн</option>
+          <option value="tuition">По стоимости</option>
+          <option value="name">По названию</option>
+        </Select>
+      </motion.div>
+
+      {/* filters */}
+      <motion.div variants={fadeUp} className="mb-6">
+        <ChinaFilterPanel filters={filters} setFilters={setFilters} cities={cities} profile={profile} />
+      </motion.div>
+
+      {/* results */}
+      <motion.div variants={fadeUp}>
+        <div className="mb-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-fg-muted">
+          <span>
+            Найдено: <b className="font-medium text-fg">{items.length}</b>
+            {q && <> по запросу «{q}»</>}
+          </span>
+          {hiddenUnpublished > 0 && (
+            <span className="inline-flex flex-wrap items-center gap-x-1">
+              · ещё {hiddenUnpublished} {pluralRu(hiddenUnpublished, "вуз", "вуза", "вузов")} без опубликованных данных
+              по выбранным фильтрам {hiddenUnpublished === 1 ? "скрыт" : "скрыто"}
+              <Button variant="link" size="xs" onClick={() => setFilters({ ...filters, keepUnpublished: true })}>
+                показать
+              </Button>
+            </span>
+          )}
+        </div>
+
+        {!catalog ? (
+          <Card className="p-14 text-center text-sm text-fg-muted">Загружаем каталог</Card>
+        ) : (
+          <motion.div
+            variants={cardStagger}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 gap-4 md:grid-cols-2"
+          >
+            {items.map((u) => (
+              <UniversityCard
+                key={u.id}
+                u={u}
+                inPlan={isInPlan(plan, u.id)}
+                onTogglePlan={toggle}
+                onOpen={openUniversity}
+                match={filled && profile ? matchUniversity(profile, u, now) : null}
+                partnerNote={partner.universities?.includes(u.id) ? `в списке ${partner.name}` : null}
+              />
+            ))}
+          </motion.div>
+        )}
+
+        {catalog && items.length === 0 && (
+          <Card className="p-14 text-center text-sm text-fg-muted">
+            Ничего не найдено. Измените фильтры
+            {hiddenUnpublished > 0 && <> или включите «Показывать вузы без данных по фильтру»</>}.
+          </Card>
+        )}
+
+        <p className="mt-6 text-xs text-fg-muted">
+          Дедлайны, HSK/IELTS и CSCA – критичные условия: сверьтесь с сайтом вуза перед подачей. Ссылки «источник»
+          ведут на официальные страницы вузов.
+        </p>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+/* =====================================================================
+   EUROPE (legacy catalog, spec §4) – rendered only with VITE_MARKET=europe.
+   Reads the legacy `window.AdmiticaData` globals; untouched apart from the
+   optional props.
+   ===================================================================== */
+
 type Kind = "uni" | "grant" | "intern"
 
 /** Loose view over the catalog union – mirrors the duck-typed legacy access. */
-type CatalogItem = AnyProgram & Partial<University> & Partial<Grant> & Partial<Internship>
+type CatalogItem = AnyProgram & Partial<LegacyUniversity> & Partial<Grant> & Partial<Internship>
 
-interface Filters {
+interface EuropeFilters {
   country?: string | null
   field?: string | null
   degree?: string[]
@@ -47,19 +426,7 @@ interface Filters {
 
 type ListFilterKey = "degree" | "funding" | "format"
 
-/* Карточка результата и дедлайн-бейдж – общие с «Мои программы» (@/components/ProgramCard) */
-
-/* ---------- filter panel ---------- */
-function FilterGroup({ title, children, className }: { title: string; children: React.ReactNode; className?: string }) {
-  return (
-    <div className={cn("min-w-0", className)}>
-      <div className="mb-2 text-[11px] font-semibold tracking-widest text-fg-muted uppercase">{title}</div>
-      {children}
-    </div>
-  )
-}
-
-function FilterPanel({
+function EuropeFilterPanel({
   kind,
   filters,
   setFilters,
@@ -67,12 +434,12 @@ function FilterPanel({
   fields,
 }: {
   kind: Kind
-  filters: Filters
-  setFilters: (f: Filters) => void
+  filters: EuropeFilters
+  setFilters: (f: EuropeFilters) => void
   countries: string[]
   fields: string[]
 }) {
-  const update = <K extends keyof Filters>(key: K, val: Filters[K]) => setFilters({ ...filters, [key]: val })
+  const update = <K extends keyof EuropeFilters>(key: K, val: EuropeFilters[K]) => setFilters({ ...filters, [key]: val })
   const toggle = (key: ListFilterKey, val: string) => {
     const cur = filters[key] ?? []
     update(key, cur.includes(val) ? cur.filter((x) => x !== val) : [...cur, val])
@@ -89,14 +456,13 @@ function FilterPanel({
     <Card className="gap-0 p-4 sm:p-5">
       <div className="flex items-center justify-between gap-3">
         <strong className="flex items-center gap-1.5 text-[13px] font-semibold">
-          <Filter className="size-3.5 text-accent-text" /> Фильтры
+          <SlidersHorizontal className="size-3.5 text-accent-text" /> Фильтры
         </strong>
         <Button variant="link" size="xs" onClick={() => setFilters({})}>
           Сбросить
         </Button>
       </div>
 
-      {/* controls stack on mobile, flow in a wrapping row on desktop */}
       <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 lg:flex lg:flex-wrap lg:items-start">
         <FilterGroup title="Страна" className="lg:w-48">
           <Select value={filters.country || ""} onChange={(e) => update("country", e.target.value || null)}>
@@ -169,25 +535,18 @@ function FilterPanel({
   )
 }
 
-/* ---------- page ---------- */
-export interface FindProps {
-  saved: string[]
-  priorities: string[]
-  toggleSave: (id: string) => void
-  togglePrio: (id: string) => void
-  openDetail: (item: AnyProgram) => void
-}
-
 const KIND_TABS: { id: Kind; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { id: "uni", label: "Университеты", icon: GraduationCap },
   { id: "grant", label: "Гранты", icon: Banknote },
   { id: "intern", label: "Стажировки", icon: Briefcase },
 ]
 
-export default function Find({ saved, priorities, toggleSave, togglePrio, openDetail }: FindProps) {
+const noop = () => {}
+
+function FindEurope({ saved = [], priorities = [], toggleSave = noop, togglePrio = noop, openDetail = noop }: FindProps) {
   const [kind, setKind] = useState<Kind>("uni")
   const [q, setQ] = useState("")
-  const [filters, setFilters] = useState<Filters>({})
+  const [filters, setFilters] = useState<EuropeFilters>({})
   const [sort, setSort] = useState("deadline")
 
   const data = window.AdmiticaData
@@ -231,13 +590,11 @@ export default function Find({ saved, priorities, toggleSave, togglePrio, openDe
 
   return (
     <motion.div variants={stagger} initial="hidden" animate="show">
-      {/* page head */}
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">Подобрать программу</h1>
         <p className="mt-2 text-sm text-fg-muted">35 университетов · 35 грантов · 35 стажировок в Европе</p>
       </motion.div>
 
-      {/* kind subtabs */}
       <motion.div variants={fadeUp} className="mb-5">
         <Segmented
           className="w-full sm:w-fit"
@@ -254,7 +611,6 @@ export default function Find({ saved, priorities, toggleSave, togglePrio, openDe
         />
       </motion.div>
 
-      {/* search + sort */}
       <motion.div variants={fadeUp} className="mb-4 flex flex-col gap-3 sm:flex-row">
         <div className="relative min-w-0 flex-1">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-fg-faint" />
@@ -272,12 +628,10 @@ export default function Find({ saved, priorities, toggleSave, togglePrio, openDe
         </Select>
       </motion.div>
 
-      {/* filters */}
       <motion.div variants={fadeUp} className="mb-6">
-        <FilterPanel kind={kind} filters={filters} setFilters={setFilters} countries={countries} fields={fields} />
+        <EuropeFilterPanel kind={kind} filters={filters} setFilters={setFilters} countries={countries} fields={fields} />
       </motion.div>
 
-      {/* results */}
       <motion.div variants={fadeUp}>
         <div className="mb-3.5 text-[13px] text-fg-muted">
           Найдено: <b className="font-medium text-fg">{items.length}</b>
