@@ -1,16 +1,12 @@
 import * as React from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
+import { ToastCtx } from "@/components/ui/use-toast"
+
 /**
  * Minimal toast – API mirrors the legacy ToastCtx (a single `show(message)`
  * function, auto-hides after 2.5s).
  */
-const ToastCtx = React.createContext<(msg: string) => void>(() => {})
-
-export function useToast() {
-  return React.useContext(ToastCtx)
-}
-
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [msg, setMsg] = React.useState<string | null>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
