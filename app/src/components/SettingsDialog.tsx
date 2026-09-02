@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { ThemeSwitch } from "@/components/ui/theme-switch"
 import type { RoadmapEntry } from "@/legacy"
+import { FEATURES } from "@/lib/features"
 import { cn } from "@/lib/utils"
 
 export interface SettingsDialogProps {
@@ -71,6 +72,10 @@ export default function SettingsDialog({
   roadmaps,
   onReset,
 }: SettingsDialogProps) {
+  // The «Китай» storefront collects no name and sells nothing: only the
+  // appearance and the data sections are shown. The legacy sections stay for
+  // the European market (VITE_MARKET=europe).
+  const legacy = FEATURES.market === "europe"
   const stats: { label: string; value: React.ReactNode }[] = [
     { label: "Сохранено программ", value: savedIds.length },
     { label: "Приоритетов", value: priorities.length },
@@ -91,22 +96,24 @@ export default function SettingsDialog({
           animate="show"
           className="flex flex-col px-6 py-5"
         >
-          {/* Профиль */}
-          <motion.section variants={fadeUp}>
-            <SectionTitle>Профиль</SectionTitle>
-            <div className="flex items-center gap-3">
-              <div className="grid size-14 shrink-0 place-items-center rounded-full bg-accent text-[22px] font-semibold text-accent-fg">
-                {(name || "У").charAt(0).toUpperCase()}
+          {/* Профиль – legacy only (COLLECT_NAME=false in the storefront) */}
+          {legacy && (
+            <motion.section variants={fadeUp}>
+              <SectionTitle>Профиль</SectionTitle>
+              <div className="flex items-center gap-3">
+                <div className="grid size-14 shrink-0 place-items-center rounded-full bg-accent text-[22px] font-semibold text-accent-fg">
+                  {(name || "У").charAt(0).toUpperCase()}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <Input value={name} onChange={(e) => setName(e.target.value)} aria-label="Имя" />
+                  <div className="mt-1 text-xs text-fg-muted">Имя для приветствия</div>
+                </div>
               </div>
-              <div className="min-w-0 flex-1">
-                <Input value={name} onChange={(e) => setName(e.target.value)} aria-label="Имя" />
-                <div className="mt-1 text-xs text-fg-muted">Имя для приветствия</div>
-              </div>
-            </div>
-          </motion.section>
+            </motion.section>
+          )}
 
           {/* Внешний вид */}
-          <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
+          <motion.section variants={fadeUp} className={cn(legacy && "mt-6 border-t border-border pt-5")}>
             <SectionTitle>Внешний вид</SectionTitle>
             <div className="flex items-center justify-between py-1">
               <span className="text-[13px]">Тема оформления</span>
@@ -114,71 +121,83 @@ export default function SettingsDialog({
             </div>
           </motion.section>
 
-          {/* Подписка */}
-          <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
-            <SectionTitle>Подписка</SectionTitle>
-            <div className="mb-3 flex gap-2">
-              {PLANS.map((p) => (
-                <Button
-                  key={p}
-                  variant={plan === p ? "default" : "ghost"}
-                  size="sm"
-                  className="flex-1 justify-center"
-                  onClick={() => setPlan(p)}
-                >
-                  {p}
-                </Button>
-              ))}
-            </div>
-            <p className="text-xs leading-relaxed text-fg-muted">
-              Pro: разбор эссе, экспорт в PDF, дополнительные фильтры. Premium: личные
-              консультации с ментором и проверка эссе экспертом.
-            </p>
-          </motion.section>
+          {/* Подписка – legacy only */}
+          {legacy && (
+            <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
+              <SectionTitle>Подписка</SectionTitle>
+              <div className="mb-3 flex gap-2">
+                {PLANS.map((p) => (
+                  <Button
+                    key={p}
+                    variant={plan === p ? "default" : "ghost"}
+                    size="sm"
+                    className="flex-1 justify-center"
+                    onClick={() => setPlan(p)}
+                  >
+                    {p}
+                  </Button>
+                ))}
+              </div>
+              <p className="text-xs leading-relaxed text-fg-muted">
+                Pro: разбор эссе, экспорт в PDF, дополнительные фильтры. Premium: личные
+                консультации с ментором и проверка эссе экспертом.
+              </p>
+            </motion.section>
+          )}
 
-          {/* Уведомления */}
-          <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
-            <SectionTitle>Уведомления</SectionTitle>
-            <div className="flex flex-col">
-              {NOTIFICATIONS.map((n) => (
-                <div key={n.label} className="flex items-center justify-between py-2">
-                  <span className="text-[13px]">{n.label}</span>
-                  <Switch defaultChecked={n.on} aria-label={n.label} />
-                </div>
-              ))}
-            </div>
-          </motion.section>
+          {/* Уведомления – legacy only */}
+          {legacy && (
+            <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
+              <SectionTitle>Уведомления</SectionTitle>
+              <div className="flex flex-col">
+                {NOTIFICATIONS.map((n) => (
+                  <div key={n.label} className="flex items-center justify-between py-2">
+                    <span className="text-[13px]">{n.label}</span>
+                    <Switch defaultChecked={n.on} aria-label={n.label} />
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
 
-          {/* Статистика */}
-          <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
-            <SectionTitle>Статистика</SectionTitle>
-            <div className="rounded-xl border border-border bg-card-2 p-4">
-              {stats.map((s, i) => (
-                <div
-                  key={s.label}
-                  className={cn("flex items-center justify-between text-[13px]", i > 0 && "mt-1.5")}
-                >
-                  <span className="text-fg-muted">{s.label}</span>
-                  <b>{s.value}</b>
-                </div>
-              ))}
-            </div>
-          </motion.section>
+          {/* Статистика – legacy only */}
+          {legacy && (
+            <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
+              <SectionTitle>Статистика</SectionTitle>
+              <div className="rounded-xl border border-border bg-card-2 p-4">
+                {stats.map((s, i) => (
+                  <div
+                    key={s.label}
+                    className={cn("flex items-center justify-between text-[13px]", i > 0 && "mt-1.5")}
+                  >
+                    <span className="text-fg-muted">{s.label}</span>
+                    <b>{s.value}</b>
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
 
           {/* Данные */}
           <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
             <SectionTitle>Данные</SectionTitle>
-            <Button variant="ghost" className="w-full justify-start">
-              <Download /> Экспортировать всё в JSON
-            </Button>
+            {legacy ? (
+              <Button variant="ghost" className="w-full justify-start">
+                <Download /> Экспортировать всё в JSON
+              </Button>
+            ) : (
+              <p className="mb-2 text-xs leading-relaxed text-fg-muted">
+                Профиль и план хранятся только в этом браузере. Резервная копия плана – на странице «Мой план».
+              </p>
+            )}
             <Button
               variant="ghost"
               className="mt-1.5 w-full justify-start border border-danger/30 text-danger hover:bg-danger/10 hover:text-danger"
               onClick={() => {
-                if (confirm("Сбросить всё?")) onReset()
+                if (confirm(legacy ? "Сбросить всё?" : "Удалить профиль и план из этого браузера?")) onReset()
               }}
             >
-              <Trash2 /> Сбросить аккаунт
+              <Trash2 /> {legacy ? "Сбросить аккаунт" : "Очистить данные"}
             </Button>
           </motion.section>
         </motion.div>

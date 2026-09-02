@@ -34,13 +34,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
+import { FEATURES } from "@/lib/features"
+import type { ChinaProfile, Degree, LanguagePref } from "@/lib/match"
+import { getPartner } from "@/lib/partner"
 import { cn } from "@/lib/utils"
+import { PolicyContent } from "@/pages/Policy"
 
 /* ============================================================
-   Onboarding – full port of the legacy onboarding.html wizard
-   (13 screens) merged with the app's signature letter-fly intro.
-   Storage contract is byte-compatible with legacy finishOnboarding().
+   Onboarding.
+   - «Китай» (default market): the five-screen wizard at the bottom of this
+     file (spec §3.5), profile → admitica.cn.profile via the shell.
+   - Europe (VITE_MARKET=europe): the legacy 13-screen wizard below
+     (`LegacyOnboarding`), kept intact behind the flag – full port of the
+     legacy onboarding.html merged with the letter-fly intro; its storage
+     contract is byte-compatible with legacy finishOnboarding().
+   The default export picks one by FEATURES.market.
    ============================================================ */
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -590,11 +600,11 @@ function Reel({ to }: { to: number }) {
 /* ============================================================
    Main component
    ============================================================ */
-export interface OnboardingProps {
+interface LegacyOnboardingProps {
   onDone: (name: string) => void
 }
 
-export default function Onboarding({ onDone }: OnboardingProps) {
+function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
   const reduced = useReducedMotion()
   const [screen, setScreen] = useState(1)
 
@@ -792,7 +802,7 @@ export default function Onboarding({ onDone }: OnboardingProps) {
       const ids = (idsOverride ?? savedSel).filter((x) => /^[ugi]\d+$/.test(x))
       const out: Record<string, unknown> = {
         ...profile,
-        langs: langRows.map(({ key: _key, ...entry }) => entry),
+        langs: langRows.map((r): LangEntry => ({ lang: r.lang, level: r.level, cert: r.cert, score: r.score })),
         savedProgramIds: ids,
       }
       localStorage.setItem("admitica.onboardingProfile", JSON.stringify(out))
@@ -811,8 +821,10 @@ export default function Onboarding({ onDone }: OnboardingProps) {
 
   /* progress chrome – same formula as legacy progressWidth() */
   const pw = screen < 2 || screen > 11 ? null : 11 + ((screen - 2) * (100 - 11)) / 9
-  const lastPw = useRef(11)
-  if (pw !== null) lastPw.current = pw
+  // Last visible width, kept as state (adjusted during render) so the bar can
+  // fade out on its final value instead of jumping back.
+  const [lastPw, setLastPw] = useState(11)
+  if (pw !== null && pw !== lastPw) setLastPw(pw)
 
   const budgetTone: BudgetTone = /беспл/i.test(profile.budget) ? "free" : /∞/.test(profile.budget) ? "inf" : "norm"
 
@@ -1554,7 +1566,7 @@ export default function Onboarding({ onDone }: OnboardingProps) {
       >
         <div
           className="h-full rounded-r-full bg-accent transition-[width] duration-500 ease-[var(--ease-out-soft)]"
-          style={{ width: `${pw ?? lastPw.current}%` }}
+          style={{ width: `${pw ?? lastPw}%` }}
         />
       </div>
 
@@ -1875,5 +1887,428 @@ function LangDropdown({
         )}
       </AnimatePresence>
     </div>
+  )
+}
+
+/* ============================================================
+   «Китай» – five-screen onboarding (spec §3.5)
+   (1) степень + год подачи · (2) направление · (3) язык обучения ·
+   (4) HSK / IELTS · (5) бюджет в год.
+   No name (COLLECT_NAME stays false). The profile is returned to the shell,
+   which persists it under `admitica.cn.profile` (PROFILE_KEY in lib/match.ts).
+   The legacy 13-screen wizard above stays behind FEATURES.market === "europe".
+   ============================================================ */
+
+interface ChinaFieldOption {
+  val: string
+  label: string
+  Icon: IconType
+}
+
+/** Fields of study of the «Китай» onboarding – `ChinaProfile.field` holds `val`.
+ *  (Kept in this file: react-refresh forbids non-component exports here.) */
+const CHINA_FIELDS: ChinaFieldOption[] = [
+  { val: "it", label: "IT и технологии", Icon: Laptop },
+  { val: "business", label: "Бизнес и экономика", Icon: ChartColumn },
+  { val: "engineering", label: "Инженерия", Icon: Cog },
+  { val: "medicine", label: "Медицина", Icon: HeartPulse },
+  { val: "chinese", label: "Китайский язык и филология", Icon: Languages },
+  { val: "law", label: "Право и международные отношения", Icon: Scale },
+  { val: "humanities", label: "Гуманитарные науки", Icon: BookOpen },
+  { val: "science", label: "Точные и естественные науки", Icon: FlaskConical },
+  { val: "design", label: "Искусство и дизайн", Icon: PenTool },
+  { val: "undecided", label: "Ещё не решил", Icon: CircleQuestionMark },
+]
+
+const CN_DEGREES: { val: Degree; Icon: IconType; title: string; sub: string }[] = [
+  { val: "bachelor", Icon: GraduationCap, title: "Бакалавриат", sub: "После школы или колледжа" },
+  { val: "master", Icon: BookOpen, title: "Магистратура", sub: "После бакалавриата" },
+]
+
+const CN_YEARS = [2026, 2027, 2028] as const
+
+const CN_LANGUAGES: { val: LanguagePref; title: string; sub: string }[] = [
+  { val: "zh", title: "Китайский", sub: "Программы на китайском: обычно нужен сертификат HSK" },
+  { val: "en", title: "Английский", sub: "Программы на английском: обычно нужен IELTS или TOEFL" },
+  { val: "any", title: "Любой", sub: "Покажем все программы, язык уточните позже" },
+]
+
+const HSK_LEVELS = [1, 2, 3, 4, 5, 6] as const
+const IELTS_BANDS = [5, 5.5, 6, 6.5, 7, 7.5] as const
+
+const CN_BUDGET_MIN = 10_000
+const CN_BUDGET_MAX = 150_000
+const CN_BUDGET_STEP = 5_000
+const CN_BUDGET_DEFAULT = 60_000
+const CN_SCREENS = 5
+
+/** Profile input (not a fact): thousands with a narrow space + «¥». */
+const fmtYuan = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ¥"
+/** IELTS bands as printed on the certificate: 6.0, 6.5. */
+const fmtBand = (n: number) => (Number.isInteger(n) ? `${n}.0` : String(n))
+
+function clampBudget(raw: number | null | undefined): number {
+  if (typeof raw !== "number" || !Number.isFinite(raw)) return CN_BUDGET_DEFAULT
+  const stepped = Math.round(raw / CN_BUDGET_STEP) * CN_BUDGET_STEP
+  return Math.min(CN_BUDGET_MAX, Math.max(CN_BUDGET_MIN, stepped))
+}
+
+/** Small pill for HSK levels / IELTS bands («Нет» + values). */
+function LevelPill({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={on}
+      onClick={onClick}
+      className={cn(
+        "h-11 min-w-0 rounded-xl border px-2 text-sm font-bold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+        on ? "border-transparent bg-accent text-accent-fg" : "border-border bg-card text-fg hover:border-accent/40",
+      )}
+    >
+      {children}
+    </button>
+  )
+}
+
+function CnNav({
+  onBack,
+  backLabel = "Назад",
+  onNext,
+  nextDisabled,
+  nextLabel = "Дальше",
+}: {
+  onBack?: () => void
+  backLabel?: string
+  onNext: () => void
+  nextDisabled?: boolean
+  nextLabel?: string
+}) {
+  return (
+    <div className="mt-7 flex items-center gap-3">
+      {onBack && (
+        <Button variant="secondary" size="xl" className="px-5" onClick={onBack}>
+          {backLabel}
+        </Button>
+      )}
+      <Button size="xl" className="flex-1" onClick={onNext} disabled={nextDisabled}>
+        {nextLabel}
+      </Button>
+    </div>
+  )
+}
+
+interface ChinaOnboardingProps {
+  onDone: (profile: ChinaProfile) => void
+  /** Prefill when the wizard is reopened over an existing profile. */
+  initial?: ChinaProfile | null
+  /** Present when reopened over an existing profile – shown as «Закрыть» on the first screen. */
+  onCancel?: () => void
+}
+
+function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
+  const partner = getPartner()
+  const [screen, setScreen] = useState(1)
+  const [degree, setDegree] = useState<Degree | null>(initial?.degree ?? null)
+  const [year, setYear] = useState<number | null>(initial?.year ?? null)
+  const [field, setField] = useState<string | null>(initial?.field ?? null)
+  const [language, setLanguage] = useState<LanguagePref | null>(initial?.language ?? null)
+  const [hsk, setHsk] = useState<number | null>(initial?.hsk ?? null)
+  const [ielts, setIelts] = useState<number | null>(initial?.ielts ?? null)
+  const [budget, setBudget] = useState<number>(() => clampBudget(initial?.budget_year_cny))
+  const [policyOpen, setPolicyOpen] = useState(false)
+  const doneRef = useRef(false)
+
+  const showHsk = language !== "en"
+  const showIelts = language !== "zh"
+
+  const canNext = (): boolean => {
+    switch (screen) {
+      case 1:
+        return degree !== null && year !== null
+      case 2:
+        return field !== null
+      case 3:
+        return language !== null
+      default:
+        return true
+    }
+  }
+
+  const back = () => setScreen((s) => Math.max(1, s - 1))
+  const next = () => {
+    window.scrollTo(0, 0)
+    setScreen((s) => Math.min(CN_SCREENS, s + 1))
+  }
+
+  const finish = () => {
+    if (doneRef.current) return
+    doneRef.current = true
+    onDone({
+      degree,
+      year,
+      field,
+      language,
+      hsk: showHsk ? hsk : null,
+      ielts: showIelts ? ielts : null,
+      budget_year_cny: budget,
+    })
+  }
+
+  const renderScreen = () => {
+    switch (screen) {
+      /* -------- 1 – degree + application year -------- */
+      case 1:
+        return (
+          <div>
+            <Kicker>Степень и год</Kicker>
+            <Heading>Куда и когда подаётесь?</Heading>
+            <Subtext>Степень и год подачи документов</Subtext>
+            <div className="mt-5 flex flex-col gap-2.5">
+              {CN_DEGREES.map((o) => (
+                <OptionCard key={o.val} selected={degree === o.val} onClick={() => setDegree(o.val)}>
+                  <IconTile Icon={o.Icon} />
+                  <span className="pr-6">
+                    <span className="block text-base font-semibold">{o.title}</span>
+                    <span className="mt-0.5 block text-xs text-fg-muted">{o.sub}</span>
+                  </span>
+                </OptionCard>
+              ))}
+            </div>
+            <div className="mt-6 text-xs font-semibold tracking-widest text-fg-muted uppercase">Год подачи</div>
+            <div className="mt-2.5 grid grid-cols-3 gap-2.5">
+              {CN_YEARS.map((y) => (
+                <OptionCard
+                  key={y}
+                  selected={year === y}
+                  onClick={() => setYear(y)}
+                  className="min-h-14 justify-center p-3 text-center"
+                >
+                  <span className="text-[15px] font-semibold">{y}</span>
+                </OptionCard>
+              ))}
+            </div>
+            <CnNav
+              onBack={onCancel}
+              backLabel="Закрыть"
+              onNext={next}
+              nextDisabled={!canNext()}
+            />
+          </div>
+        )
+
+      /* -------- 2 – field of study -------- */
+      case 2:
+        return (
+          <div>
+            <Kicker>Направление</Kicker>
+            <Heading>Что хотите изучать?</Heading>
+            <Subtext>Одно направление – по нему подберём вузы</Subtext>
+            <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+              {CHINA_FIELDS.map((o) => (
+                <OptionCard
+                  key={o.val}
+                  selected={field === o.val}
+                  onClick={() => setField(o.val)}
+                  className="min-h-21 flex-col items-start justify-center gap-1.5 p-3"
+                >
+                  <o.Icon className="size-6 text-accent-text" />
+                  <span className="pr-5 text-[13px] leading-tight font-medium">{o.label}</span>
+                </OptionCard>
+              ))}
+            </div>
+            <CnNav onBack={back} onNext={next} nextDisabled={!canNext()} />
+          </div>
+        )
+
+      /* -------- 3 – language of instruction -------- */
+      case 3:
+        return (
+          <div>
+            <Kicker>Язык обучения</Kicker>
+            <Heading>На каком языке хотите учиться?</Heading>
+            <Subtext>От этого зависит, какой сертификат спросим дальше</Subtext>
+            <div className="mt-5 flex flex-col gap-2.5">
+              {CN_LANGUAGES.map((o) => (
+                <OptionCard key={o.val} selected={language === o.val} onClick={() => setLanguage(o.val)}>
+                  <IconTile Icon={o.val === "any" ? Globe : Languages} />
+                  <span className="pr-6">
+                    <span className="block text-base font-semibold">{o.title}</span>
+                    <span className="mt-0.5 block text-xs text-fg-muted">{o.sub}</span>
+                  </span>
+                </OptionCard>
+              ))}
+            </div>
+            <CnNav onBack={back} onNext={next} nextDisabled={!canNext()} />
+          </div>
+        )
+
+      /* -------- 4 – HSK / IELTS -------- */
+      case 4:
+        return (
+          <div>
+            <Kicker>Сертификаты</Kicker>
+            <Heading>Какой у вас уровень языка?</Heading>
+            <Subtext>Если сертификата пока нет, выберите «Нет» – в каталоге покажем, какого уровня не хватает</Subtext>
+            {showHsk && (
+              <div className="mt-5">
+                <div className="text-xs font-semibold tracking-widest text-fg-muted uppercase">HSK</div>
+                <div className="mt-2.5 grid grid-cols-4 gap-2 sm:grid-cols-7">
+                  <LevelPill on={hsk === null} onClick={() => setHsk(null)}>
+                    Нет
+                  </LevelPill>
+                  {HSK_LEVELS.map((l) => (
+                    <LevelPill key={l} on={hsk === l} onClick={() => setHsk(l)}>
+                      {l}
+                    </LevelPill>
+                  ))}
+                </div>
+              </div>
+            )}
+            {showIelts && (
+              <div className="mt-5">
+                <div className="text-xs font-semibold tracking-widest text-fg-muted uppercase">IELTS</div>
+                <div className="mt-2.5 grid grid-cols-4 gap-2 sm:grid-cols-7">
+                  <LevelPill on={ielts === null} onClick={() => setIelts(null)}>
+                    Нет
+                  </LevelPill>
+                  {IELTS_BANDS.map((b) => (
+                    <LevelPill key={b} on={ielts === b} onClick={() => setIelts(b)}>
+                      {fmtBand(b)}
+                    </LevelPill>
+                  ))}
+                </div>
+              </div>
+            )}
+            <CnNav onBack={back} onNext={next} />
+          </div>
+        )
+
+      /* -------- 5 – budget per year -------- */
+      case 5:
+        return (
+          <div>
+            <Kicker>Бюджет</Kicker>
+            <Heading>Сколько готовы платить за обучение в год?</Heading>
+            <Subtext>Только стоимость обучения, без общежития. В каталоге сравним с опубликованной ценой</Subtext>
+            <div className="mt-8">
+              <motion.div
+                key={budget}
+                initial={{ opacity: 0.5, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.12 }}
+                className="text-center text-4xl font-extrabold tracking-tight sm:text-[44px]"
+              >
+                {fmtYuan(budget)}
+                <span className="ml-2 text-base font-medium text-fg-muted">в год</span>
+              </motion.div>
+              <input
+                type="range"
+                min={CN_BUDGET_MIN}
+                max={CN_BUDGET_MAX}
+                step={CN_BUDGET_STEP}
+                value={budget}
+                onChange={(e) => setBudget(+e.target.value)}
+                className="mt-6 w-full accent-accent"
+                aria-label="Бюджет на обучение в год, юаней"
+              />
+              <div className="mt-2 flex justify-between text-xs text-fg-muted">
+                <span>{fmtYuan(CN_BUDGET_MIN)}</span>
+                <span>{fmtYuan(CN_BUDGET_MAX)}</span>
+              </div>
+            </div>
+            <CnNav onBack={back} onNext={finish} nextLabel="Показать каталог" />
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
+  return (
+    <div className="relative min-h-dvh">
+      <div className="hero-glow pointer-events-none fixed inset-0 opacity-50" />
+
+      {/* progress chrome */}
+      <div aria-hidden className="fixed inset-x-0 top-0 z-20 h-1 bg-fg/8">
+        <div
+          className="h-full rounded-r-full bg-accent transition-[width] duration-500 ease-[var(--ease-out-soft)]"
+          style={{ width: `${(screen / CN_SCREENS) * 100}%` }}
+        />
+      </div>
+
+      <div className="relative mx-auto w-full max-w-xl px-5 pt-10 pb-12 sm:px-6">
+        <div className="mb-8 flex items-center justify-between gap-3">
+          <span className="text-lg font-bold tracking-tight">
+            {partner.name}
+            <span className="text-accent-text">.</span>
+          </span>
+          <span className="text-xs font-medium text-fg-muted">
+            Шаг {screen} из {CN_SCREENS}
+          </span>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={screen}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10, transition: { duration: 0.2, ease: EASE } }}
+            transition={{ duration: 0.28, ease: EASE }}
+          >
+            {renderScreen()}
+          </motion.div>
+        </AnimatePresence>
+
+        <p className="mt-8 text-center text-xs leading-relaxed text-fg-faint">
+          Ответы хранятся только в вашем браузере, имя и контакты мы не спрашиваем.{" "}
+          <button
+            type="button"
+            onClick={() => setPolicyOpen(true)}
+            className="text-fg-muted underline underline-offset-2 transition-colors hover:text-fg"
+          >
+            Политика и дисклеймер
+          </button>
+        </p>
+      </div>
+
+      <Dialog open={policyOpen} onOpenChange={(o) => !o && setPolicyOpen(false)}>
+        <DialogContent aria-describedby={undefined} className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Политика и дисклеймер</DialogTitle>
+          </DialogHeader>
+          <PolicyContent compact />
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
+
+/* ============================================================
+   Entry – picks the wizard by market flag
+   ============================================================ */
+
+export type OnboardingResult =
+  | { market: "china"; profile: ChinaProfile }
+  | { market: "europe"; name: string }
+
+export interface OnboardingProps {
+  onDone: (result: OnboardingResult) => void
+  /** «Китай»: prefill when reopened over an existing profile. */
+  initial?: ChinaProfile | null
+  /** «Китай»: close without saving (only offered when a profile already exists). */
+  onCancel?: () => void
+}
+
+export default function Onboarding({ onDone, initial, onCancel }: OnboardingProps) {
+  if (FEATURES.market === "europe") {
+    return <LegacyOnboarding onDone={(name) => onDone({ market: "europe", name })} />
+  }
+  return (
+    <ChinaOnboarding
+      initial={initial}
+      onCancel={onCancel}
+      onDone={(profile) => onDone({ market: "china", profile })}
+    />
   )
 }

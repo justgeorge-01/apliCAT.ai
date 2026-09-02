@@ -10,7 +10,11 @@
       } catch (e) {}
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Admitica — Поступление в Европу</title>
+    <title>Abitura</title>
+    <meta
+      name="description"
+      content="Abitura: поступление в Китай. Каталог вузов с проверенными фактами с официальных страниц, фильтр по формальным условиям и план подачи в браузере."
+    />
     <!-- Favicons: PNG first, SVG last (Chrome picks the last supported; Safari skips SVG) -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -21,10 +25,13 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <!-- Document export libs used by src/downloads.js (same CDN builds as the legacy site) -->
-    <script defer src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
-    <script defer src="https://unpkg.com/pdfmake@0.2.10/build/pdfmake.min.js"></script>
-    <script defer src="https://unpkg.com/pdfmake@0.2.10/build/vfs_fonts.js"></script>
+    <!--
+      The document-export CDN scripts (docx / pdfmake from unpkg) used by the
+      legacy src/downloads.js are intentionally NOT loaded in this build: the
+      «Китай» storefront makes no external calls (spec), and the screens that
+      export documents (Essay / Resume) are behind FEATURES.ai. Restore the
+      three <script defer src="https://unpkg.com/…"> tags together with the flag.
+    -->
   </head>
   <body>
     <div id="root"></div>
