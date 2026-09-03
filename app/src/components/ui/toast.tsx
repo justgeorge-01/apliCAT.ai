@@ -5,7 +5,8 @@ import { ToastCtx } from "@/components/ui/use-toast"
 
 /**
  * Minimal toast – API mirrors the legacy ToastCtx (a single `show(message)`
- * function, auto-hides after 2.5s).
+ * function, auto-hides after 2.5s). Inverted surface (ink on paper, paper on
+ * ink) so it reads in both themes without a glow.
  */
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [msg, setMsg] = React.useState<string | null>(null)
@@ -31,7 +32,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 8, scale: 0.98 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="pointer-events-auto rounded-xl border border-border-strong bg-card-2 px-4 py-2.5 text-sm font-medium text-fg shadow-xl"
+              className="pointer-events-auto rounded-lg border border-fg/20 bg-fg px-4 py-2.5 text-sm font-medium text-bg shadow-lg"
               role="status"
             >
               {msg}

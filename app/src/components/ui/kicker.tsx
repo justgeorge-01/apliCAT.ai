@@ -4,8 +4,10 @@ import { cn } from "@/lib/utils"
 
 /**
  * Section kicker / micro-label – the single canonical treatment for
- * uppercase eyebrow labels across the app.
- * Accent variant is reserved for AI/feature callouts.
+ * uppercase eyebrow labels across the app (Noto Sans 600, wide tracking).
+ * Accent variant paints it red (gold in the ink theme) – for section heads
+ * and feature callouts. For a Han character plus its Russian meaning use
+ * `HanziKicker` instead.
  */
 function Kicker({
   as: Tag = "div",
@@ -17,7 +19,7 @@ function Kicker({
     <Tag
       data-slot="kicker"
       className={cn(
-        "text-xs font-semibold tracking-widest uppercase",
+        "font-body text-xs font-semibold tracking-[0.14em] uppercase",
         accent ? "text-accent-text" : "text-fg-muted",
         className,
       )}
