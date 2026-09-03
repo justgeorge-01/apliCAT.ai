@@ -4,6 +4,7 @@ import { FactItem, FactRow } from "@/components/FactRow"
 import { Badge } from "@/components/ui/badge"
 import { cscaStatus, factsOf, formatCheckedAt, lastChecked, type CscaStatus } from "@/data/china"
 import type { University } from "@/data/china.types"
+import { cn } from "@/lib/utils"
 
 /**
  * The phased CSCA roll-out, as the storefront states it (spec §3.1 / §3.3).
@@ -38,10 +39,12 @@ export interface CscaBlockProps {
 }
 
 /**
- * The CSCA row of the university card: status badge, the `csca_required` fact
- * with provenance, the `csca_subjects` facts (modules) beneath it, and the
- * honest footnote about the phased roll-out. When the university has not
- * stated the requirement the row reads «вуз не заявил · проверено <дата>».
+ * The CSCA row of the university card – the one row set apart: a red rule
+ * at the left on a faint red wash, the «考试 CSCA» kicker as its label. Inside:
+ * the status badge, the `csca_required` fact with provenance, the
+ * `csca_subjects` facts (modules) beneath it, and the honest footnote about
+ * the phased roll-out. When the university has not stated the requirement
+ * the row reads «вуз не заявил · проверено <дата>».
  */
 export function CscaBlock({ u, className }: CscaBlockProps) {
   const status = cscaStatus(u)
@@ -51,24 +54,29 @@ export function CscaBlock({ u, className }: CscaBlockProps) {
   return (
     <FactRow
       label="CSCA"
+      hanzi="考试"
       facts={required}
       lastCheckedAt={lastChecked(u)}
       critical
       sublabels
       emptyLabel="вуз не заявил"
-      className={className}
-      lead={<Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>}
+      className={cn("my-3 rounded-md border-b-0 border-l-2 border-accent bg-accent-soft px-4 sm:px-5", className)}
+      lead={
+        <div>
+          <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>
+        </div>
+      }
     >
       {subjects.map((f, i) => (
         <FactItem key={`${f.key}:${i}`} fact={f} sublabel={f.label_ru} />
       ))}
-      <p className="text-xs leading-relaxed text-fg-faint">
+      <p className="text-xs leading-relaxed text-fg-muted">
         {CSCA_NOTE.text}{" "}
         <a
           href={CSCA_NOTE.source_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-0.5 whitespace-nowrap text-accent-text hover:underline"
+          className="inline-flex items-center gap-0.5 font-semibold whitespace-nowrap text-accent-text hover:underline"
         >
           <ExternalLink className="size-3" aria-hidden="true" />
           {CSCA_NOTE.source_label}
