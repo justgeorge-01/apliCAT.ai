@@ -106,10 +106,10 @@ export function LeadPopup({
         >
           <DialogPrimitive.Title className="sr-only">{ariaLabel}</DialogPrimitive.Title>
 
-          {/* The card – dark surface in dark theme, white in light. */}
+          {/* The card – white on paper, graphite in the ink theme. */}
           <div
             className={cn(
-              "relative w-full overflow-y-auto rounded-2xl border border-border",
+              "relative w-full overflow-y-auto rounded-lg border border-border",
               "bg-card p-6 text-fg shadow-2xl",
             )}
             // Cap against the real available space: leaves room for the skip
@@ -132,17 +132,17 @@ export function LeadPopup({
             {children}
           </div>
 
-          {/* Secondary exit: light button on the dark scrim, under the card. */}
+          {/* Secondary exit: paper-outline button on the dark scrim, under the card. */}
           <DialogPrimitive.Close asChild>
             <button
               type="button"
               aria-label="Закрыть окно"
               className={cn(
-                "inline-flex min-h-11 items-center justify-center rounded-full px-6 py-2.5",
-                "text-sm font-semibold text-white",
-                "border border-white/30 bg-white/10 backdrop-blur-sm",
+                "inline-flex min-h-11 items-center justify-center rounded-lg px-6 py-2.5",
+                "text-sm font-semibold text-paper",
+                "border border-paper/40 bg-paper/10 backdrop-blur-sm",
                 "transition-colors duration-200 outline-none",
-                "hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-white/70",
+                "hover:bg-paper/20 focus-visible:ring-2 focus-visible:ring-paper/70",
               )}
             >
               {skipLabel}

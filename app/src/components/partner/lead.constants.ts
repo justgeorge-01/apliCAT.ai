@@ -41,8 +41,11 @@ export const DISMISS_COOLDOWN_DAYS = 0
 /** Backdrop blur strength, in px. */
 export const BLUR_PX = 8
 
-/** Translucent dark tint over the blur so the card + button stay legible. */
-export const OVERLAY_TINT = "rgba(0, 0, 0, 0.35)"
+/**
+ * Translucent ink tint over the blur so the card + button stay legible – the
+ * same `--color-ink` scrim as the app dialog (`bg-ink/60`), a shade lighter.
+ */
+export const OVERLAY_TINT = "color-mix(in srgb, var(--color-ink) 50%, transparent)"
 
 /** Card width cap (desktop). Below `md` the card is `calc(100% - 32px)` up to this. */
 export const CARD_MAX_WIDTH_PX = 440

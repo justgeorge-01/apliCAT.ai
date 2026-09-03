@@ -1,5 +1,5 @@
-import { MessageCircle } from "lucide-react"
-
+import { Button } from "@/components/ui/button"
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import type { Partner, PartnerLead } from "@/lib/partner"
 
 export interface LeadInviteProps {
@@ -23,11 +23,12 @@ export function LeadInvite({ partner, onAccept }: LeadInviteProps) {
 
   return (
     <div className="flex flex-col items-center text-center">
-      <span className="grid size-12 place-items-center rounded-2xl bg-accent-soft text-accent-text">
-        <MessageCircle className="size-6" />
-      </span>
+      {/* 导师 «наставник» – the kicker of the invite, never a bare character */}
+      <HanziKicker hanzi="导师" className="justify-center">
+        Наставник
+      </HanziKicker>
 
-      <h2 className="mt-4 text-xl font-bold tracking-tight text-fg">{title}</h2>
+      <h2 className="mt-3 text-xl leading-snug font-bold text-balance text-accent-text">{title}</h2>
 
       {paragraphs.map((p, i) => (
         <p key={i} className="mt-2 text-sm leading-relaxed text-fg-muted">
@@ -36,17 +37,13 @@ export function LeadInvite({ partner, onAccept }: LeadInviteProps) {
       ))}
 
       {/* A plain link (not window.open): the only outbound action of the popup. */}
-      <a
-        href={partner.lead.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onAccept}
-        className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-fg shadow-[0_8px_24px_-8px_var(--color-accent-glow)] transition-all duration-200 outline-none hover:brightness-110 focus-visible:ring-2 focus-visible:ring-accent/60"
-      >
-        {partner.lead.label}
-      </a>
+      <Button asChild size="xl" className="mt-6 w-full">
+        <a href={partner.lead.url} target="_blank" rel="noopener noreferrer" onClick={onAccept}>
+          {partner.lead.label}
+        </a>
+      </Button>
 
-      <p className="mt-3 text-xs text-fg-faint">
+      <p className="mt-3 text-xs text-fg-muted">
         Откроется Телеграм в новой вкладке. Мы ничего туда не передаём – напишете сами.
       </p>
     </div>

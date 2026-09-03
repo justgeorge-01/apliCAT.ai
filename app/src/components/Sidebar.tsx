@@ -11,6 +11,7 @@ import {
   Settings,
 } from "lucide-react"
 
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { FEATURES } from "@/lib/features"
 import { isProgramsTab, mainTabs, PROGRAMS_SUBTABS, type NavItem, type Tab } from "@/lib/nav"
 import type { Partner } from "@/lib/partner"
@@ -20,7 +21,19 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 type IconType = React.ComponentType<{ className?: string }>
 
-/** Icon per tab id – the labels live in lib/nav.ts. */
+/**
+ * Han-character kicker per «Китай» tab – the Russian label lives in lib/nav.ts
+ * and always sits next to the glyphs (DESIGN.md: never a character on its own).
+ *  首页 «главная страница» · 大学 «университеты» (Каталог) · 我的计划 «мой план».
+ * Legacy tabs (Europe / AI) have no kicker and keep a lucide icon.
+ */
+const HANZI: Partial<Record<Tab, string>> = {
+  home: "首页",
+  find: "大学",
+  plan: "我的计划",
+}
+
+/** Icon per tab id – used where there is no Han kicker. */
 const ICONS: Record<Tab, IconType> = {
   home: Home,
   find: Search,
@@ -85,7 +98,7 @@ export interface SidebarProps {
   animateIn?: boolean
 }
 
-/** Brand block of the header – partner logo when present, else the name with the accent dot. */
+/** Brand block – partner logo when present, else the name in Playfair with the red full stop. */
 function Brand({ partner, size = "base" }: { partner: Partner; size?: "base" | "lg" }) {
   if (partner.logo) {
     return (
@@ -97,12 +110,20 @@ function Brand({ partner, size = "base" }: { partner: Partner; size?: "base" | "
     )
   }
   return (
-    <span className={cn("font-bold tracking-tight", size === "lg" ? "text-lg" : "text-base")}>
+    <span
+      className={cn(
+        "font-display leading-none font-extrabold tracking-tight text-fg",
+        size === "lg" ? "text-[22px]" : "text-lg",
+      )}
+    >
       {partner.name}
       <span className="text-accent-text">.</span>
     </span>
   )
 }
+
+/** Uppercase, tracked menu label – the same treatment as the Han kicker's Russian half. */
+const LABEL = "text-[13px] font-semibold tracking-[0.14em] uppercase"
 
 function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
   const items = mainTabs()
@@ -111,14 +132,15 @@ function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
 
   const renderItem = (it: NavItem) => {
     const Icon = ICONS[it.id]
+    const hanzi = HANZI[it.id]
     const withSub = it.id === "p_saved"
     const isActive = withSub ? isProgramsTab(tab) : tab === it.id
     return (
       <div key={it.id}>
         <button
           className={cn(
-            "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
-            isActive ? "bg-accent-soft text-accent-text" : "text-fg-muted hover:bg-fg/5 hover:text-fg",
+            "relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+            isActive ? "bg-accent-soft text-fg" : "text-fg-muted hover:bg-fg/5 hover:text-fg",
           )}
           aria-current={isActive ? "page" : undefined}
           onClick={() => {
@@ -130,8 +152,18 @@ function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
             }
           }}
         >
-          <Icon className="size-4.5 shrink-0" />
-          <span className="min-w-0 flex-1 truncate text-left">{it.label}</span>
+          {/* active mark – a thin red bar on the left edge */}
+          {isActive && <span aria-hidden className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-accent" />}
+          {hanzi ? (
+            <HanziKicker as="span" hanzi={hanzi} className={cn("min-w-0 flex-1 text-[13px] text-inherit")}>
+              {it.label}
+            </HanziKicker>
+          ) : (
+            <>
+              <Icon className="size-4.5 shrink-0" />
+              <span className={cn("min-w-0 flex-1 truncate", LABEL)}>{it.label}</span>
+            </>
+          )}
           {withSub && (
             <ChevronDown className={cn("size-3.5 shrink-0 transition-transform duration-200", progExpanded && "rotate-180")} />
           )}
@@ -158,23 +190,24 @@ function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      {/* brand */}
-      <div className="flex flex-col px-5 pt-6 pb-5">
+      {/* brand – letterhead: name, tagline, a thin red rule beneath */}
+      <div className="flex flex-col px-5 pt-7 pb-5">
         <Brand partner={partner} size="lg" />
         {partner.tagline && (
-          <span className="mt-1.5 text-xs leading-snug text-fg-faint">{partner.tagline}</span>
+          <span className="mt-2 text-xs leading-snug text-fg-muted">{partner.tagline}</span>
         )}
       </div>
+      <div aria-hidden className="rule-accent mx-5 mb-4" />
 
       {/* nav */}
-      <nav className="flex-1 overflow-y-auto px-3" aria-label="Основная навигация">
+      <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3" aria-label="Основная навигация">
         {items.map(renderItem)}
       </nav>
 
       {/* socials – legacy European site only */}
       {showSocials && (
         <div className="px-5 pb-3">
-          <div className="mb-2 text-xs font-semibold tracking-widest text-fg-muted uppercase">Соцсети</div>
+          <div className="mb-2 text-xs font-semibold tracking-[0.14em] text-fg-muted uppercase">Соцсети</div>
           <div className="flex items-center gap-1">
             {SOCIALS.map((s) => (
               <a
@@ -194,10 +227,10 @@ function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
 
       {/* settings */}
       <button
-        className="mx-3 mb-4 flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-colors duration-200 outline-none hover:bg-fg/5 focus-visible:ring-2 focus-visible:ring-accent/60"
+        className="mx-3 mb-4 flex items-center gap-3 rounded-lg border border-border bg-card p-3 text-left transition-colors duration-200 outline-none hover:border-border-strong focus-visible:ring-2 focus-visible:ring-accent/60"
         onClick={onSettings}
       >
-        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent-soft text-accent-text">
+        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent-text">
           <Settings className="size-4" />
         </span>
         <span className="min-w-0 flex-1">
@@ -215,7 +248,7 @@ export function Sidebar(props: SidebarProps) {
 
   return (
     <>
-      {/* Desktop rail */}
+      {/* Desktop rail – a cream column with the red letterhead rule */}
       <motion.aside
         initial={animateIn ? { x: -32, opacity: 0 } : false}
         animate={{ x: 0, opacity: 1 }}
@@ -225,11 +258,11 @@ export function Sidebar(props: SidebarProps) {
         <NavContent {...props} />
       </motion.aside>
 
-      {/* Mobile top bar: brand · settings */}
-      <header className="sticky top-0 z-40 flex h-14 items-center gap-2 border-b border-border bg-bg/80 px-4 backdrop-blur-xl lg:hidden">
+      {/* Mobile top bar: brand · settings, a thin red rule beneath */}
+      <header className="sticky top-0 z-40 flex h-14 items-center gap-2 border-b border-accent bg-surface/90 px-4 backdrop-blur-xl lg:hidden">
         <Brand partner={partner} />
         <button
-          className="ml-auto grid size-9 shrink-0 place-items-center rounded-full text-fg-muted outline-none hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-accent/60"
+          className="ml-auto grid size-9 shrink-0 place-items-center rounded-lg text-fg-muted outline-none hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-accent/60"
           aria-label="Настройки"
           onClick={onSettings}
         >
@@ -237,14 +270,16 @@ export function Sidebar(props: SidebarProps) {
         </button>
       </header>
 
-      {/* Mobile bottom tab bar – replaces the sidebar below lg */}
+      {/* Mobile bottom tab bar – replaces the sidebar below lg. The Han kicker
+          stands in for the icon; the active tab carries a red bar on top. */}
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/85 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
         aria-label="Основная навигация"
       >
         <div className="mx-auto flex max-w-md items-stretch">
           {mobileTabs.map((t) => {
             const Icon = ICONS[t.id]
+            const hanzi = HANZI[t.id]
             const active = t.id === "p_saved" ? isProgramsTab(tab) : tab === t.id
             return (
               <button
@@ -252,12 +287,26 @@ export function Sidebar(props: SidebarProps) {
                 onClick={() => setTab(t.id)}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex min-w-0 flex-1 flex-col items-center gap-1 px-1 pt-2.5 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
-                  active ? "text-accent-text" : "text-fg-faint",
+                  "relative flex min-w-0 flex-1 flex-col items-center gap-1.5 px-1 pt-2.5 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+                  active ? "text-accent-text" : "text-fg-muted",
                 )}
               >
-                <Icon className={cn("size-5 transition-transform duration-200", active && "scale-110")} />
-                <span className={cn("truncate text-[10px] leading-none", active ? "font-semibold" : "font-medium")}>
+                {active && <span aria-hidden className="absolute inset-x-4 top-0 h-0.5 rounded-b-full bg-accent" />}
+                <span className="flex h-5 items-center">
+                  {hanzi ? (
+                    <span lang="zh-Hans" translate="no" className="font-cjk text-[17px] leading-none font-semibold">
+                      {hanzi}
+                    </span>
+                  ) : (
+                    <Icon className="size-5" />
+                  )}
+                </span>
+                <span
+                  className={cn(
+                    "truncate text-[10px] leading-none tracking-[0.08em] uppercase",
+                    active ? "font-semibold" : "font-medium",
+                  )}
+                >
                   {t.short}
                 </span>
               </button>
@@ -265,10 +314,12 @@ export function Sidebar(props: SidebarProps) {
           })}
           <button
             onClick={onSettings}
-            className="flex min-w-0 flex-1 flex-col items-center gap-1 px-1 pt-2.5 pb-2 text-fg-faint outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            className="flex min-w-0 flex-1 flex-col items-center gap-1.5 px-1 pt-2.5 pb-2 text-fg-muted outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
           >
-            <Settings className="size-5" />
-            <span className="truncate text-[10px] leading-none font-medium">Настройки</span>
+            <span className="flex h-5 items-center">
+              <Settings className="size-5" />
+            </span>
+            <span className="truncate text-[10px] leading-none font-medium tracking-[0.08em] uppercase">Настройки</span>
           </button>
         </div>
       </nav>

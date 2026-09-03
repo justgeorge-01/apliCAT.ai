@@ -17,7 +17,7 @@ const stagger = {
 }
 
 /** Date of the last wording change – shown at the top of the page. */
-export const POLICY_UPDATED_AT = "2 сентября 2026"
+export const POLICY_UPDATED_AT = "3 сентября 2026"
 
 interface Section {
   title: string
@@ -84,7 +84,7 @@ function policySections(): Section[] {
     {
       title: "Внешние ссылки и ресурсы",
       paragraphs: [
-        "Внешние ссылки на сайте – официальные страницы вузов и Телеграм наставника, если он подключён. Шрифт Inter загружается с Google Fonts – это единственный сторонний ресурс, который использует сайт.",
+        "Внешние ссылки на сайте – официальные страницы вузов и Телеграм наставника, если он подключён. Шрифты Playfair Display и Noto Sans загружаются с Google Fonts – это единственный сторонний ресурс, который использует сайт.",
       ],
     },
     {
@@ -101,7 +101,7 @@ export function PolicyContent({ compact = false }: { compact?: boolean }) {
     <div className={compact ? "flex flex-col gap-5" : "flex flex-col gap-6"}>
       {sections.map((s) => (
         <section key={s.title}>
-          <h3 className={compact ? "text-sm font-semibold" : "text-base font-semibold"}>{s.title}</h3>
+          <h3 className={compact ? "text-sm font-bold" : "text-lg font-bold"}>{s.title}</h3>
           {s.paragraphs?.map((p, i) => (
             <p key={i} className="mt-2 text-sm leading-relaxed text-fg-muted">
               {p}
@@ -137,11 +137,15 @@ export default function Policy({ onBack }: PolicyProps) {
   return (
     <motion.div variants={stagger} initial="hidden" animate="show" className="mx-auto max-w-3xl">
       <motion.div variants={fadeUp}>
-        <Button variant="ghost" size="sm" onClick={onBack} className="-ml-2">
+        <Button variant="outline" size="sm" onClick={onBack}>
           Назад
         </Button>
-        <Kicker className="mt-4">Abitura</Kicker>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-balance sm:text-4xl">Политика и дисклеймер</h1>
+        <Kicker accent className="mt-4">
+          Abitura
+        </Kicker>
+        <h1 className="mt-2 text-2xl leading-[1.15] text-balance text-accent-text sm:text-4xl">
+          <span className="caps font-extrabold">Политика и дисклеймер</span>
+        </h1>
         <p className="mt-2 text-sm text-fg-muted">Обновлено {POLICY_UPDATED_AT}</p>
       </motion.div>
 
