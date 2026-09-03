@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { motion } from "framer-motion"
-import { Bookmark, CircleAlert, Trash2 } from "lucide-react"
+import { CircleAlert, ClipboardList, Trash2 } from "lucide-react"
 
 import { DeadlineFeed, SourceLink } from "@/components/DeadlineFeed"
 import { DocChecklist } from "@/components/DocChecklist"
 import { PlanBackup, SharePlan } from "@/components/SharePlan"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
 import { applicationDeadline, findUniversity, formatCheckedAt, lastChecked } from "@/data/china"
 import type { Catalog, University } from "@/data/china.types"
 import { getPartner } from "@/lib/partner"
+import { cn } from "@/lib/utils"
 import {
   FIXED_DATES,
   PLAN_STATUSES,
@@ -61,6 +62,50 @@ function useNow(intervalMs = 60_000): Date {
   return now
 }
 
+/* ---------- status segments ---------- */
+
+/**
+ * The application status as segments (the Segmented look: paper track, red
+ * active segment). A local grid rather than `Segmented` because four Russian
+ * labels do not fit a 375px track without scrolling – here they wrap 2 x 2 on
+ * narrow screens and sit in one row from `sm`.
+ */
+function StatusSegments({
+  value,
+  onChange,
+  labelledBy,
+}: {
+  value: PlanStatus
+  onChange: (status: PlanStatus) => void
+  labelledBy: string
+}) {
+  return (
+    <div
+      role="group"
+      aria-labelledby={labelledBy}
+      className="grid grid-cols-2 gap-1 rounded-lg border border-border bg-surface p-1 sm:grid-cols-4"
+    >
+      {PLAN_STATUSES.map((s) => {
+        const on = value === s
+        return (
+          <button
+            key={s}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onChange(s)}
+            className={cn(
+              "rounded-md px-2 py-2 text-center text-[13px] leading-tight font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+              on ? "bg-accent font-semibold text-accent-fg" : "text-fg-muted hover:bg-fg/5 hover:text-fg",
+            )}
+          >
+            {PLAN_STATUS_LABELS_RU[s]}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 /* ---------- university block ---------- */
 
 function UniversityBlock({
@@ -90,7 +135,7 @@ function UniversityBlock({
             <button
               type="button"
               onClick={onOpen}
-              className="rounded-md text-left text-base font-semibold tracking-tight transition-colors duration-200 outline-none hover:text-accent-text focus-visible:ring-2 focus-visible:ring-accent/60"
+              className="rounded-md text-left font-display text-lg leading-tight font-bold tracking-tight transition-colors duration-200 outline-none hover:text-accent-text focus-visible:ring-2 focus-visible:ring-accent/60"
             >
               {u.name_ru ?? u.name}
             </button>
@@ -104,18 +149,12 @@ function UniversityBlock({
           </Button>
         </div>
 
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mt-4 flex flex-col gap-4">
           <div>
-            <Label htmlFor={statusId} className="mb-1.5">
+            <Label id={statusId} className="mb-1.5">
               Статус
             </Label>
-            <Select id={statusId} value={entry.status} onChange={(e) => onStatus(e.target.value as PlanStatus)}>
-              {PLAN_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {PLAN_STATUS_LABELS_RU[s]}
-                </option>
-              ))}
-            </Select>
+            <StatusSegments value={entry.status} onChange={onStatus} labelledBy={statusId} />
           </div>
           <div className="min-w-0">
             <Label className="mb-1.5">Дедлайн подачи</Label>
@@ -177,8 +216,8 @@ function EmptyState({ onOpenCatalog }: { onOpenCatalog?: () => void }) {
   return (
     <motion.div variants={fadeUp}>
       <Card className="flex flex-col items-center gap-0 px-6 py-12 text-center">
-        <Bookmark className="size-9 text-fg-faint" />
-        <h2 className="mt-4 text-lg font-semibold">План пока пуст</h2>
+        <ClipboardList className="size-9 text-fg-faint" strokeWidth={1.5} />
+        <h2 className="mt-4 font-display text-xl font-bold text-accent-text">Начните с каталога</h2>
         <p className="mt-2 max-w-sm text-sm leading-relaxed text-fg-muted">
           Добавьте вузы из каталога кнопкой «В мой план»: здесь появятся их дедлайны, чек-листы документов и
           статусы подачи.
@@ -251,17 +290,16 @@ export default function PlanPage({ catalog, onOpenUniversity, onOpenCatalog, pla
   return (
     <motion.div variants={stagger} initial="hidden" animate="show">
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">Мой план</h1>
+        <HanziKicker hanzi="我的计划">Мой план</HanziKicker>
+        <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance text-accent-text sm:text-4xl">
+          {isEmpty ? "План пока пуст" : `${count} ${pluralRu(count, "вуз", "вуза", "вузов")} в плане`}
+        </h1>
         <p className="mt-2 text-sm text-fg-muted">
           {isEmpty
             ? "Вузы, дедлайны, документы и статусы – в одном месте, только в вашем браузере"
-            : `${count} ${pluralRu(count, "вуз", "вуза", "вузов")} в плане`}
-          {!isEmpty && nextItem && (
-            <>
-              {" · "}
-              ближайшая дата: {nextItem.title}, {daysLeftLabel(nextItem)}
-            </>
-          )}
+            : nextItem
+              ? `Ближайшая дата: ${nextItem.title}, ${daysLeftLabel(nextItem)}`
+              : "Ближайших дат нет"}
         </p>
       </motion.div>
 

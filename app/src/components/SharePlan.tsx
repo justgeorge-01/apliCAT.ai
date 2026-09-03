@@ -1,5 +1,5 @@
 import { useRef, useState, type ChangeEvent } from "react"
-import { Copy, Download, Send, Share2, Upload } from "lucide-react"
+import { Copy, Download, Send, Upload } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -73,23 +73,21 @@ export function SharePlan({ text }: SharePlanProps) {
 
   return (
     <Card className="gap-0 p-5">
-      <Kicker as="h2" className="flex items-center gap-1.5">
-        <Share2 className="size-3.5 text-accent-text" />
-        Поделиться с наставником
-      </Kicker>
+      <Kicker as="h2">Поделиться с наставником</Kicker>
       <p className="mt-2 text-sm leading-relaxed text-fg-muted">
         Текстовый свод: вузы, статусы, ближайшие дедлайны и готовность документов. Отправляется только этот
         текст, ничего больше.
       </p>
 
+      {/* «Поделиться» is a contour button: an ink outline, not a red fill */}
       <div className="mt-4 flex flex-wrap gap-2">
-        <Button asChild>
+        <Button asChild variant="outline">
           <a href={shareUrl(text)} target="_blank" rel="noopener noreferrer">
             <Send />
             В Telegram
           </a>
         </Button>
-        <Button variant="outline" onClick={copy}>
+        <Button variant="secondary" onClick={copy}>
           <Copy />
           Скопировать
         </Button>
@@ -99,7 +97,7 @@ export function SharePlan({ text }: SharePlanProps) {
       </div>
 
       {showText && (
-        <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-card-2 p-3 font-sans text-xs leading-relaxed whitespace-pre-wrap text-fg">
+        <pre className="mt-4 overflow-x-auto rounded-lg border border-border bg-card-2 p-3 font-body text-xs leading-relaxed whitespace-pre-wrap text-fg">
           {text}
         </pre>
       )}
@@ -201,11 +199,11 @@ export function PlanBackup({ plan, onImport }: PlanBackupProps) {
       </p>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <Button variant="outline" onClick={exportJson} disabled={count === 0}>
+        <Button variant="secondary" onClick={exportJson} disabled={count === 0}>
           <Download />
           Экспорт JSON
         </Button>
-        <Button variant="outline" onClick={() => fileRef.current?.click()}>
+        <Button variant="secondary" onClick={() => fileRef.current?.click()}>
           <Upload />
           Импорт JSON
         </Button>
