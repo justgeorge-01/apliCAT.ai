@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Kicker } from "@/components/ui/kicker"
 import { Switch } from "@/components/ui/switch"
 import { ThemeSwitch } from "@/components/ui/theme-switch"
 import type { RoadmapEntry } from "@/legacy"
@@ -50,10 +51,12 @@ const NOTIFICATIONS: { label: string; on: boolean }[] = [
   { label: "Новые гранты", on: false },
 ]
 
+/* The kicker sits on an inner span: index.css styles h3 outside a cascade
+   layer, so the body-font utility on the heading itself would be overridden. */
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-3 text-xs font-semibold tracking-widest text-fg-muted uppercase">
-      {children}
+    <h3 className="mb-3">
+      <Kicker as="span">{children}</Kicker>
     </h3>
   )
 }
@@ -101,7 +104,7 @@ export default function SettingsDialog({
             <motion.section variants={fadeUp}>
               <SectionTitle>Профиль</SectionTitle>
               <div className="flex items-center gap-3">
-                <div className="grid size-14 shrink-0 place-items-center rounded-full bg-accent text-[22px] font-semibold text-accent-fg">
+                <div className="grid size-14 shrink-0 place-items-center rounded-lg bg-accent font-display text-[22px] font-bold text-accent-fg">
                   {(name || "У").charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -164,7 +167,7 @@ export default function SettingsDialog({
           {legacy && (
             <motion.section variants={fadeUp} className="mt-6 border-t border-border pt-5">
               <SectionTitle>Статистика</SectionTitle>
-              <div className="rounded-xl border border-border bg-card-2 p-4">
+              <div className="rounded-lg border border-border bg-card-2 p-4">
                 {stats.map((s, i) => (
                   <div
                     key={s.label}
