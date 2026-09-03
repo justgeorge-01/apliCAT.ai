@@ -1,7 +1,8 @@
 import type { ReactNode } from "react"
-import { ShieldAlert } from "lucide-react"
 
 import { ProvenanceBadge } from "@/components/ProvenanceBadge"
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
+import { Seal } from "@/components/ui/seal"
 import { formatCheckedAt } from "@/data/china"
 import type { Fact } from "@/data/china.types"
 import { cn } from "@/lib/utils"
@@ -13,23 +14,49 @@ function emptyFactText(lastCheckedAt: string | null, label: string = "вуз н�
     : `${label} · проверка не проводилась`
 }
 
+const CRITICAL_FIELD_LABEL = "критичное поле: сверьтесь с сайтом вуза перед подачей"
+
+/**
+ * The contour seal of a critical field (deadlines, HSK/IELTS, CSCA):
+ * 核 «сверить», warning tone. Next to a row label it names the field itself
+ * (role="img" + label); in the disclaimer line under the card the text next
+ * to it carries the meaning, so there it is `decorative`.
+ */
+export function CriticalSeal({ decorative = false, className }: { decorative?: boolean; className?: string }) {
+  return (
+    <Seal
+      glyph="核"
+      variant="outline"
+      tone="warning"
+      className={className}
+      {...(decorative ? {} : { role: "img", "aria-label": CRITICAL_FIELD_LABEL, title: CRITICAL_FIELD_LABEL })}
+    />
+  )
+}
+
 export interface FactItemProps {
   fact: Fact
   /** Printed above the value (the fact's own `label_ru` in rows that group several keys). */
   sublabel?: string
 }
 
-/** One printed fact: optional sub-label · `display` · academic year · provenance badge. */
+/**
+ * One printed fact, one ledger line: optional sub-label · `display` set large
+ * in the display face · academic year – and the provenance seal at the right
+ * end. The badge's quote panel is full-width and wraps under the line.
+ */
 export function FactItem({ fact, sublabel }: FactItemProps) {
   return (
-    <div className="flex flex-col gap-1.5">
-      {sublabel && <div className="text-xs text-fg-faint">{sublabel}</div>}
-      {/* the value is printed exactly as the pipeline rendered it – never reformatted here */}
-      <div className="text-[15px] leading-snug font-medium break-words text-fg">{fact.display}</div>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-fg-muted">
-        {fact.academic_year && <span>учебный год {fact.academic_year}</span>}
-        <ProvenanceBadge fact={fact} />
+    <div className="flex flex-wrap items-start gap-x-4 gap-y-2">
+      <div className="min-w-0 flex-1 basis-48">
+        {sublabel && <div className="mb-0.5 text-xs text-fg-muted">{sublabel}</div>}
+        {/* the value is printed exactly as the pipeline rendered it – never reformatted here */}
+        <div className="font-display text-lg leading-snug font-bold break-words text-fg sm:text-xl">
+          {fact.display}
+        </div>
+        {fact.academic_year && <div className="mt-0.5 text-xs text-fg-muted">учебный год {fact.academic_year}</div>}
       </div>
+      <ProvenanceBadge fact={fact} className="mt-0.5 sm:mt-1" />
     </div>
   )
 }
@@ -37,11 +64,13 @@ export function FactItem({ fact, sublabel }: FactItemProps) {
 export interface FactRowProps {
   /** Row label, e.g. «Дедлайн подачи». */
   label: string
+  /** Han-character kicker printed with the label («考试 CSCA»). At most one row of a card carries it. */
+  hanzi?: string
   /** Facts to print, in order. Empty → «вуз не публикует · проверено …» (the row is never skipped). */
   facts: Fact[]
   /** `University.last_checked_at` – printed in the empty state. */
   lastCheckedAt: string | null
-  /** Critical field (deadlines, HSK/IELTS, CSCA): marked with the shield icon, see the line under the card. */
+  /** Critical field (deadlines, HSK/IELTS, CSCA): marked with the contour seal, see the line under the card. */
   critical?: boolean
   /** Print each fact's own `label_ru` above its value (rows that group several keys). */
   sublabels?: boolean
@@ -55,14 +84,17 @@ export interface FactRowProps {
 }
 
 /**
- * One row of the university card (spec §3.3): label · `display` · academic
- * year · `ProvenanceBadge`. Every fact here has `source_url` + `verified_at`
- * (guaranteed by `normalizeCatalog`), so a badge is always present.
+ * One row of the university card (spec §3.3), set like a ledger on paper:
+ * label at the left (Noto Sans 600), the `display` value large, the
+ * provenance seal at the right, a thin rule under the row. Every fact here
+ * has `source_url` + `verified_at` (guaranteed by `normalizeCatalog`), so a
+ * badge is always present.
  *
  * Renders a `<div>` group with `<dt>`/`<dd>` – put rows inside a `<dl>`.
  */
 export function FactRow({
   label,
+  hanzi,
   facts,
   lastCheckedAt,
   critical = false,
@@ -75,21 +107,21 @@ export function FactRow({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 gap-y-2 py-4 first:pt-0 last:pb-0 sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-x-6",
+        "grid grid-cols-1 gap-y-2.5 border-b border-border py-4 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-start sm:gap-x-6 sm:py-5",
         className,
       )}
     >
-      <dt className="flex items-center gap-1.5 text-[13px] font-medium text-fg-muted">
-        <span>{label}</span>
-        {critical && (
-          <ShieldAlert
-            className="size-3.5 shrink-0 text-warning"
-            role="img"
-            aria-label="критичное поле: сверьтесь с сайтом вуза перед подачей"
-          />
+      <dt className="flex items-center gap-2 text-[13px] leading-snug font-semibold text-fg-muted sm:pt-1">
+        {hanzi ? (
+          <HanziKicker as="span" hanzi={hanzi}>
+            {label}
+          </HanziKicker>
+        ) : (
+          <span>{label}</span>
         )}
+        {critical && <CriticalSeal />}
       </dt>
-      <dd className="flex min-w-0 flex-col gap-3.5">
+      <dd className="flex min-w-0 flex-col gap-4">
         {lead}
         {facts.length > 0 ? (
           facts.map((f, i) => (

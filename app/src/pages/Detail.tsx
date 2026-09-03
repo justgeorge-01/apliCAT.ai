@@ -1,20 +1,13 @@
-import { Suspense, lazy, useEffect, useState } from "react"
+import { Fragment, Suspense, lazy, useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import {
-  BookmarkCheck,
-  BookmarkPlus,
-  ChevronLeft,
-  ExternalLink,
-  MessageCircle,
-  ShieldAlert,
-} from "lucide-react"
+import { BookmarkCheck, BookmarkPlus, ChevronLeft, ExternalLink, MessageCircle } from "lucide-react"
 
 import { CscaBlock } from "@/components/CscaBlock"
-import { FactRow } from "@/components/FactRow"
+import { CriticalSeal, FactRow } from "@/components/FactRow"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Kicker } from "@/components/ui/kicker"
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { useToast } from "@/components/ui/use-toast"
 import {
   CARD_ROWS,
@@ -100,6 +93,44 @@ export default function Detail(props: DetailProps) {
 
 /* ---------- «Китай» ---------- */
 
+/** CJK Unified Ideographs (+ Extension A). */
+const HANZI_RE = /[\u3400-\u4dbf\u4e00-\u9fff]+/
+/** The same run, capturing – `split` keeps the Han parts. */
+const HANZI_SPLIT_RE = /([\u3400-\u4dbf\u4e00-\u9fff]+)/
+
+/**
+ * The university's own Han name when the export carries one in `name_ru` or
+ * `name` («北京大学 «Бейда»»); otherwise null and the head falls back to the
+ * generic 大学. Never invented here – only what the data says.
+ */
+function hanziNameOf(u: ChinaUniversity): string | null {
+  for (const s of [u.name_ru, u.name]) {
+    const m = s ? HANZI_RE.exec(s) : null
+    if (m) return m[0]
+  }
+  return null
+}
+
+/**
+ * The name with its Han runs marked up («北京大学 «Бейда»» – the characters in
+ * the CJK face, the rest in the display face). Plain text otherwise.
+ */
+function TitleText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(HANZI_SPLIT_RE).map((part, i) =>
+        HANZI_RE.test(part) ? (
+          <span key={i} lang="zh-Hans" translate="no" className="font-cjk">
+            {part}
+          </span>
+        ) : (
+          <Fragment key={i}>{part}</Fragment>
+        ),
+      )}
+    </>
+  )
+}
+
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
     <Button variant="ghost" size="sm" className="-ml-2" onClick={onBack}>
@@ -160,7 +191,7 @@ function ChinaDetail({
           <BackButton onBack={onBack} />
         </div>
         <Card className="gap-3 p-6">
-          <h1 className="text-lg font-semibold">Вуз не найден в каталоге</h1>
+          <h1 className="text-xl text-accent-text">Вуз не найден в каталоге</h1>
           <p className="text-sm text-fg-muted">
             Карточки с идентификатором «{id}» нет в текущем экспорте. Вернитесь в каталог и выберите вуз заново.
           </p>
@@ -184,8 +215,11 @@ function ChinaDetail({
 
   const checkedAt = lastChecked(u)
   const estimate = yearInChinaEstimate(u)
+  const hanzi = hanziNameOf(u)
   const title = u.name_ru ?? u.name
-  const subtitle = [u.name_ru ? u.name : null, u.city].filter(Boolean).join(" · ")
+  // the export may leave `city` empty – the country line still places the university
+  const country = u.country === "CN" ? "Китай" : u.country
+  const subtitle = [u.name_ru ? u.name : null, u.city, country].filter(Boolean).join(" · ")
 
   return (
     <motion.div variants={stagger} initial="hidden" animate="show">
@@ -194,30 +228,36 @@ function ChinaDetail({
         <BackButton onBack={onBack} />
       </motion.div>
 
-      {/* head */}
-      <motion.header variants={fadeUp} className="flex flex-col gap-4">
+      {/* head: kicker · name in the display face · city · the thin check line */}
+      <motion.header variants={fadeUp} className="flex flex-col gap-6">
         <div className="min-w-0">
-          <Kicker>{u.city} · Китай</Kicker>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-balance sm:text-3xl">{title}</h1>
-          {subtitle && <div className="mt-1.5 text-sm text-fg-muted sm:text-base">{subtitle}</div>}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-fg-muted">
-          <Badge variant="secondary">
-            {u.coverage.published} из {u.coverage.expected} фактов проверено
-          </Badge>
-          <span>{checkedAt ? `последняя проверка ${formatCheckedAt(checkedAt)}` : "проверка не проводилась"}</span>
-          {u.website && (
-            <a
-              href={u.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-medium text-accent-text hover:underline"
-            >
-              <ExternalLink className="size-3" aria-hidden="true" />
-              официальный сайт
-            </a>
-          )}
+          <HanziKicker hanzi={hanzi ?? "大学"}>Университет</HanziKicker>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-balance text-accent-text sm:text-4xl">
+            <TitleText text={title} />
+          </h1>
+          {subtitle && <div className="mt-2 text-sm text-fg-muted sm:text-base">{subtitle}</div>}
+          <div className="rule-accent mt-5 w-12" aria-hidden="true" />
+          <div className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-fg-muted">
+            <span>
+              {u.coverage.published} из {u.coverage.expected} фактов проверено
+            </span>
+            <span aria-hidden="true">·</span>
+            <span>{checkedAt ? `последняя проверка ${formatCheckedAt(checkedAt)}` : "проверка не проводилась"}</span>
+            {u.website && (
+              <>
+                <span aria-hidden="true">·</span>
+                <a
+                  href={u.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-semibold text-accent-text hover:underline"
+                >
+                  <ExternalLink className="size-3" aria-hidden="true" />
+                  официальный сайт
+                </a>
+              </>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -236,15 +276,18 @@ function ChinaDetail({
         </div>
       </motion.header>
 
-      {/* the card: six rows in the spec's order */}
-      <motion.div variants={fadeUp} className="mt-8">
+      {/* the card: six rows in the spec's order, a ledger on paper */}
+      <motion.div variants={fadeUp} className="mt-10">
         <Card className="gap-0 p-5 sm:p-6">
-          <Kicker as="h2">Факты с официальных страниц</Kicker>
-          <p className="mt-1.5 text-xs text-fg-faint">
-            Значения напечатаны так, как опубликовал вуз. Нажмите на бейдж, чтобы увидеть цитату и ссылку.
+          <HanziKicker as="h2" hanzi="事实">
+            Факты
+          </HanziKicker>
+          <p className="mt-2 max-w-prose text-sm text-fg-muted">
+            С официальных страниц вуза: значения напечатаны так, как их опубликовал вуз. Печать рядом со значением
+            раскрывает цитату и ссылку на источник.
           </p>
 
-          <dl className="mt-5 divide-y divide-border">
+          <dl className="mt-5 border-t border-border">
             {CARD_ROWS.map((row) =>
               row.id === "csca" ? (
                 <CscaBlock key={row.id} u={u} />
@@ -261,32 +304,34 @@ function ChinaDetail({
             )}
           </dl>
 
-          {/* the ONLY number the storefront computes – always with «оценка» */}
-          <div className="mt-5 border-t border-border pt-4">
+          {/* the ONLY number the storefront computes – always with «оценка», set apart in italics */}
+          <div className="mt-4 text-fg-muted italic">
             {estimate ? (
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                <span className="text-[13px] font-medium text-fg-muted">Год в Китае ≈</span>
-                <span className="text-[15px] font-semibold text-fg">{estimate.display}</span>
-                <Badge variant="outline">оценка</Badge>
-                <span className="w-full text-xs text-fg-faint">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
+                <span>Год в Китае ≈</span>
+                <span className="text-base font-semibold">{estimate.display}</span>
+                <Badge variant="outline" className="not-italic">
+                  оценка
+                </Badge>
+                <span className="w-full text-xs leading-relaxed">
                   Обучение + 12 × общежитие по опубликованным суммам (для диапазона стоимости берётся минимум).
                   Без питания, страховки и билетов.
                 </span>
               </div>
             ) : (
-              <p className="text-xs text-fg-faint">
+              <p className="text-xs leading-relaxed">
                 Год в Китае не оценить: для оценки нужны опубликованные стоимость обучения и общежития.
               </p>
             )}
           </div>
         </Card>
 
-        {/* critical fields – the same line as in the Пульт */}
-        <p className="mt-3 flex items-start gap-2 px-1 text-xs leading-relaxed text-fg-muted">
-          <ShieldAlert className="mt-0.5 size-3.5 shrink-0 text-warning" aria-hidden="true" />
+        {/* critical fields – the contour seal from the rows, the same line as in the Пульт */}
+        <p className="mt-4 flex items-start gap-2.5 px-1 text-xs leading-relaxed text-fg-muted">
+          <CriticalSeal decorative className="mt-px" />
           <span>
-            Дедлайны, HSK/IELTS и CSCA – критичные поля: сверьтесь с сайтом вуза перед подачей. Мы показываем
-            только опубликованные условия и не оцениваем шансы.
+            Дедлайны, HSK/IELTS и CSCA – критичные поля, отмечены этой печатью: сверьтесь с сайтом вуза перед
+            подачей. Мы показываем только опубликованные условия и не оцениваем шансы.
           </span>
         </p>
       </motion.div>
