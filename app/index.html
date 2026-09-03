@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      // Apply the saved theme before first paint to avoid a dark flash.
+      // Apply the saved theme before first paint to avoid a light flash.
+      // Paper (light) is the default; only the ink (dark) theme needs the attribute.
       try {
-        if (JSON.parse(localStorage.getItem("admitica.theme")) === "light")
-          document.documentElement.dataset.theme = "light";
+        if (JSON.parse(localStorage.getItem("admitica.theme")) === "dark")
+          document.documentElement.dataset.theme = "dark";
       } catch (e) {}
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -22,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Noto+Sans:wght@400;600&display=swap"
       rel="stylesheet"
     />
     <!--

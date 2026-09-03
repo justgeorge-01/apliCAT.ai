@@ -8,6 +8,7 @@ import { LeadInvite } from "@/components/partner/LeadInvite"
 import { useLeadTrigger } from "@/components/partner/useLeadTrigger"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Seal } from "@/components/ui/seal"
 import { ToastProvider } from "@/components/ui/toast"
 import { findUniversity, loadCatalog } from "@/data/china"
 import type { Catalog, University } from "@/data/china.types"
@@ -41,8 +42,9 @@ export default function App() {
   const partner = getPartner()
   const isEurope = FEATURES.market === "europe"
 
-  // Theme lives in admitica.theme – unchanged.
-  const [theme, setTheme] = usePersist<"dark" | "light">("theme", "dark")
+  // Theme lives in admitica.theme – unchanged key. Paper (light) is the default;
+  // the ink (dark) theme is opt-in via [data-theme="dark"].
+  const [theme, setTheme] = usePersist<"dark" | "light">("theme", "light")
   useEffect(() => {
     document.documentElement.dataset.theme = theme
   }, [theme])
@@ -195,9 +197,12 @@ export default function App() {
             {catalog?.demo && (
               <div
                 role="status"
-                className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-xl border border-border bg-card-2 px-4 py-3 text-xs text-fg-muted"
+                className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-lg border border-border bg-card-2 px-4 py-3 text-xs text-fg-muted"
               >
-                <Badge variant="secondary">демо</Badge>
+                <Badge variant="secondary" className="gap-1.5 pl-1">
+                  <Seal glyph="试" variant="outline" tone="muted" />
+                  демо
+                </Badge>
                 <span>
                   Демо-данные: каталог не прошёл конвейер проверки. Значения перенесены с официальных страниц
                   вузов вручную и помечены серым бейджем «демо».
@@ -288,8 +293,13 @@ export default function App() {
             )}
 
             {/* Footer – on every screen. The policy is an in-app page (spec §3.8). */}
-            <footer className="mt-12 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-border pt-6 text-xs text-fg-muted">
-              <span>© 2026 Abitura</span>
+            <footer className="rule-accent mt-12 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pt-6 text-xs text-fg-muted">
+              <span className="flex items-center gap-2">
+                <span className="font-display text-sm leading-none font-bold text-fg">
+                  Abitura<span className="text-accent-text">.</span>
+                </span>
+                <span>© 2026</span>
+              </span>
               <span className="max-sm:hidden">Факты – с официальных страниц вузов. Дедлайны сверяйте на сайте вуза.</span>
               <button
                 type="button"
@@ -336,7 +346,7 @@ function CatalogLoading() {
     <div
       role="status"
       aria-live="polite"
-      className="flex min-h-64 flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-8 text-center"
+      className="flex min-h-64 flex-col items-center justify-center gap-3 rounded-lg border border-border bg-card p-8 text-center"
     >
       <Loader2 className="size-6 animate-spin text-accent-text" />
       <span className="text-sm text-fg-muted">Загружаем каталог</span>
@@ -346,12 +356,12 @@ function CatalogLoading() {
 
 function NotFound({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex min-h-64 flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-8 text-center">
-      <span className="text-sm font-semibold">Вуза нет в каталоге</span>
+    <div className="flex min-h-64 flex-col items-center justify-center gap-3 rounded-lg border border-border bg-card p-8 text-center">
+      <span className="font-display text-base font-bold">Вуза нет в каталоге</span>
       <span className="max-w-sm text-sm text-fg-muted">
         Возможно, он был в плане, а из каталога выбыл. Откройте каталог и выберите вуз заново.
       </span>
-      <Button variant="secondary" size="sm" onClick={onBack}>
+      <Button variant="outline" size="sm" onClick={onBack}>
         Назад
       </Button>
     </div>

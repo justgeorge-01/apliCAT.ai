@@ -2,26 +2,41 @@
 @import "tw-animate-css";
 
 /* ============================================================
-   Admitica design tokens – teal accent.
-   Dark theme is the default; light theme is activated with
-   [data-theme="light"] on <html>.
+   Abitura design tokens – «Азия / красный».
+   Light «paper» theme is the default (:root); the dark «ink» theme
+   is activated with [data-theme="dark"] on <html>.
+
+   Palette (see DESIGN.md):
+   - red  #8E1812 – the accent: headings, CTA, seals, thin rules, kickers.
+     Never a page fill.
+   - paper #F7F4E9 / cream – page and band backgrounds;
+   - gold  #EDE2C3 – accent TEXT on red and on ink, never on paper;
+   - ink   #1D1D1B / graphite #2B2D33 – text and dark blocks.
 
    Color usage rules:
-   - teal TEXT/icons on page background  → --color-accent-text
-   - teal FILLS (buttons, active pills)  → --color-accent,
-     with --color-accent-fg for the text on top (semibold labels)
-   - glows/shadows                       → --color-accent-glow
+   - red TEXT/icons on paper            → --color-accent-text
+   - red FILLS (buttons, active pills)  → --color-accent,
+     with --color-accent-fg (cream) for the text on top (semibold)
+   - gold                               → --color-gold, only on
+     --color-accent / --color-ink surfaces
+   - --color-accent-glow is kept for legacy classes only: it is a faint
+     wash, not a glow – the system has no glows.
    ============================================================ */
 
 @theme {
   /* Type */
-  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Playfair Display", "Playfair Display Fallback", Georgia, "Times New Roman", serif;
+  --font-body: "Noto Sans", "Noto Sans Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* CJK glyphs fall back to the system fonts – no heavy CJK download */
+  --font-cjk: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans", sans-serif;
+  /* `font-sans` keeps working and means the body face */
+  --font-sans: "Noto Sans", "Noto Sans Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Radii: the product default is rounded-2xl */
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
-  --radius-3xl: 1.75rem;
+  /* Radii: moderate – the product default is rounded-lg */
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.625rem;
+  --radius-2xl: 0.75rem;
+  --radius-3xl: 1rem;
 
   /* Motion: ease-out, 200–300ms */
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
@@ -29,65 +44,75 @@
   --duration-base: 250ms;
   --duration-slow: 300ms;
 
-  /* Dark surface scale (default theme) */
-  --color-bg: #0a0c0c;
-  --color-surface: #101414;
-  --color-card: #151a1a;
-  --color-card-2: #1b2121;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.14);
+  /* Constants – the same in both themes (for red / ink bands) */
+  --color-ink: #1d1d1b;
+  --color-paper: #f7f4e9;
+  --color-gold: #ede2c3;
 
-  /* Text scale */
-  --color-fg: #f4f7f6;
-  --color-fg-muted: #99a3a1;
-  --color-fg-faint: #5e6766;
+  /* Paper surface scale (default, light theme) */
+  --color-bg: #f7f4e9;
+  --color-surface: #fdfbf5;
+  --color-card: #ffffff;
+  --color-card-2: #f3eedf;
+  --color-border: rgba(29, 29, 27, 0.12);
+  --color-border-strong: rgba(29, 29, 27, 0.24);
 
-  /* Teal accent – bright on dark surfaces */
-  --color-accent: #2dd4bf;
-  --color-accent-soft: rgba(45, 212, 191, 0.12);
-  --color-accent-fg: #04201d;
-  --color-accent-text: #2dd4bf;
-  --color-accent-glow: rgba(45, 212, 191, 0.3);
+  /* Text scale – ink on paper */
+  --color-fg: #1d1d1b;
+  --color-fg-muted: #5a5750;
+  --color-fg-faint: #6f6a60;
+
+  /* Red accent – deep, on paper */
+  --color-accent: #8e1812;
+  --color-accent-soft: rgba(142, 24, 18, 0.08);
+  --color-accent-fg: #f7f4e9;
+  --color-accent-text: #8e1812;
+  --color-accent-glow: rgba(142, 24, 18, 0.1);
+
+  /* Gold wash – a soft fill on red / ink, e.g. quote bands */
+  --color-gold-soft: rgba(237, 226, 195, 0.16);
 
   /* Semantic */
-  --color-positive: #4ade80;
-  --color-warning: #fbbf24;
-  --color-danger: #f87171;
-  /* text on a danger fill – dark danger is a light red, so white text fails contrast */
-  --color-danger-fg: #2a0a0a;
+  --color-positive: #1b6f34;
+  --color-warning: #874a00;
+  --color-danger: #b3261e;
+  --color-danger-fg: #f7f4e9;
 }
 
-/* ---- Light theme: darker teal for readability on light surfaces ---- */
-[data-theme="light"] {
-  --color-bg: #f3f7f6;
-  --color-surface: #ffffff;
-  --color-card: #ffffff;
-  --color-card-2: #e9f1ef;
-  --color-border: rgba(12, 40, 36, 0.1);
-  --color-border-strong: rgba(12, 40, 36, 0.18);
+/* ---- Dark «ink» theme: lighter red for contrast, gold as accent text ---- */
+[data-theme="dark"] {
+  --color-bg: #141312;
+  --color-surface: #1d1d1b;
+  --color-card: #2b2d33;
+  --color-card-2: #34363d;
+  --color-border: rgba(247, 244, 233, 0.1);
+  --color-border-strong: rgba(247, 244, 233, 0.2);
 
-  --color-fg: #0d1a18;
-  --color-fg-muted: #4c5a58;
-  --color-fg-faint: #7a8987;
+  --color-fg: #f3efe4;
+  --color-fg-muted: #b5afa2;
+  --color-fg-faint: #a69f92;
 
-  --color-accent: #0d9488;
-  --color-accent-soft: rgba(13, 148, 136, 0.12);
-  --color-accent-fg: #ffffff;
-  --color-accent-text: #0f766e;
-  --color-accent-glow: rgba(13, 148, 136, 0.18);
+  --color-accent: #b3261e;
+  --color-accent-soft: rgba(179, 38, 30, 0.18);
+  --color-accent-fg: #f7f4e9;
+  --color-accent-text: #ede2c3;
+  --color-accent-glow: rgba(179, 38, 30, 0.16);
 
-  --color-positive: #16a34a;
-  --color-warning: #d97706;
-  --color-danger: #dc2626;
-  --color-danger-fg: #ffffff;
+  --color-gold-soft: rgba(237, 226, 195, 0.1);
+
+  --color-positive: #7fc98a;
+  --color-warning: #e4b04a;
+  --color-danger: #f28b82;
+  /* text on a danger fill – dark danger is a light red, so cream text fails contrast */
+  --color-danger-fg: #2a0a0a;
 }
 
 /* ---- Base ---- */
 html {
-  color-scheme: dark;
-}
-html[data-theme="light"] {
   color-scheme: light;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 html {
@@ -100,32 +125,57 @@ html {
 html, body {
   background: var(--color-bg);
   color: var(--color-fg);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   /* kill the default dark flash when tapping buttons on mobile */
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Headings are Playfair Display; screens may override the weight/tracking */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+
+/* Han characters inside Russian text («北京大学 «Бейда»») – system CJK face */
+:lang(zh), [lang^="zh"] {
+  font-family: var(--font-cjk);
+}
+
 ::selection { background: var(--color-accent); color: var(--color-accent-fg); }
 
-/* Soft ambient glow behind the hero */
-.hero-glow {
-  background:
-    radial-gradient(600px 320px at 18% 0%, var(--color-accent-glow), transparent 70%),
-    radial-gradient(480px 260px at 85% 12%, rgba(255, 255, 255, 0.05), transparent 70%);
-}
-/* On light surfaces the white radial is invisible – keep only the (already
-   muted) teal glow so the hero stays clean. */
-[data-theme="light"] .hero-glow {
-  background: radial-gradient(600px 320px at 18% 0%, var(--color-accent-glow), transparent 70%);
+/* Display capitals with tracking – the reference's «КАПИТЕЛЬ С РАЗРЯДКОЙ» */
+@utility caps {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
-/* White cards on a light page need a soft shadow to keep depth */
-[data-theme="light"] [data-slot="card"] {
+/* Thin red rule – a hairline under a heading or between bands */
+@utility rule-accent {
+  border-top: 1px solid var(--color-accent);
+}
+
+/* Legacy hero wash: no glow in this system, only a faint red tint at the top */
+.hero-glow {
+  background: radial-gradient(640px 300px at 18% 0%, var(--color-accent-glow), transparent 70%);
+}
+
+/* White cards on paper need a soft ink shadow to keep depth; ink theme uses borders only */
+[data-slot="card"] {
   box-shadow:
-    0 1px 2px rgba(13, 26, 24, 0.04),
-    0 12px 32px -20px rgba(13, 26, 24, 0.18);
+    0 1px 2px rgba(29, 29, 27, 0.04),
+    0 10px 28px -20px rgba(29, 29, 27, 0.2);
+}
+[data-theme="dark"] [data-slot="card"] {
+  box-shadow: none;
+}
+
+/* A solid red seal on graphite is under 3:1 at the edge – give it a hairline
+   rim in the ink theme so the square reads even before the glyph does */
+[data-theme="dark"] [data-slot="seal"][data-variant="solid"] {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-fg) 45%, transparent);
 }
 
 /* Range sliders (GPA, budget, tuition filter) – system track + accent thumb
@@ -138,12 +188,12 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--color-fg) 8%, transparent);
+  background: color-mix(in srgb, var(--color-fg) 10%, transparent);
 }
 input[type="range"]::-moz-range-track {
   height: 6px;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--color-fg) 8%, transparent);
+  background: color-mix(in srgb, var(--color-fg) 10%, transparent);
 }
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
@@ -151,18 +201,18 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  border: none;
+  border: 2px solid var(--color-accent-fg);
   background: var(--color-accent);
-  box-shadow: 0 2px 8px var(--color-accent-glow);
+  box-shadow: 0 1px 3px rgba(29, 29, 27, 0.25);
   cursor: grab;
 }
 input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  border: none;
+  border: 2px solid var(--color-accent-fg);
   background: var(--color-accent);
-  box-shadow: 0 2px 8px var(--color-accent-glow);
+  box-shadow: 0 1px 3px rgba(29, 29, 27, 0.25);
   cursor: grab;
 }
 input[type="range"]:focus-visible {

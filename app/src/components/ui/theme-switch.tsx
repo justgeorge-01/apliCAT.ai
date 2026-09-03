@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
  * Adapted from a Next.js / next-themes component to this Vite app: the theme is
  * owned by App.tsx (persisted to localStorage "admitica.theme" + <html data-theme>),
  * so this stays a controlled, prop-driven toggle instead of pulling in next-themes.
- * Colours use the app's teal design tokens, not shadcn's background/input/ring.
+ * Colours use the app's paper/ink design tokens, not shadcn's background/input/ring.
  *
  * Geometry: track 64×32, knob 24. The outline is an *inset ring* (not a border)
  * so it doesn't shrink the content box – that keeps the knob travel symmetric

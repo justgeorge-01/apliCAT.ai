@@ -3,8 +3,8 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 /**
- * Segmented pill control – the one canonical incarnation
- * (track bg-surface p-1; active option = teal fill with glow).
+ * Segmented control – the one canonical incarnation
+ * (track bg-surface p-1; active option = red fill with cream text, no glow).
  */
 function Segmented<T extends string>({
   value,
@@ -18,7 +18,7 @@ function Segmented<T extends string>({
   className?: string
 }) {
   return (
-    <div className={cn("flex w-fit max-w-full gap-1 overflow-x-auto rounded-xl border border-border bg-surface p-1", className)}>
+    <div className={cn("flex w-fit max-w-full gap-1 overflow-x-auto rounded-lg border border-border bg-surface p-1", className)}>
       {options.map((o) => (
         <button
           key={o.id}
@@ -26,9 +26,9 @@ function Segmented<T extends string>({
           aria-pressed={value === o.id}
           onClick={() => onChange(o.id)}
           className={cn(
-            "flex shrink-0 items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-medium whitespace-nowrap transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+            "flex shrink-0 items-center gap-1.5 rounded-md px-4 py-2 text-[13px] font-medium whitespace-nowrap transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
             value === o.id
-              ? "bg-accent font-semibold text-accent-fg shadow-[0_8px_24px_-12px_var(--color-accent-glow)]"
+              ? "bg-accent font-semibold text-accent-fg"
               : "text-fg-muted hover:bg-fg/5 hover:text-fg",
           )}
         >
