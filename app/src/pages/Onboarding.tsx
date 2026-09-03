@@ -35,6 +35,8 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
+import { Kicker as Eyebrow } from "@/components/ui/kicker"
 import { Textarea } from "@/components/ui/textarea"
 import { FEATURES } from "@/lib/features"
 import type { ChinaProfile, Degree, LanguagePref } from "@/lib/match"
@@ -1897,6 +1899,10 @@ function LangDropdown({
    No name (COLLECT_NAME stays false). The profile is returned to the shell,
    which persists it under `admitica.cn.profile` (PROFILE_KEY in lib/match.ts).
    The legacy 13-screen wizard above stays behind FEATURES.market === "europe".
+
+   Look («Азия / красный»): five screens on paper, the step number as a Han
+   numeral kicker («一 Степень и год»), a red Playfair heading, option cards in
+   an ink frame with a square red mark, red «Дальше», contour «Назад».
    ============================================================ */
 
 interface ChinaFieldOption {
@@ -1942,6 +1948,9 @@ const CN_BUDGET_STEP = 5_000
 const CN_BUDGET_DEFAULT = 60_000
 const CN_SCREENS = 5
 
+/** Han numerals of the five steps – the kicker of each screen («一 Степень и год»). */
+const CN_STEP_NUMERALS = ["一", "二", "三", "四", "五"] as const
+
 /** Profile input (not a fact): thousands with a narrow space + «¥». */
 const fmtYuan = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ¥"
 /** IELTS bands as printed on the certificate: 6.0, 6.5. */
@@ -1953,7 +1962,70 @@ function clampBudget(raw: number | null | undefined): number {
   return Math.min(CN_BUDGET_MAX, Math.max(CN_BUDGET_MIN, stepped))
 }
 
-/** Small pill for HSK levels / IELTS bands («Нет» + values). */
+/** Step kicker + heading + lead of one screen: «一 Степень и год» over a red Playfair heading. */
+function CnHead({ step, kicker, title, lead }: { step: number; kicker: string; title: string; lead: string }) {
+  return (
+    <div>
+      <HanziKicker hanzi={CN_STEP_NUMERALS[step - 1]}>{kicker}</HanziKicker>
+      <h1 className="mt-3 font-display text-2xl font-bold tracking-tight text-balance text-accent-text sm:text-[28px]">
+        {title}
+      </h1>
+      <p className="mt-2 text-sm leading-relaxed text-fg-muted">{lead}</p>
+    </div>
+  )
+}
+
+/** The selected mark of an option card: a small red square, the seal motif. */
+function CnMark({ on }: { on: boolean }) {
+  return (
+    <AnimatePresence>
+      {on && (
+        <motion.span
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
+          transition={{ duration: 0.2, ease: EASE }}
+          className="absolute top-2.5 right-2.5 grid size-5 place-items-center rounded-[3px] bg-accent text-accent-fg"
+        >
+          <Check className="size-3" strokeWidth={3} />
+        </motion.span>
+      )}
+    </AnimatePresence>
+  )
+}
+
+/** Option card of the «Китай» wizard: a white card in an ink frame; selected – red frame and a soft red wash. */
+function CnOption({
+  selected,
+  onClick,
+  className,
+  children,
+}: {
+  selected: boolean
+  onClick: () => void
+  className?: string
+  children: React.ReactNode
+}) {
+  return (
+    <motion.button
+      type="button"
+      aria-pressed={selected}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={cn(
+        // transition border/background only – never opacity (it fought the screen-level fade)
+        "relative flex w-full items-center gap-3.5 rounded-lg border bg-card p-4 text-left transition-[border-color,background-color] duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+        selected ? "border-accent bg-accent-soft" : "border-fg/40 hover:border-fg",
+        className,
+      )}
+    >
+      {children}
+      <CnMark on={selected} />
+    </motion.button>
+  )
+}
+
+/** Small square button for HSK levels / IELTS bands («Нет» + values): ink frame, red when chosen. */
 function LevelPill({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button
@@ -1961,8 +2033,8 @@ function LevelPill({ on, onClick, children }: { on: boolean; onClick: () => void
       aria-pressed={on}
       onClick={onClick}
       className={cn(
-        "h-11 min-w-0 rounded-xl border px-2 text-sm font-bold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
-        on ? "border-transparent bg-accent text-accent-fg" : "border-border bg-card text-fg hover:border-accent/40",
+        "h-11 min-w-0 rounded-lg border px-2 text-sm font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+        on ? "border-accent bg-accent text-accent-fg" : "border-fg/40 bg-card text-fg hover:border-fg",
       )}
     >
       {children}
@@ -1986,7 +2058,7 @@ function CnNav({
   return (
     <div className="mt-7 flex items-center gap-3">
       {onBack && (
-        <Button variant="secondary" size="xl" className="px-5" onClick={onBack}>
+        <Button variant="outline" size="xl" className="px-5" onClick={onBack}>
           {backLabel}
         </Button>
       )}
@@ -2060,31 +2132,29 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
       case 1:
         return (
           <div>
-            <Kicker>Степень и год</Kicker>
-            <Heading>Куда и когда подаётесь?</Heading>
-            <Subtext>Степень и год подачи документов</Subtext>
-            <div className="mt-5 flex flex-col gap-2.5">
+            <CnHead step={1} kicker="Степень и год" title="Куда и когда подаётесь?" lead="Степень и год подачи документов" />
+            <div className="mt-6 flex flex-col gap-2.5">
               {CN_DEGREES.map((o) => (
-                <OptionCard key={o.val} selected={degree === o.val} onClick={() => setDegree(o.val)}>
-                  <IconTile Icon={o.Icon} />
+                <CnOption key={o.val} selected={degree === o.val} onClick={() => setDegree(o.val)}>
+                  <IconTile Icon={o.Icon} className="rounded-lg" />
                   <span className="pr-6">
                     <span className="block text-base font-semibold">{o.title}</span>
                     <span className="mt-0.5 block text-xs text-fg-muted">{o.sub}</span>
                   </span>
-                </OptionCard>
+                </CnOption>
               ))}
             </div>
-            <div className="mt-6 text-xs font-semibold tracking-widest text-fg-muted uppercase">Год подачи</div>
+            <Eyebrow className="mt-6">Год подачи</Eyebrow>
             <div className="mt-2.5 grid grid-cols-3 gap-2.5">
               {CN_YEARS.map((y) => (
-                <OptionCard
+                <CnOption
                   key={y}
                   selected={year === y}
                   onClick={() => setYear(y)}
                   className="min-h-14 justify-center p-3 text-center"
                 >
-                  <span className="text-[15px] font-semibold">{y}</span>
-                </OptionCard>
+                  <span className="font-display text-lg leading-none font-bold tabular-nums">{y}</span>
+                </CnOption>
               ))}
             </div>
             <CnNav
@@ -2100,12 +2170,10 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
       case 2:
         return (
           <div>
-            <Kicker>Направление</Kicker>
-            <Heading>Что хотите изучать?</Heading>
-            <Subtext>Одно направление – по нему подберём вузы</Subtext>
-            <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            <CnHead step={2} kicker="Направление" title="Что хотите изучать?" lead="Одно направление – по нему подберём вузы" />
+            <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {CHINA_FIELDS.map((o) => (
-                <OptionCard
+                <CnOption
                   key={o.val}
                   selected={field === o.val}
                   onClick={() => setField(o.val)}
@@ -2113,7 +2181,7 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
                 >
                   <o.Icon className="size-6 text-accent-text" />
                   <span className="pr-5 text-[13px] leading-tight font-medium">{o.label}</span>
-                </OptionCard>
+                </CnOption>
               ))}
             </div>
             <CnNav onBack={back} onNext={next} nextDisabled={!canNext()} />
@@ -2124,18 +2192,21 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
       case 3:
         return (
           <div>
-            <Kicker>Язык обучения</Kicker>
-            <Heading>На каком языке хотите учиться?</Heading>
-            <Subtext>От этого зависит, какой сертификат спросим дальше</Subtext>
-            <div className="mt-5 flex flex-col gap-2.5">
+            <CnHead
+              step={3}
+              kicker="Язык обучения"
+              title="На каком языке хотите учиться?"
+              lead="От этого зависит, какой сертификат спросим дальше"
+            />
+            <div className="mt-6 flex flex-col gap-2.5">
               {CN_LANGUAGES.map((o) => (
-                <OptionCard key={o.val} selected={language === o.val} onClick={() => setLanguage(o.val)}>
-                  <IconTile Icon={o.val === "any" ? Globe : Languages} />
+                <CnOption key={o.val} selected={language === o.val} onClick={() => setLanguage(o.val)}>
+                  <IconTile Icon={o.val === "any" ? Globe : Languages} className="rounded-lg" />
                   <span className="pr-6">
                     <span className="block text-base font-semibold">{o.title}</span>
                     <span className="mt-0.5 block text-xs text-fg-muted">{o.sub}</span>
                   </span>
-                </OptionCard>
+                </CnOption>
               ))}
             </div>
             <CnNav onBack={back} onNext={next} nextDisabled={!canNext()} />
@@ -2146,12 +2217,15 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
       case 4:
         return (
           <div>
-            <Kicker>Сертификаты</Kicker>
-            <Heading>Какой у вас уровень языка?</Heading>
-            <Subtext>Если сертификата пока нет, выберите «Нет» – в каталоге покажем, какого уровня не хватает</Subtext>
+            <CnHead
+              step={4}
+              kicker="Сертификаты"
+              title="Какой у вас уровень языка?"
+              lead="Если сертификата пока нет, выберите «Нет» – в каталоге покажем, какого уровня не хватает"
+            />
             {showHsk && (
-              <div className="mt-5">
-                <div className="text-xs font-semibold tracking-widest text-fg-muted uppercase">HSK</div>
+              <div className="mt-6">
+                <Eyebrow>HSK</Eyebrow>
                 <div className="mt-2.5 grid grid-cols-4 gap-2 sm:grid-cols-7">
                   <LevelPill on={hsk === null} onClick={() => setHsk(null)}>
                     Нет
@@ -2165,8 +2239,8 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
               </div>
             )}
             {showIelts && (
-              <div className="mt-5">
-                <div className="text-xs font-semibold tracking-widest text-fg-muted uppercase">IELTS</div>
+              <div className="mt-6">
+                <Eyebrow>IELTS</Eyebrow>
                 <div className="mt-2.5 grid grid-cols-4 gap-2 sm:grid-cols-7">
                   <LevelPill on={ielts === null} onClick={() => setIelts(null)}>
                     Нет
@@ -2187,19 +2261,22 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
       case 5:
         return (
           <div>
-            <Kicker>Бюджет</Kicker>
-            <Heading>Сколько готовы платить за обучение в год?</Heading>
-            <Subtext>Только стоимость обучения, без общежития. В каталоге сравним с опубликованной ценой</Subtext>
-            <div className="mt-8">
+            <CnHead
+              step={5}
+              kicker="Бюджет"
+              title="Сколько готовы платить за обучение в год?"
+              lead="Только стоимость обучения, без общежития. В каталоге сравним с опубликованной ценой"
+            />
+            <div className="mt-8 rounded-lg border border-fg/40 bg-card px-5 py-6">
               <motion.div
                 key={budget}
                 initial={{ opacity: 0.5, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.12 }}
-                className="text-center text-4xl font-extrabold tracking-tight sm:text-[44px]"
+                className="text-center font-display text-4xl font-bold tracking-tight text-accent-text tabular-nums sm:text-[44px]"
               >
                 {fmtYuan(budget)}
-                <span className="ml-2 text-base font-medium text-fg-muted">в год</span>
+                <span className="ml-2 font-body text-base font-normal tracking-normal text-fg-muted">в год</span>
               </motion.div>
               <input
                 type="range"
@@ -2229,21 +2306,21 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
     <div className="relative min-h-dvh">
       <div className="hero-glow pointer-events-none fixed inset-0 opacity-50" />
 
-      {/* progress chrome */}
+      {/* progress chrome – a hairline of red across the top of the paper */}
       <div aria-hidden className="fixed inset-x-0 top-0 z-20 h-1 bg-fg/8">
         <div
-          className="h-full rounded-r-full bg-accent transition-[width] duration-500 ease-[var(--ease-out-soft)]"
+          className="h-full bg-accent transition-[width] duration-500 ease-[var(--ease-out-soft)]"
           style={{ width: `${(screen / CN_SCREENS) * 100}%` }}
         />
       </div>
 
       <div className="relative mx-auto w-full max-w-xl px-5 pt-10 pb-12 sm:px-6">
-        <div className="mb-8 flex items-center justify-between gap-3">
-          <span className="text-lg font-bold tracking-tight">
+        <div className="mb-8 flex items-center justify-between gap-3 border-b border-fg/15 pb-4">
+          <span className="font-display text-lg font-bold tracking-tight">
             {partner.name}
             <span className="text-accent-text">.</span>
           </span>
-          <span className="text-xs font-medium text-fg-muted">
+          <span className="text-xs font-semibold tracking-[0.14em] text-fg-muted uppercase">
             Шаг {screen} из {CN_SCREENS}
           </span>
         </div>

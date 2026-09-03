@@ -1,9 +1,9 @@
-import { CalendarDays, ExternalLink } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Kicker } from "@/components/ui/kicker"
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
+import { Seal } from "@/components/ui/seal"
 import { formatCheckedAt } from "@/data/china"
 import { daysLeftLabel, type DeadlineItem } from "@/lib/plan"
 import { cn } from "@/lib/utils"
@@ -43,12 +43,50 @@ export function SourceLink({
   )
 }
 
-/** Countdown badge tone: passed is quiet, a week is warning, a month is accent, later is neutral. */
-function countdownVariant(item: DeadlineItem): "outline" | "warning" | "default" | "secondary" {
-  if (item.passed) return "outline"
-  if (item.daysLeft <= 7) return "warning"
-  if (item.daysLeft <= 30) return "default"
-  return "secondary"
+function pluralRu(n: number, one: string, few: string, many: string): string {
+  const abs = Math.abs(n) % 100
+  const last = abs % 10
+  if (abs > 10 && abs < 20) return many
+  if (last === 1) return one
+  if (last >= 2 && last <= 4) return few
+  return many
+}
+
+/**
+ * The countdown column of a timeline row: the number of days set large in
+ * Playfair, the unit underneath as a small label. «сегодня», «в этом месяце»
+ * and «прошёл» have no number and are printed as words. The canonical
+ * `daysLeftLabel` text stays in the DOM for assistive tech.
+ */
+function Countdown({ item }: { item: DeadlineItem }) {
+  const label = daysLeftLabel(item)
+  const hasNumber = !item.passed && item.daysLeft > 0
+  return (
+    <div className="shrink-0 text-right">
+      <span className="sr-only">{label}</span>
+      <div aria-hidden="true">
+        {hasNumber ? (
+          <>
+            <div className="font-display text-[28px] leading-none font-bold text-accent-text tabular-nums">
+              {item.daysLeft}
+            </div>
+            <div className="mt-1 text-[11px] font-semibold tracking-[0.14em] text-fg-muted uppercase">
+              {pluralRu(item.daysLeft, "день", "дня", "дней")}
+            </div>
+          </>
+        ) : (
+          <div
+            className={cn(
+              "font-display text-base leading-tight font-bold",
+              item.passed ? "text-fg-faint" : "text-accent-text",
+            )}
+          >
+            {label}
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
 function DeadlineRow({
@@ -60,7 +98,26 @@ function DeadlineRow({
 }) {
   const uniId = item.kind === "university" ? item.universityId : null
   return (
-    <li className={cn("border-t border-border py-3 first:border-t-0", item.passed && "opacity-60")}>
+    <li
+      className={cn(
+        // the timeline: a hairline of ink runs behind the dots, from the first dot to the last
+        "relative pb-5 pl-7 last:pb-0",
+        "before:absolute before:top-0 before:bottom-0 before:left-[5.5px] before:w-px before:bg-fg/25",
+        "first:before:top-[7px] last:before:bottom-auto last:before:h-[7px] only:before:hidden",
+      )}
+    >
+      {/* the dot: red for a date still ahead, grey once it has passed; the ring lifts it off the line */}
+      <span
+        aria-hidden="true"
+        className={cn(
+          "absolute top-[7px] left-0 size-3 rounded-full ring-4 ring-card",
+          item.passed ? "bg-fg-faint" : "bg-accent",
+        )}
+      />
+
+      {/* Header row: the title (and the «общие» seal) on the left, the countdown on the right.
+          The date, note and source lines below take the full row width, so nothing is
+          squeezed by the countdown column in the narrow aside or at 375px. */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -68,26 +125,33 @@ function DeadlineRow({
               <button
                 type="button"
                 onClick={() => onOpenUniversity(uniId)}
-                className="rounded-md text-left text-sm font-semibold transition-colors duration-200 outline-none hover:text-accent-text focus-visible:ring-2 focus-visible:ring-accent/60"
+                className={cn(
+                  "rounded-md text-left text-sm font-semibold transition-colors duration-200 outline-none hover:text-accent-text focus-visible:ring-2 focus-visible:ring-accent/60",
+                  item.passed && "text-fg-muted",
+                )}
               >
                 {item.title}
               </button>
             ) : (
-              <span className="text-sm font-semibold">{item.title}</span>
+              <span className={cn("text-sm font-semibold", item.passed && "text-fg-muted")}>{item.title}</span>
             )}
-            {item.kind === "common" && <Badge variant="outline">общие</Badge>}
+            {item.kind === "common" && (
+              <span className="inline-flex items-center gap-1 text-xs text-fg-muted">
+                <Seal glyph="共" variant="outline" tone="accent" />
+                общие
+              </span>
+            )}
           </div>
           {item.kind === "university" && item.subtitle && (
             <div className="text-xs text-fg-muted">{item.subtitle}</div>
           )}
         </div>
-        <Badge variant={countdownVariant(item)} className="shrink-0">
-          {daysLeftLabel(item)}
-        </Badge>
+
+        <Countdown item={item} />
       </div>
 
       {/* The date text is printed as is – `fact.display` or `FixedDate.display`. */}
-      <div className="mt-1.5 text-sm leading-snug">{item.display}</div>
+      <div className={cn("mt-1.5 text-sm leading-snug", item.passed && "text-fg-muted")}>{item.display}</div>
 
       {item.note && <div className="mt-1 text-xs text-fg-faint">{item.note}</div>}
       <SourceLink className="mt-1" url={item.source_url} verifiedAt={item.verified_at} />
@@ -107,8 +171,8 @@ export interface DeadlineFeedProps {
 
 /**
  * Лента дедлайнов (spec §3.4): deadlines of the universities in the plan and
- * the common dates (CSCA sessions, CSC window) in one ascending list with a
- * countdown. Presentational – the page computes the items.
+ * the common dates (CSCA sessions, CSC window) on one ascending timeline with
+ * a countdown. Presentational – the page computes the items.
  */
 export function DeadlineFeed({ items, hiddenPast, showPast, onToggleShowPast, onOpenUniversity }: DeadlineFeedProps) {
   const hasCritical = items.some((i) => i.critical)
@@ -117,10 +181,9 @@ export function DeadlineFeed({ items, hiddenPast, showPast, onToggleShowPast, on
   return (
     <Card className="gap-0 p-5">
       <div className="flex items-center justify-between gap-3">
-        <Kicker as="h2" className="flex items-center gap-1.5">
-          <CalendarDays className="size-3.5 text-accent-text" />
-          Лента дедлайнов
-        </Kicker>
+        <HanziKicker hanzi="截止日期" as="h2">
+          Дедлайны
+        </HanziKicker>
         {canToggle && (
           <Button variant="ghost" size="xs" onClick={onToggleShowPast}>
             {showPast ? "Скрыть прошедшие" : `Прошедшие (${hiddenPast})`}
@@ -134,7 +197,7 @@ export function DeadlineFeed({ items, hiddenPast, showPast, onToggleShowPast, on
           {hiddenPast > 0 ? ` Прошедших: ${hiddenPast}.` : ""}
         </p>
       ) : (
-        <ol className="mt-2 flex flex-col">
+        <ol className="mt-5 flex flex-col">
           {items.map((it) => (
             <DeadlineRow key={it.id} item={it} onOpenUniversity={onOpenUniversity} />
           ))}
@@ -142,7 +205,7 @@ export function DeadlineFeed({ items, hiddenPast, showPast, onToggleShowPast, on
       )}
 
       {hasCritical && (
-        <p className="mt-3 border-t border-border pt-3 text-xs text-fg-muted">
+        <p className="mt-4 border-t border-border pt-3 text-xs text-fg-muted">
           Дедлайны вузов – критичные поля: сверьтесь с сайтом вуза перед подачей.
         </p>
       )}
