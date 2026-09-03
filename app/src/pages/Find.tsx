@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react"
 import { motion } from "framer-motion"
-import { Banknote, Briefcase, GraduationCap, Info, Search, SlidersHorizontal } from "lucide-react"
+import { Banknote, Briefcase, GraduationCap, Search, SlidersHorizontal, X } from "lucide-react"
 
 import { ProgramCard } from "@/components/ProgramCard"
 import { UniversityCard } from "@/components/UniversityCard"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
+import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { Input } from "@/components/ui/input"
+import { Kicker } from "@/components/ui/kicker"
 import { Segmented } from "@/components/ui/segmented"
 import { Select } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
@@ -91,7 +93,7 @@ export default function Find(props: FindProps) {
 function FilterGroup({ title, children, className }: { title: string; children: React.ReactNode; className?: string }) {
   return (
     <div className={cn("min-w-0", className)}>
-      <div className="mb-2 text-[11px] font-semibold tracking-widest text-fg-muted uppercase">{title}</div>
+      <Kicker className="mb-2 text-[11px]">{title}</Kicker>
       {children}
     </div>
   )
@@ -113,32 +115,73 @@ function ProfileNotice({
   onEdit?: () => void
 }) {
   return (
-    <Card className="gap-1.5 p-4 sm:p-5">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <strong className="flex items-center gap-1.5 text-[13px] font-semibold">
-          <Info className="size-3.5 text-accent-text" aria-hidden="true" /> Соответствие профилю
-        </strong>
+    <div className="rounded-lg border border-border border-l-2 border-l-accent bg-surface px-4 py-3.5 sm:px-5">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+        <Kicker accent>Соответствие профилю</Kicker>
         {onEdit && (
-          <Button variant="link" size="xs" onClick={onEdit}>
+          <Button variant="link" size="xs" className="px-0" onClick={onEdit}>
             {filled ? "Изменить профиль" : "Заполнить профиль"}
           </Button>
         )}
       </div>
       {filled && profile ? (
         <>
-          <p className="text-[13px] text-fg">{profileSummary(profile).join(" · ")}</p>
-          <p className="text-xs text-fg-muted">
+          <p className="mt-1.5 text-[13px] font-semibold text-fg">{profileSummary(profile).join(" · ")}</p>
+          <p className="mt-1 text-xs text-fg-muted">
             Сравниваем только формальные условия по опубликованным фактам: подходит, не хватает или не проверено.
             Нет факта – «не проверено», а не «нет». Шансы и ярусы не оцениваем.
           </p>
         </>
       ) : (
-        <p className="text-[13px] text-fg-muted">
+        <p className="mt-1.5 text-[13px] text-fg-muted">
           Профиль не заполнен – соответствие не считается. Пройдите онбординг, и у каждого вуза появится, что
           подходит, чего не хватает и что не проверено.
         </p>
       )}
-    </Card>
+    </div>
+  )
+}
+
+/* ---------- active filters as red pills (cream text); a click removes the one filter ---------- */
+
+type ChipKey = Exclude<keyof CatalogFilters, "keepUnpublished">
+
+const LANGUAGE_CHIP: Record<Exclude<LanguageFilter, "any">, string> = {
+  zh: "Китайский",
+  en: "Английский",
+}
+
+const CSCA_CHIP: Record<Exclude<CscaFilter, "any">, string> = {
+  required: "CSCA требуется",
+  not_required: "CSCA не требуется",
+  unknown: "CSCA не опубликовано",
+}
+
+/** Words for every filter that differs from the defaults (`keepUnpublished` is a display switch, not a filter). */
+function activeChips(f: CatalogFilters): { key: ChipKey; label: string }[] {
+  const chips: { key: ChipKey; label: string }[] = []
+  if (f.city) chips.push({ key: "city", label: f.city })
+  if (f.language !== "any") chips.push({ key: "language", label: LANGUAGE_CHIP[f.language] })
+  if (f.csca !== "any") chips.push({ key: "csca", label: CSCA_CHIP[f.csca] })
+  if (f.hskMax !== null) chips.push({ key: "hskMax", label: `HSK не выше ${f.hskMax}` })
+  if (f.budgetCny !== null) chips.push({ key: "budgetCny", label: `до ${formatCny(f.budgetCny)} в год` })
+  if (f.coversTuition) chips.push({ key: "coversTuition", label: "Стипендия покрывает обучение" })
+  if (f.deadlineOpen) chips.push({ key: "deadlineOpen", label: "Дедлайн ещё не прошёл" })
+  return chips
+}
+
+function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onRemove}
+      aria-label={`Убрать фильтр: ${label}`}
+      title="Убрать фильтр"
+      className="inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-accent pr-1.5 pl-2.5 font-body text-xs font-semibold text-accent-fg transition-[filter] duration-200 outline-none hover:brightness-110 focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+    >
+      <span>{label}</span>
+      <X className="size-3" aria-hidden="true" />
+    </button>
   )
 }
 
@@ -161,6 +204,8 @@ function ChinaFilterPanel({
   const myBudget = isNum(profile?.budget_year_cny) ? profile.budget_year_cny : null
   const sliderValue = filters.budgetCny ?? BUDGET_MAX
 
+  const chips = activeChips(filters)
+
   const switchRow = (label: string, key: "coversTuition" | "deadlineOpen" | "keepUnpublished") => (
     <label className="flex cursor-pointer items-center justify-between gap-3 py-1 text-sm">
       <span>{label}</span>
@@ -169,15 +214,23 @@ function ChinaFilterPanel({
   )
 
   return (
-    <Card className="gap-0 p-4 sm:p-5">
-      <div className="flex items-center justify-between gap-3">
-        <strong className="flex items-center gap-1.5 text-[13px] font-semibold">
-          <SlidersHorizontal className="size-3.5 text-accent-text" aria-hidden="true" /> Фильтры
-        </strong>
-        <Button variant="link" size="xs" onClick={() => setFilters(DEFAULT_FILTERS)}>
-          Сбросить
-        </Button>
+    <div className="rounded-lg border border-border bg-surface p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+        <Kicker accent>Фильтры</Kicker>
+        {(chips.length > 0 || filters.keepUnpublished) && (
+          <Button variant="link" size="xs" onClick={() => setFilters(DEFAULT_FILTERS)}>
+            Сбросить
+          </Button>
+        )}
       </div>
+
+      {chips.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-1.5" role="group" aria-label="Активные фильтры">
+          {chips.map((c) => (
+            <FilterChip key={c.key} label={c.label} onRemove={() => update(c.key, DEFAULT_FILTERS[c.key])} />
+          ))}
+        </div>
+      )}
 
       <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
         <FilterGroup title="Город">
@@ -257,7 +310,7 @@ function ChinaFilterPanel({
           {switchRow("Показывать вузы без данных по фильтру", "keepUnpublished")}
         </FilterGroup>
       </div>
-    </Card>
+    </div>
   )
 }
 
@@ -306,10 +359,15 @@ function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTog
 
   return (
     <motion.div variants={stagger} initial="hidden" animate="show">
-      {/* page head */}
+      {/* page head: the section kicker, a red Playfair heading in tracked capitals */}
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">Вузы Китая</h1>
-        <p className="mt-2 text-sm text-fg-muted">
+        <HanziKicker hanzi="大学" className="mb-2">
+          Каталог
+        </HanziKicker>
+        <h1 className="font-display text-3xl font-bold text-balance text-accent-text sm:text-4xl">
+          <span className="caps">Вузы Китая</span>
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-fg-muted">
           {catalog
             ? `${all.length} ${pluralRu(all.length, "вуз", "вуза", "вузов")} · факты с официальных страниц, у каждого источник и дата проверки`
             : "Загружаем каталог"}
@@ -349,7 +407,7 @@ function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTog
       <motion.div variants={fadeUp}>
         <div className="mb-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-fg-muted">
           <span>
-            Найдено: <b className="font-medium text-fg">{items.length}</b>
+            Найдено: <b className="font-semibold text-fg">{items.length}</b>
             {q && <> по запросу «{q}»</>}
           </span>
           {hiddenUnpublished > 0 && (
@@ -364,7 +422,9 @@ function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTog
         </div>
 
         {!catalog ? (
-          <Card className="p-14 text-center text-sm text-fg-muted">Загружаем каталог</Card>
+          <div className="rounded-lg border border-border bg-surface px-6 py-14 text-center text-sm text-fg-muted">
+            Загружаем каталог
+          </div>
         ) : (
           <motion.div
             variants={cardStagger}
@@ -387,13 +447,14 @@ function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTog
         )}
 
         {catalog && items.length === 0 && (
-          <Card className="p-14 text-center text-sm text-fg-muted">
+          <div className="rounded-lg border border-dashed border-border-strong px-6 py-14 text-center text-sm text-fg-muted">
             Ничего не найдено. Измените фильтры
             {hiddenUnpublished > 0 && <> или включите «Показывать вузы без данных по фильтру»</>}.
-          </Card>
+          </div>
         )}
 
-        <p className="mt-6 text-xs text-fg-muted">
+        {/* a thin red rule closes the section */}
+        <p className="rule-accent mt-8 pt-3 text-xs text-fg-muted">
           Дедлайны, HSK/IELTS и CSCA – критичные условия: сверьтесь с сайтом вуза перед подачей. Ссылки «источник»
           ведут на официальные страницы вузов.
         </p>
