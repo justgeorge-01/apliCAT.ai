@@ -1,4 +1,5 @@
 import { useMemo } from "react"
+import { BadgeCheck } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { ProvenanceBadge } from "@/components/ProvenanceBadge"
@@ -7,12 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { Kicker } from "@/components/ui/kicker"
-import { Seal } from "@/components/ui/seal"
 import type { Catalog, Fact, University } from "@/data/china.types"
 import { cscaStatus, factOf, formatCheckedAt } from "@/data/china"
-import { CSCA_BADGE } from "@/lib/catalogView"
+import { CSCA_BADGE, CSCA_LABEL } from "@/lib/catalogView"
 import type { Tab } from "@/lib/nav"
-import { SEALS, type ProvenanceKind } from "@/lib/provenance"
+import { PROVENANCE_ICON, PROVENANCE_VARIANT, type ProvenanceKind } from "@/lib/provenance"
 import { getPartner, hasLead } from "@/lib/partner"
 import { FIXED_DATES } from "@/lib/plan"
 import { cn } from "@/lib/utils"
@@ -76,39 +76,33 @@ const PROMISES = [
 ]
 
 /**
- * The legend of the four seals. The marks themselves come from `SEALS` in
- * lib/provenance – the same object ProvenanceBadge and the catalog card use,
- * so a change of state can never quietly diverge from the legend that teaches
- * the reader to read it. `meaning` spells the glyph out: a character is never
- * left unexplained.
+ * The legend of the four provenance badges. Colour and icon come from
+ * `PROVENANCE_VARIANT` / `PROVENANCE_ICON` in lib/provenance – the same tables
+ * ProvenanceBadge and the catalog card use, so a change of state can never
+ * quietly diverge from the legend that teaches the reader to read it.
  */
-const SEAL_LEGEND: {
+const BADGE_LEGEND: {
   kind: ProvenanceKind
-  meaning: string
   label: (date: string) => string
   text: string
 }[] = [
   {
     kind: "auto",
-    meaning: "«печать»",
     label: (d) => `проверено автоматически · ${d}`,
-    text: "Факт извлечён конвейером со страницы вуза. Клик по печати в карточке раскрывает дословную цитату и ссылку на источник.",
+    text: "Факт извлечён конвейером со страницы вуза. Клик по бейджу в карточке раскрывает дословную цитату и ссылку на источник.",
   },
   {
     kind: "manual",
-    meaning: "«рукой»",
     label: (d) => `проверено вручную · ${d}`,
-    text: "Внесён оператором с официальной страницы – с той же цитатой и ссылкой. Печать та же, но в двойной рамке.",
+    text: "Внесён оператором с официальной страницы – с той же ссылкой и датой. Бейдж красный, но контурный.",
   },
   {
     kind: "wayback",
-    meaning: "«архив»",
     label: (d) => `по архивной копии от ${d}`,
     text: "Сайт вуза был недоступен, значение взято из копии archive.org. Сверьте на живой странице.",
   },
   {
     kind: "demo",
-    meaning: "«проба»",
     label: (d) => `демо · ${d}`,
     text: "Встроенный пример, который не прошёл конвейер: значение с официальной страницы, но без автоматической проверки.",
   },
@@ -198,7 +192,7 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
           )}
         </div>
         <p className="mt-6 flex items-center gap-2 text-xs text-fg-muted">
-          <Seal />
+          <BadgeCheck className="size-3.5 shrink-0 text-accent-text" aria-hidden="true" />
           <span className="min-w-0 flex-1">
             {catalog
               ? `${totalLabel} в каталоге · ${
@@ -281,7 +275,7 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
                       variant={CSCA_BADGE[status].variant}
                       className={cn("shrink-0", CSCA_BADGE[status].className)}
                     >
-                      {status === "required" ? "CSCA требуется" : status === "not_required" ? "CSCA не требуется" : "CSCA не опубликовано"}
+                      {CSCA_LABEL[status]}
                     </Badge>
                   </button>
                 )
@@ -291,35 +285,32 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
         </motion.section>
       )}
 
-      {/* how to read the seals – the real Seal component in all four states */}
+      {/* how to read the badges – the real colours and icons in all four states */}
       <motion.section variants={fadeUp} className="mt-8 sm:mt-10">
         <Card className="gap-0 p-5 sm:p-6">
-          <HanziKicker hanzi="印章">Печати</HanziKicker>
-          <h2 className="mt-1.5 text-xl font-bold">Как читать печати</h2>
+          <HanziKicker hanzi="来源">Источники</HanziKicker>
+          <h2 className="mt-1.5 text-xl font-bold">Как читать бейджи</h2>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-fg-muted">
-            У каждого факта в карточке стоит печать. Сплошная красная – факт проверен по официальной
-            странице; контурная – значение есть, но взято из архива или из встроенного примера.
+            У каждого факта в карточке стоит бейдж с датой проверки. Красный – факт проверен по официальной
+            странице (сплошной – конвейером, контурный – оператором); жёлтый – взят из архивной копии; серый –
+            встроенный пример.
           </p>
 
           <dl className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
-            {SEAL_LEGEND.map((row) => (
-              <div key={row.kind} className="flex gap-3.5">
-                <Seal
-                  {...SEALS[row.kind]}
-                  size="md"
-                  className={cn("mt-0.5", SEALS[row.kind].className)}
-                />
-                <div className="min-w-0">
-                  <dt className="text-sm font-semibold">{row.label(legendDate)}</dt>
-                  <dd className="mt-1 text-sm leading-relaxed text-fg-muted">
-                    <span lang="zh-Hans" translate="no" className="font-cjk text-fg">
-                      {SEALS[row.kind].glyph}
-                    </span>{" "}
-                    – {row.meaning}. {row.text}
-                  </dd>
+            {BADGE_LEGEND.map((row) => {
+              const Icon = PROVENANCE_ICON[row.kind]
+              return (
+                <div key={row.kind} className="min-w-0">
+                  <dt>
+                    <Badge variant={PROVENANCE_VARIANT[row.kind]} className="gap-1.5 whitespace-normal">
+                      <Icon className="size-3.5 shrink-0" aria-hidden="true" />
+                      <span>{row.label(legendDate)}</span>
+                    </Badge>
+                  </dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-fg-muted">{row.text}</dd>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </dl>
 
           {/* the live example – a real fact from the catalog with its real badge */}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Loader2 } from "lucide-react"
+import { FlaskConical, Loader2 } from "lucide-react"
 
 import { Sidebar } from "@/components/Sidebar"
 import SettingsDialog from "@/components/SettingsDialog"
@@ -8,7 +8,6 @@ import { LeadInvite } from "@/components/partner/LeadInvite"
 import { useLeadTrigger } from "@/components/partner/useLeadTrigger"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Seal } from "@/components/ui/seal"
 import { ToastProvider } from "@/components/ui/toast"
 import { findUniversity, loadCatalog } from "@/data/china"
 import type { Catalog, University } from "@/data/china.types"
@@ -200,7 +199,7 @@ export default function App() {
                 className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-lg border border-border bg-card-2 px-4 py-3 text-xs text-fg-muted"
               >
                 <Badge variant="secondary" className="gap-1.5 pl-1">
-                  <Seal glyph="试" variant="outline" tone="muted" />
+                  <FlaskConical className="size-3 shrink-0" aria-hidden="true" />
                   демо
                 </Badge>
                 <span>

@@ -1,9 +1,8 @@
-import { ExternalLink } from "lucide-react"
+import { CalendarDays, ExternalLink } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { HanziKicker } from "@/components/ui/hanzi-kicker"
-import { Seal } from "@/components/ui/seal"
 import { formatCheckedAt } from "@/data/china"
 import { daysLeftLabel, type DeadlineItem } from "@/lib/plan"
 import { cn } from "@/lib/utils"
@@ -137,7 +136,7 @@ function DeadlineRow({
             )}
             {item.kind === "common" && (
               <span className="inline-flex items-center gap-1 text-xs text-fg-muted">
-                <Seal glyph="共" variant="outline" tone="accent" />
+                <CalendarDays className="size-3.5 shrink-0" aria-hidden="true" />
                 общие
               </span>
             )}

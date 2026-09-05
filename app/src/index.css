@@ -7,7 +7,7 @@
    is activated with [data-theme="dark"] on <html>.
 
    Palette (see DESIGN.md):
-   - red  #8E1812 – the accent: headings, CTA, seals, thin rules, kickers.
+   - red  #8E1812 – the accent: headings, CTA, badges, thin rules, kickers.
      Never a page fill.
    - paper #F7F4E9 / cream – page and band backgrounds;
    - gold  #EDE2C3 – accent TEXT on red and on ink, never on paper;
@@ -174,25 +174,6 @@ h1, h2, h3 {
 }
 [data-theme="dark"] [data-slot="card"] {
   box-shadow: none;
-}
-
-/* A solid red seal on graphite is under 3:1 at the edge – give it a hairline
-   rim in the ink theme so the square reads even before the glyph does */
-[data-theme="dark"] [data-slot="seal"][data-variant="solid"] {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-fg) 45%, transparent);
-}
-
-/* Seal states that share a variant need a second visual feature, so the four
-   provenance marks (and the critical-field seal) never look alike:
-   – .seal-manual: the operator's 手 repeats the rim around the solid square;
-   – .seal-critical: the 核 of a critical field is dashed, 档 (archive) is not. */
-[data-slot="seal"].seal-manual {
-  outline: 1px solid var(--color-accent);
-  outline-offset: 2px;
-}
-[data-slot="seal"].seal-critical,
-[data-slot="seal"].seal-critical > span {
-  border-style: dashed;
 }
 
 /* Range sliders (GPA, budget, tuition filter) – system track + accent thumb

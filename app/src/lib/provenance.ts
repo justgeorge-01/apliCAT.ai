@@ -1,4 +1,5 @@
-import type { SealProps } from "@/components/ui/seal"
+import type { LucideIcon } from "lucide-react"
+import { Archive, BadgeCheck, FlaskConical, PenLine } from "lucide-react"
 import { formatCheckedAt } from "@/data/china"
 import type { Fact } from "@/data/china.types"
 
@@ -54,33 +55,26 @@ export function provenanceOf(fact: Fact): Provenance {
   }
 }
 
-/** What a seal is made of – spread straight into `<Seal {...spec} />`. */
-export type SealSpec = Pick<SealProps, "glyph" | "variant" | "tone" | "className">
-
 /**
- * The seal (印章) of each state – the product's main visual mark. Every state
- * differs from the others by SHAPE, not only by the glyph inside, so the four
- * marks are told apart at a glance without reading:
- *  印 «печать» – solid red square: extracted by the pipeline;
- *  手 «рукой»  – solid red square in a second red rim (`.seal-manual`):
- *                typed in by an operator;
- *  档 «архив»  – solid contour, warning tone: archive.org copy;
- *  试 «проба»  – solid contour, muted tone: demo fixture.
- * The dashed contour is reserved for the critical-field seal 核 (`CriticalSeal`),
- * so it can never be mistaken for 档.
+ * How the four states LOOK – a text badge with a date, in a colour and with an
+ * icon that differ per state, so a reader tells them apart without reading:
+ *  auto    – red filled badge, check mark: extracted by the pipeline;
+ *  manual  – red contour badge, pen: typed in by an operator;
+ *  wayback – warning (ochre) badge, archive box: archive.org copy;
+ *  demo    – grey badge, flask: the built-in fixture.
+ * Single source of truth: ProvenanceBadge, the catalog card and the legend on
+ * the landing page all read these two tables.
  */
-export const SEALS: Record<ProvenanceKind, SealSpec> = {
-  auto: { glyph: "印", variant: "solid", tone: "accent" },
-  manual: { glyph: "手", variant: "solid", tone: "accent", className: "seal-manual" },
-  wayback: { glyph: "档", variant: "outline", tone: "warning" },
-  demo: { glyph: "试", variant: "outline", tone: "muted" },
+export const PROVENANCE_VARIANT: Record<ProvenanceKind, "default" | "outline" | "warning" | "secondary"> = {
+  auto: "default",
+  manual: "outline",
+  wayback: "warning",
+  demo: "secondary",
 }
 
-/**
- * The seal of one fact – the single source of truth for the four states, so
- * the compact mark on the catalog card, the full badge on the detail page and
- * the legend on the landing can never disagree.
- */
-export function sealOfFact(fact: Fact): SealSpec {
-  return SEALS[provenanceOf(fact).kind]
+export const PROVENANCE_ICON: Record<ProvenanceKind, LucideIcon> = {
+  auto: BadgeCheck,
+  manual: PenLine,
+  wayback: Archive,
+  demo: FlaskConical,
 }

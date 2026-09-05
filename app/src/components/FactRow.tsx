@@ -1,8 +1,7 @@
 import type { ReactNode } from "react"
+import { AlertTriangle } from "lucide-react"
 
 import { ProvenanceBadge } from "@/components/ProvenanceBadge"
-import { HanziKicker } from "@/components/ui/hanzi-kicker"
-import { Seal } from "@/components/ui/seal"
 import { formatCheckedAt } from "@/data/china"
 import type { Fact } from "@/data/china.types"
 import { cn } from "@/lib/utils"
@@ -17,22 +16,23 @@ function emptyFactText(lastCheckedAt: string | null, label: string = "вуз н�
 const CRITICAL_FIELD_LABEL = "критичное поле: сверьтесь с сайтом вуза перед подачей"
 
 /**
- * The contour seal of a critical field (deadlines, HSK/IELTS, CSCA):
- * 核 «сверить», warning tone, DASHED rim (`.seal-critical`) – this is not a
- * provenance state, and the dashed square keeps it from reading as the solid
- * contour of 档 (archive copy). Next to a row label it names the field itself
- * (role="img" + label); in the disclaimer line under the card the text next
- * to it carries the meaning, so there it is `decorative`.
+ * The mark of a critical field (deadlines, HSK/IELTS, CSCA): a small warning
+ * triangle. It is not a provenance state – the provenance badge stands on the
+ * value, this stands on the LABEL and says «check this one on the site before
+ * you apply». Next to a row label it names the field itself (role="img" +
+ * label); in the disclaimer line under the card the text next to it carries
+ * the meaning, so there it is `decorative`.
  */
-export function CriticalSeal({ decorative = false, className }: { decorative?: boolean; className?: string }) {
+export function CriticalMark({ decorative = false, className }: { decorative?: boolean; className?: string }) {
   return (
-    <Seal
-      glyph="核"
-      variant="outline"
-      tone="warning"
-      className={cn("seal-critical", className)}
-      {...(decorative ? {} : { role: "img", "aria-label": CRITICAL_FIELD_LABEL, title: CRITICAL_FIELD_LABEL })}
-    />
+    <AlertTriangle
+      className={cn("size-3.5 shrink-0 text-warning", className)}
+      {...(decorative
+        ? { "aria-hidden": true }
+        : { role: "img", "aria-label": CRITICAL_FIELD_LABEL })}
+    >
+      {decorative ? null : <title>{CRITICAL_FIELD_LABEL}</title>}
+    </AlertTriangle>
   )
 }
 
@@ -44,7 +44,7 @@ export interface FactItemProps {
 
 /**
  * One printed fact, one ledger line: optional sub-label · `display` set large
- * in the display face · academic year – and the provenance seal at the right
+ * in the display face · academic year – and the provenance badge at the right
  * end. The badge's quote panel is full-width and wraps under the line.
  */
 export function FactItem({ fact, sublabel }: FactItemProps) {
@@ -66,17 +66,15 @@ export function FactItem({ fact, sublabel }: FactItemProps) {
 export interface FactRowProps {
   /** Row label, e.g. «Дедлайн подачи». */
   label: string
-  /** Han-character kicker printed with the label («考试 CSCA»). At most one row of a card carries it. */
-  hanzi?: string
   /** Facts to print, in order. Empty → «вуз не публикует · проверено …» (the row is never skipped). */
   facts: Fact[]
   /** `University.last_checked_at` – printed in the empty state. */
   lastCheckedAt: string | null
-  /** Critical field (deadlines, HSK/IELTS, CSCA): marked with the contour seal, see the line under the card. */
+  /** Critical field (deadlines, HSK/IELTS, CSCA): marked with the warning mark, see the line under the card. */
   critical?: boolean
   /** Print each fact's own `label_ru` above its value (rows that group several keys). */
   sublabels?: boolean
-  /** Replaces «вуз не публикует» in the empty state, e.g. «вуз не заявил» for CSCA. */
+  /** Replaces «вуз не публикует» in the empty state. */
   emptyLabel?: string
   /** Rendered above the facts (e.g. the CSCA status badge). */
   lead?: ReactNode
@@ -88,7 +86,7 @@ export interface FactRowProps {
 /**
  * One row of the university card (spec §3.3), set like a ledger on paper:
  * label at the left (Noto Sans 600), the `display` value large, the
- * provenance seal at the right, a thin rule under the row. Every fact here
+ * provenance badge at the right, a thin rule under the row. Every fact here
  * has `source_url` + `verified_at` (guaranteed by `normalizeCatalog`), so a
  * badge is always present.
  *
@@ -96,7 +94,6 @@ export interface FactRowProps {
  */
 export function FactRow({
   label,
-  hanzi,
   facts,
   lastCheckedAt,
   critical = false,
@@ -114,14 +111,8 @@ export function FactRow({
       )}
     >
       <dt className="flex items-center gap-2 text-[13px] leading-snug font-semibold text-fg-muted sm:pt-1">
-        {hanzi ? (
-          <HanziKicker as="span" hanzi={hanzi}>
-            {label}
-          </HanziKicker>
-        ) : (
-          <span>{label}</span>
-        )}
-        {critical && <CriticalSeal />}
+        <span>{label}</span>
+        {critical && <CriticalMark />}
       </dt>
       <dd className="flex min-w-0 flex-col gap-4">
         {lead}

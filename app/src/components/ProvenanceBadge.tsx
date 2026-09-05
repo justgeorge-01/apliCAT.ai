@@ -3,25 +3,12 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ChevronDown, ExternalLink } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import type { badgeVariants } from "@/components/ui/badge-variants"
-import { Seal } from "@/components/ui/seal"
-import type { VariantProps } from "class-variance-authority"
 import { formatCheckedAt } from "@/data/china"
 import type { Fact } from "@/data/china.types"
-import { provenanceOf, sealOfFact, type ProvenanceKind } from "@/lib/provenance"
+import { PROVENANCE_ICON, PROVENANCE_VARIANT, provenanceOf } from "@/lib/provenance"
 import { cn } from "@/lib/utils"
 
 const EASE = [0.16, 1, 0.3, 1] as const
-
-type BadgeVariant = NonNullable<VariantProps<typeof badgeVariants>["variant"]>
-
-/** Red for pipeline/operator checks, warning for an archive copy, plain grey for demo. */
-const VARIANTS: Record<ProvenanceKind, BadgeVariant> = {
-  auto: "default",
-  manual: "default",
-  wayback: "warning",
-  demo: "secondary",
-}
 
 const CERTAINTY_CAVEAT: Record<Fact["certainty"], string | null> = {
   verified: null,
@@ -52,13 +39,13 @@ export function ProvenanceBadge({ fact, className }: ProvenanceBadgeProps) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
   const p = provenanceOf(fact)
-  const seal = sealOfFact(fact)
+  const Icon = PROVENANCE_ICON[p.kind]
   const caveat = CERTAINTY_CAVEAT[fact.certainty]
   const snap = fact.snapshot
 
   return (
     <>
-      <Badge asChild variant={VARIANTS[p.kind]} className={cn("gap-1.5 py-0.5 pr-2 pl-1 whitespace-normal", className)}>
+      <Badge asChild variant={PROVENANCE_VARIANT[p.kind]} className={cn("gap-1.5 py-0.5 pr-2 pl-1 whitespace-normal", className)}>
         <button
           type="button"
           aria-expanded={open}
@@ -70,7 +57,7 @@ export function ProvenanceBadge({ fact, className }: ProvenanceBadgeProps) {
             p.kind === "demo" && "text-fg-faint",
           )}
         >
-          <Seal {...seal} size="sm" />
+          <Icon className="size-3.5 shrink-0" aria-hidden="true" />
           <span>{p.label}</span>
           {caveat && <span className="opacity-80">· {caveat}</span>}
           <ChevronDown
@@ -122,6 +109,12 @@ export function ProvenanceBadge({ fact, className }: ProvenanceBadgeProps) {
       </AnimatePresence>
     </>
   )
+}
+
+/** The state icon alone – for compact lines (the catalog card) where the full badge is too heavy. */
+export function ProvenanceIcon({ fact, className }: { fact: Fact; className?: string }) {
+  const Icon = PROVENANCE_ICON[provenanceOf(fact).kind]
+  return <Icon className={cn("size-3.5 shrink-0", className)} aria-hidden="true" />
 }
 
 export default ProvenanceBadge

@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { BookmarkCheck, BookmarkPlus, ChevronLeft, ExternalLink, MessageCircle } from "lucide-react"
 
 import { CscaBlock } from "@/components/CscaBlock"
-import { CriticalSeal, FactRow } from "@/components/FactRow"
+import { CriticalMark, FactRow } from "@/components/FactRow"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -271,7 +271,7 @@ function ChinaDetail({
             Факты
           </HanziKicker>
           <p className="mt-2 max-w-prose text-sm text-fg-muted">
-            С официальных страниц вуза: значения напечатаны так, как их опубликовал вуз. Печать рядом со значением
+            С официальных страниц вуза: значения напечатаны так, как их опубликовал вуз. Бейдж рядом со значением
             раскрывает цитату и ссылку на источник.
           </p>
 
@@ -314,11 +314,11 @@ function ChinaDetail({
           </div>
         </Card>
 
-        {/* critical fields – the contour seal from the rows, the same line as in the Пульт */}
+        {/* critical fields – the warning mark from the rows, the same line as in the Пульт */}
         <p className="mt-4 flex items-start gap-2.5 px-1 text-xs leading-relaxed text-fg-muted">
-          <CriticalSeal decorative className="mt-px" />
+          <CriticalMark decorative className="mt-px" />
           <span>
-            Дедлайны, HSK/IELTS и CSCA – критичные поля, отмечены этой печатью: сверьтесь с сайтом вуза перед
+            Дедлайны, HSK/IELTS и CSCA – критичные поля, отмечены этим знаком: сверьтесь с сайтом вуза перед
             подачей. Мы показываем только опубликованные условия и не оцениваем шансы.
           </span>
         </p>

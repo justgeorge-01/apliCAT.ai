@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { ProvenanceIcon } from "@/components/ProvenanceBadge"
 import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 
@@ -7,12 +8,10 @@ import { CscaBadge } from "@/components/CscaBadge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Seal } from "@/components/ui/seal"
 import { factOf, factsOf } from "@/data/china"
 import type { Fact, University } from "@/data/china.types"
 import { cscaEmptyText, displayName, emptyFactText, matchSummary, provenanceText } from "@/lib/catalogView"
 import type { MatchResult } from "@/lib/match"
-import { sealOfFact } from "@/lib/provenance"
 import { cn } from "@/lib/utils"
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -32,7 +31,7 @@ function FactLine({ fact, sublabel }: { fact: Fact; sublabel?: string }) {
         {fact.display}
       </div>
       <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs leading-none text-fg-muted">
-        <Seal {...sealOfFact(fact)} size="sm" />
+        <ProvenanceIcon fact={fact} />
         <span>{provenanceText(fact)}</span>
         <span className="text-fg-faint" aria-hidden="true">
           ·
