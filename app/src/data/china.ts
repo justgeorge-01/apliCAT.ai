@@ -17,8 +17,7 @@ import type {
   FactKey,
   FactValue,
   MoneyValue,
-  University,
-} from "./china.types"
+  University, DegreeScope } from "./china.types"
 import { FIXTURE_CATALOG } from "./china.fixture"
 
 /* ---------- card layout constants ---------- */
@@ -144,7 +143,7 @@ const str = (x: unknown): string | null => (typeof x === "string" && x.trim() ? 
 
 const ORIGINS = new Set(["auto", "manual", "demo"])
 const CERTAINTIES = new Set(["verified", "estimate", "community_estimate"])
-const RENDER_METHODS = new Set(["fetch", "browser", "wayback"])
+const RENDER_METHODS = new Set(["fetch", "browser", "wayback", "pdf"])
 
 /**
  * A fact the UI is allowed to render: has a key, a printable `display`, an
@@ -169,6 +168,8 @@ function normalizeFact(raw: unknown, uniId: string): Fact | null {
     value: r.value as FactValue,
     display: r.display as string,
     academic_year: str(r.academic_year),
+    degree_scope: DEGREES.has(r.degree_scope as string) ? (r.degree_scope as DegreeScope) : null,
+    intake_round: typeof r.intake_round === "number" && Number.isInteger(r.intake_round) ? r.intake_round : null,
     quote: str(r.quote),
     source_url: r.source_url as string,
     verified_at: r.verified_at as string,
@@ -230,12 +231,72 @@ export function normalizeCatalog(raw: unknown): Catalog {
 /* ---------- fact accessors ---------- */
 
 export function factsOf(u: University, key: FactKey): Fact[] {
-  return u.facts.filter((f) => f.key === key)
+  return arrangeFacts(u.facts.filter((f) => f.key === key))
 }
 
-/** First published fact for the key, or undefined (→ UI shows «вуз не публикует»). */
+/**
+ * The fact of the key a reader most likely means – the bachelor one first (this
+ * is a bachelor-admissions storefront), then an unscoped one, then the rest –
+ * or undefined (→ UI shows «вуз не публикует»).
+ */
 export function factOf(u: University, key: FactKey): Fact | undefined {
-  return u.facts.find((f) => f.key === key)
+  return factsOf(u, key)[0]
+}
+
+const DEGREES: ReadonlySet<string> = new Set(["bachelor", "master", "phd", "mba", "other", "all"])
+
+/** How a degree scope reads next to a value. "all" and null print nothing. */
+export const DEGREE_RU: Record<DegreeScope, string> = {
+  bachelor: "бакалавриат",
+  master: "магистратура",
+  phd: "докторантура",
+  mba: "MBA",
+  other: "другая степень",
+  all: "",
+}
+
+/** Display order of degree scopes: what the reader came for first. */
+const DEGREE_ORDER: Record<string, number> = { bachelor: 0, all: 1, "": 2, master: 3, mba: 4, phd: 5, other: 6 }
+
+/**
+ * Facts of one key in reading order, exact duplicates dropped. Two facts are the
+ * same line when they print the same and hold under the same coordinates
+ * (year, degree, round) – the pipeline stores one row per snapshot read, and two
+ * reads of one page are one statement to a reader. Order: bachelor first, then
+ * the unscoped statement, then the other levels; within a level the later
+ * academic year first.
+ */
+export function arrangeFacts(facts: Fact[]): Fact[] {
+  const seen = new Set<string>()
+  const out: Fact[] = []
+  for (const f of facts) {
+    const sig = [f.display, f.academic_year ?? "", f.degree_scope ?? "", f.intake_round ?? ""].join("\u0001")
+    if (seen.has(sig)) continue
+    seen.add(sig)
+    out.push(f)
+  }
+  return out.sort((a, b) => {
+    const da = DEGREE_ORDER[a.degree_scope ?? ""] ?? 9
+    const db = DEGREE_ORDER[b.degree_scope ?? ""] ?? 9
+    if (da !== db) return da - db
+    const ya = a.academic_year ?? ""
+    const yb = b.academic_year ?? ""
+    if (ya !== yb) return yb.localeCompare(ya)
+    return (a.intake_round ?? 0) - (b.intake_round ?? 0)
+  })
+}
+
+/**
+ * The coordinates a value holds under, as one muted line under it:
+ * «учебный год 2026/2027 · магистратура · раунд 2». Empty when none is stated.
+ */
+export function factCoordinates(f: Fact): string {
+  const parts: string[] = []
+  if (f.academic_year) parts.push(`учебный год ${f.academic_year}`)
+  const degree = f.degree_scope ? DEGREE_RU[f.degree_scope] : ""
+  if (degree) parts.push(degree)
+  if (f.intake_round) parts.push(`раунд ${f.intake_round}`)
+  return parts.join(" · ")
 }
 
 /** ISO timestamp of the last successful check, or null (→ «не опубликовано»). */

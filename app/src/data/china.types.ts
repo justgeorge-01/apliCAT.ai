@@ -91,7 +91,7 @@ export type FactCertainty = "verified" | "estimate" | "community_estimate"
  * unreachable and the fact comes from an archive.org copy – the UI must say
  * «по архивной копии от <archived_at>».
  */
-export type RenderMethod = "fetch" | "browser" | "wayback"
+export type RenderMethod = "fetch" | "browser" | "wayback" | "pdf"
 
 export interface FactSnapshot {
   render_method: RenderMethod
@@ -99,6 +99,8 @@ export interface FactSnapshot {
   /** Date of the archive copy when `render_method === "wayback"`, else null. */
   archived_at: string | null
 }
+
+export type DegreeScope = "bachelor" | "master" | "phd" | "mba" | "other" | "all"
 
 export interface Fact {
   key: FactKey
@@ -110,6 +112,14 @@ export interface Fact {
   display: string
   /** e.g. "2026/2027"; null when the page did not state one. */
   academic_year: string | null
+  /**
+   * The degree level the value holds for (pipeline task 23) – a university
+   * publishes one tuition for bachelors and another for an MBA, and the two are
+   * two facts. null = the page did not say; "all" = stated for every level.
+   */
+  degree_scope?: DegreeScope | null
+  /** Application round the deadline belongs to (task 23b); null = no rounds. */
+  intake_round?: number | null
   /** Verbatim quote from the source page; null only for demo facts without one. */
   quote: string | null
   /** Official page the fact was read from – always the university's own URL. */
