@@ -164,7 +164,7 @@ describe("CscaBlock", () => {
 
   it("unknown: «CSCA не опубликовано» + «вуз не публикует · проверено <дата>»", () => {
     const out = html(<CscaBlock u={uni([])} />)
-    expect(out).toContain("Вуз не заявил")
+    expect(out).toContain("CSCA не опубликовано")
     expect(out).toContain("вуз не публикует · проверено 31 августа 2026")
   })
 
@@ -176,7 +176,7 @@ describe("CscaBlock", () => {
       display: "математика, физика",
     })
     const out = html(<CscaBlock u={uni([subjects])} />)
-    expect(out).toContain("Вуз не заявил")
+    expect(out).toContain("CSCA не опубликовано")
     expect(out).toContain("вуз не публикует · проверено 31 августа 2026")
     expect(out).toContain("Модули CSCA")
     expect(out).toContain("математика, физика")
