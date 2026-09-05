@@ -75,6 +75,8 @@
   /* Semantic */
   --color-positive: #1b6f34;
   --color-warning: #874a00;
+  /* text on a warning fill – dark amber in the paper theme takes cream text */
+  --color-warning-fg: #f7f4e9;
   --color-danger: #b3261e;
   --color-danger-fg: #f7f4e9;
 }
@@ -102,6 +104,8 @@
 
   --color-positive: #7fc98a;
   --color-warning: #e4b04a;
+  /* dark warning is a light amber, so cream text on it fails contrast */
+  --color-warning-fg: #2a1c00;
   --color-danger: #f28b82;
   /* text on a danger fill – dark danger is a light red, so cream text fails contrast */
   --color-danger-fg: #2a0a0a;
@@ -176,6 +180,19 @@ h1, h2, h3 {
    rim in the ink theme so the square reads even before the glyph does */
 [data-theme="dark"] [data-slot="seal"][data-variant="solid"] {
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-fg) 45%, transparent);
+}
+
+/* Seal states that share a variant need a second visual feature, so the four
+   provenance marks (and the critical-field seal) never look alike:
+   – .seal-manual: the operator's 手 repeats the rim around the solid square;
+   – .seal-critical: the 核 of a critical field is dashed, 档 (archive) is not. */
+[data-slot="seal"].seal-manual {
+  outline: 1px solid var(--color-accent);
+  outline-offset: 2px;
+}
+[data-slot="seal"].seal-critical,
+[data-slot="seal"].seal-critical > span {
+  border-style: dashed;
 }
 
 /* Range sliders (GPA, budget, tuition filter) – system track + accent thumb

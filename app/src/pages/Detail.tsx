@@ -99,19 +99,6 @@ const HANZI_RE = /[\u3400-\u4dbf\u4e00-\u9fff]+/
 const HANZI_SPLIT_RE = /([\u3400-\u4dbf\u4e00-\u9fff]+)/
 
 /**
- * The university's own Han name when the export carries one in `name_ru` or
- * `name` («北京大学 «Бейда»»); otherwise null and the head falls back to the
- * generic 大学. Never invented here – only what the data says.
- */
-function hanziNameOf(u: ChinaUniversity): string | null {
-  for (const s of [u.name_ru, u.name]) {
-    const m = s ? HANZI_RE.exec(s) : null
-    if (m) return m[0]
-  }
-  return null
-}
-
-/**
  * The name with its Han runs marked up («北京大学 «Бейда»» – the characters in
  * the CJK face, the rest in the display face). Plain text otherwise.
  */
@@ -215,7 +202,6 @@ function ChinaDetail({
 
   const checkedAt = lastChecked(u)
   const estimate = yearInChinaEstimate(u)
-  const hanzi = hanziNameOf(u)
   const title = u.name_ru ?? u.name
   // the export may leave `city` empty – the country line still places the university
   const country = u.country === "CN" ? "Китай" : u.country
@@ -231,7 +217,9 @@ function ChinaDetail({
       {/* head: kicker · name in the display face · city · the thin check line */}
       <motion.header variants={fadeUp} className="flex flex-col gap-6">
         <div className="min-w-0">
-          <HanziKicker hanzi={hanzi ?? "大学"}>Университет</HanziKicker>
+          {/* always the section's own characters: the university's Chinese name is
+              not the meaning of «Университет», and it already stands in the H1 */}
+          <HanziKicker hanzi="大学">Университет</HanziKicker>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-balance text-accent-text sm:text-4xl">
             <TitleText text={title} />
           </h1>

@@ -35,7 +35,6 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { Kicker as Eyebrow } from "@/components/ui/kicker"
 import { Textarea } from "@/components/ui/textarea"
 import { FEATURES } from "@/lib/features"
@@ -1948,9 +1947,6 @@ const CN_BUDGET_STEP = 5_000
 const CN_BUDGET_DEFAULT = 60_000
 const CN_SCREENS = 5
 
-/** Han numerals of the five steps – the kicker of each screen («一 Степень и год»). */
-const CN_STEP_NUMERALS = ["一", "二", "三", "四", "五"] as const
-
 /** Profile input (not a fact): thousands with a narrow space + «¥». */
 const fmtYuan = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ¥"
 /** IELTS bands as printed on the certificate: 6.0, 6.5. */
@@ -1962,11 +1958,16 @@ function clampBudget(raw: number | null | undefined): number {
   return Math.min(CN_BUDGET_MAX, Math.max(CN_BUDGET_MIN, stepped))
 }
 
-/** Step kicker + heading + lead of one screen: «一 Степень и год» over a red Playfair heading. */
-function CnHead({ step, kicker, title, lead }: { step: number; kicker: string; title: string; lead: string }) {
+/**
+ * Step kicker + heading + lead of one screen: «СТЕПЕНЬ И ГОД» over a red
+ * Playfair heading. A plain `Kicker`, not a Han one: the Russian label here
+ * names the step, it is not the meaning of a character – and the step number
+ * is already printed in the header («Шаг 1 из 5»).
+ */
+function CnHead({ kicker, title, lead }: { kicker: string; title: string; lead: string }) {
   return (
     <div>
-      <HanziKicker hanzi={CN_STEP_NUMERALS[step - 1]}>{kicker}</HanziKicker>
+      <Eyebrow accent>{kicker}</Eyebrow>
       <h1 className="mt-3 font-display text-2xl font-bold tracking-tight text-balance text-accent-text sm:text-[28px]">
         {title}
       </h1>
@@ -2132,7 +2133,7 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
       case 1:
         return (
           <div>
-            <CnHead step={1} kicker="Степень и год" title="Куда и когда подаётесь?" lead="Степень и год подачи документов" />
+            <CnHead kicker="Степень и год" title="Куда и когда подаётесь?" lead="Степень и год подачи документов" />
             <div className="mt-6 flex flex-col gap-2.5">
               {CN_DEGREES.map((o) => (
                 <CnOption key={o.val} selected={degree === o.val} onClick={() => setDegree(o.val)}>
@@ -2170,7 +2171,7 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
       case 2:
         return (
           <div>
-            <CnHead step={2} kicker="Направление" title="Что хотите изучать?" lead="Одно направление – по нему подберём вузы" />
+            <CnHead kicker="Направление" title="Что хотите изучать?" lead="Одно направление – по нему подберём вузы" />
             <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {CHINA_FIELDS.map((o) => (
                 <CnOption
@@ -2193,7 +2194,6 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
         return (
           <div>
             <CnHead
-              step={3}
               kicker="Язык обучения"
               title="На каком языке хотите учиться?"
               lead="От этого зависит, какой сертификат спросим дальше"
@@ -2218,7 +2218,6 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
         return (
           <div>
             <CnHead
-              step={4}
               kicker="Сертификаты"
               title="Какой у вас уровень языка?"
               lead="Если сертификата пока нет, выберите «Нет» – в каталоге покажем, какого уровня не хватает"
@@ -2262,7 +2261,6 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
         return (
           <div>
             <CnHead
-              step={5}
               kicker="Бюджет"
               title="Сколько готовы платить за обучение в год?"
               lead="Только стоимость обучения, без общежития. В каталоге сравним с опубликованной ценой"
@@ -2304,8 +2302,6 @@ function ChinaOnboarding({ onDone, initial, onCancel }: ChinaOnboardingProps) {
 
   return (
     <div className="relative min-h-dvh">
-      <div className="hero-glow pointer-events-none fixed inset-0 opacity-50" />
-
       {/* progress chrome – a hairline of red across the top of the paper */}
       <div aria-hidden className="fixed inset-x-0 top-0 z-20 h-1 bg-fg/8">
         <div

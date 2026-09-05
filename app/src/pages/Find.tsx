@@ -93,7 +93,7 @@ export default function Find(props: FindProps) {
 function FilterGroup({ title, children, className }: { title: string; children: React.ReactNode; className?: string }) {
   return (
     <div className={cn("min-w-0", className)}>
-      <Kicker className="mb-2 text-[11px]">{title}</Kicker>
+      <Kicker className="mb-2">{title}</Kicker>
       {children}
     </div>
   )

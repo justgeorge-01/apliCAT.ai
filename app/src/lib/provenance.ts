@@ -54,25 +54,33 @@ export function provenanceOf(fact: Fact): Provenance {
   }
 }
 
+/** What a seal is made of – spread straight into `<Seal {...spec} />`. */
+export type SealSpec = Pick<SealProps, "glyph" | "variant" | "tone" | "className">
+
 /**
- * The seal (印章) of each state – the product's main visual mark. Solid red
- * for a real check, contour for an archive copy or the demo fixture; the
- * glyph names the state and the Russian label next to it is its meaning:
- *  印 «печать» – checked by the pipeline;  手 «рукой» – typed in by an operator;
- *  档 «архив» – archive.org copy;          试 «проба» – demo fixture.
+ * The seal (印章) of each state – the product's main visual mark. Every state
+ * differs from the others by SHAPE, not only by the glyph inside, so the four
+ * marks are told apart at a glance without reading:
+ *  印 «печать» – solid red square: extracted by the pipeline;
+ *  手 «рукой»  – solid red square in a second red rim (`.seal-manual`):
+ *                typed in by an operator;
+ *  档 «архив»  – solid contour, warning tone: archive.org copy;
+ *  试 «проба»  – solid contour, muted tone: demo fixture.
+ * The dashed contour is reserved for the critical-field seal 核 (`CriticalSeal`),
+ * so it can never be mistaken for 档.
  */
-const SEALS: Record<ProvenanceKind, Pick<SealProps, "glyph" | "variant" | "tone">> = {
+export const SEALS: Record<ProvenanceKind, SealSpec> = {
   auto: { glyph: "印", variant: "solid", tone: "accent" },
-  manual: { glyph: "手", variant: "solid", tone: "accent" },
+  manual: { glyph: "手", variant: "solid", tone: "accent", className: "seal-manual" },
   wayback: { glyph: "档", variant: "outline", tone: "warning" },
   demo: { glyph: "试", variant: "outline", tone: "muted" },
 }
 
 /**
  * The seal of one fact – the single source of truth for the four states, so
- * the compact mark on the catalog card and the full badge on the detail page
- * can never disagree.
+ * the compact mark on the catalog card, the full badge on the detail page and
+ * the legend on the landing can never disagree.
  */
-export function sealOfFact(fact: Fact): Pick<SealProps, "glyph" | "variant" | "tone"> {
+export function sealOfFact(fact: Fact): SealSpec {
   return SEALS[provenanceOf(fact).kind]
 }

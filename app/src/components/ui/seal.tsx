@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils"
  * seal is aria-hidden unless a `title`/aria-label is passed.
  */
 const SIZES = {
-  sm: { box: "size-5 rounded-[3px]", glyph: "text-[11px]" },
+  sm: { box: "size-5 rounded-[3px]", glyph: "text-xs" },
   md: { box: "size-7 rounded-[4px]", glyph: "text-[15px]" },
 } as const
 
@@ -25,9 +25,11 @@ const TONES = {
     inner: { solid: "border-accent-fg/60", outline: "border-accent-text/50" },
   },
   warning: {
-    solid: "border-warning bg-warning text-paper",
+    /* the ink theme's warning is a light amber, so the glyph follows
+       --color-warning-fg the way the danger fill follows --color-danger-fg */
+    solid: "border-warning bg-warning text-warning-fg",
     outline: "border-warning bg-transparent text-warning",
-    inner: { solid: "border-paper/60", outline: "border-warning/50" },
+    inner: { solid: "border-warning-fg/60", outline: "border-warning/50" },
   },
   muted: {
     solid: "border-fg-faint bg-fg-faint text-bg",

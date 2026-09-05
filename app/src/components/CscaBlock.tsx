@@ -4,6 +4,7 @@ import { FactItem, FactRow } from "@/components/FactRow"
 import { Badge } from "@/components/ui/badge"
 import { cscaStatus, factsOf, formatCheckedAt, lastChecked, type CscaStatus } from "@/data/china"
 import type { University } from "@/data/china.types"
+import { CSCA_BADGE } from "@/lib/catalogView"
 import { cn } from "@/lib/utils"
 
 /**
@@ -27,12 +28,6 @@ const STATUS_LABEL: Record<CscaStatus, string> = {
   unknown: "Вуз не заявил",
 }
 
-const STATUS_VARIANT: Record<CscaStatus, "default" | "secondary" | "outline"> = {
-  required: "default",
-  not_required: "secondary",
-  unknown: "outline",
-}
-
 export interface CscaBlockProps {
   u: University
   className?: string
@@ -40,7 +35,8 @@ export interface CscaBlockProps {
 
 /**
  * The CSCA row of the university card – the one row set apart: a red rule
- * at the left on a faint red wash, the «考试 CSCA» kicker as its label. Inside:
+ * at the left on a faint red wash. Its label is a plain one: the card already
+ * carries its single Han kicker («事实 Факты»). Inside:
  * the status badge, the `csca_required` fact with provenance, the
  * `csca_subjects` facts (modules) beneath it, and the honest footnote about
  * the phased roll-out. When the university has not stated the requirement
@@ -54,7 +50,6 @@ export function CscaBlock({ u, className }: CscaBlockProps) {
   return (
     <FactRow
       label="CSCA"
-      hanzi="考试"
       facts={required}
       lastCheckedAt={lastChecked(u)}
       critical
@@ -63,7 +58,9 @@ export function CscaBlock({ u, className }: CscaBlockProps) {
       className={cn("my-3 rounded-md border-b-0 border-l-2 border-accent bg-accent-soft px-4 sm:px-5", className)}
       lead={
         <div>
-          <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>
+          <Badge variant={CSCA_BADGE[status].variant} className={CSCA_BADGE[status].className}>
+            {STATUS_LABEL[status]}
+          </Badge>
         </div>
       }
     >

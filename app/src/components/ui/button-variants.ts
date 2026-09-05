@@ -6,9 +6,13 @@ import { cva } from "class-variance-authority"
  *
  * «Азия / красный»: the primary is a red fill with cream semibold text, the
  * secondary an ink outline. Moderate radius, no glow, no arrows.
+ *
+ * Disabled is a state of its own, not a faded fill: a half-transparent red
+ * button still reads as a red button (and cream on 50% red is 1.7:1), so a
+ * disabled button drops the fill and becomes a muted contour instead.
  */
 export const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:border disabled:border-border-strong disabled:bg-transparent disabled:font-medium disabled:text-fg-faint disabled:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {

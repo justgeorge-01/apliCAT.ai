@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { Kicker } from "@/components/ui/kicker"
-import { Seal, type SealProps } from "@/components/ui/seal"
+import { Seal } from "@/components/ui/seal"
 import type { Catalog, Fact, University } from "@/data/china.types"
 import { cscaStatus, factOf, formatCheckedAt } from "@/data/china"
+import { CSCA_BADGE } from "@/lib/catalogView"
 import type { Tab } from "@/lib/nav"
+import { SEALS, type ProvenanceKind } from "@/lib/provenance"
 import { getPartner, hasLead } from "@/lib/partner"
 import { FIXED_DATES } from "@/lib/plan"
 import { cn } from "@/lib/utils"
@@ -74,36 +76,38 @@ const PROMISES = [
 ]
 
 /**
- * The four seals of a fact – the same glyph / variant / tone as
- * ProvenanceBadge, so the legend shows exactly what the card shows.
- * `meaning` spells the glyph out: a character is never left unexplained.
+ * The legend of the four seals. The marks themselves come from `SEALS` in
+ * lib/provenance – the same object ProvenanceBadge and the catalog card use,
+ * so a change of state can never quietly diverge from the legend that teaches
+ * the reader to read it. `meaning` spells the glyph out: a character is never
+ * left unexplained.
  */
-const SEALS: {
-  seal: Pick<SealProps, "glyph" | "variant" | "tone">
+const SEAL_LEGEND: {
+  kind: ProvenanceKind
   meaning: string
   label: (date: string) => string
   text: string
 }[] = [
   {
-    seal: { glyph: "印", variant: "solid", tone: "accent" },
+    kind: "auto",
     meaning: "«печать»",
     label: (d) => `проверено автоматически · ${d}`,
     text: "Факт извлечён конвейером со страницы вуза. Клик по печати в карточке раскрывает дословную цитату и ссылку на источник.",
   },
   {
-    seal: { glyph: "手", variant: "solid", tone: "accent" },
+    kind: "manual",
     meaning: "«рукой»",
     label: (d) => `проверено вручную · ${d}`,
-    text: "Внесён оператором с официальной страницы – с той же цитатой и ссылкой.",
+    text: "Внесён оператором с официальной страницы – с той же цитатой и ссылкой. Печать та же, но в двойной рамке.",
   },
   {
-    seal: { glyph: "档", variant: "outline", tone: "warning" },
+    kind: "wayback",
     meaning: "«архив»",
     label: (d) => `по архивной копии от ${d}`,
     text: "Сайт вуза был недоступен, значение взято из копии archive.org. Сверьте на живой странице.",
   },
   {
-    seal: { glyph: "试", variant: "outline", tone: "muted" },
+    kind: "demo",
     meaning: "«проба»",
     label: (d) => `демо · ${d}`,
     text: "Встроенный пример, который не прошёл конвейер: значение с официальной страницы, но без автоматической проверки.",
@@ -274,8 +278,8 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
                       </div>
                     </div>
                     <Badge
-                      variant={status === "required" ? "warning" : status === "not_required" ? "positive" : "outline"}
-                      className="shrink-0"
+                      variant={CSCA_BADGE[status].variant}
+                      className={cn("shrink-0", CSCA_BADGE[status].className)}
                     >
                       {status === "required" ? "CSCA требуется" : status === "not_required" ? "CSCA не требуется" : "CSCA не опубликовано"}
                     </Badge>
@@ -298,14 +302,18 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
           </p>
 
           <dl className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
-            {SEALS.map((row) => (
-              <div key={row.seal.glyph} className="flex gap-3.5">
-                <Seal {...row.seal} size="md" className="mt-0.5" />
+            {SEAL_LEGEND.map((row) => (
+              <div key={row.kind} className="flex gap-3.5">
+                <Seal
+                  {...SEALS[row.kind]}
+                  size="md"
+                  className={cn("mt-0.5", SEALS[row.kind].className)}
+                />
                 <div className="min-w-0">
                   <dt className="text-sm font-semibold">{row.label(legendDate)}</dt>
                   <dd className="mt-1 text-sm leading-relaxed text-fg-muted">
                     <span lang="zh-Hans" translate="no" className="font-cjk text-fg">
-                      {row.seal.glyph}
+                      {SEALS[row.kind].glyph}
                     </span>{" "}
                     – {row.meaning}. {row.text}
                   </dd>
@@ -338,9 +346,15 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
                 {
                   badge: (
                     <span className="flex flex-wrap gap-1.5">
-                      <Badge variant="warning">CSCA требуется</Badge>
-                      <Badge variant="positive">CSCA не требуется</Badge>
-                      <Badge variant="outline">CSCA не опубликовано</Badge>
+                      <Badge variant={CSCA_BADGE.required.variant} className={CSCA_BADGE.required.className}>
+                        CSCA требуется
+                      </Badge>
+                      <Badge variant={CSCA_BADGE.not_required.variant} className={CSCA_BADGE.not_required.className}>
+                        CSCA не требуется
+                      </Badge>
+                      <Badge variant={CSCA_BADGE.unknown.variant} className={CSCA_BADGE.unknown.className}>
+                        CSCA не опубликовано
+                      </Badge>
                     </span>
                   ),
                   text: "Статус CSCA по заявлению самого вуза. «Не опубликовано» значит именно это – не «нет».",
@@ -368,28 +382,22 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
         </Card>
       </motion.section>
 
-      {/* the one quotation – ink band, gold characters, the translation beside */}
+      {/* the principle – the ink band of the page, gold kicker, one line in Russian.
+          No characters here on purpose: a large Han block is not a section kicker,
+          which is the only place the system allows them, and the line has to carry
+          its meaning by itself. */}
       <motion.section
         variants={fadeUp}
         className="mt-8 rounded-lg border border-border bg-ink px-6 py-8 text-paper sm:mt-10 sm:px-8 sm:py-10"
       >
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-[auto_1fr] md:items-center md:gap-10">
-          <p
-            lang="zh-Hans"
-            translate="no"
-            className="font-cjk text-4xl leading-none font-semibold tracking-[0.12em] text-gold sm:text-5xl"
-          >
-            实事求是
-          </p>
-          <div>
-            <p className="font-display text-xl leading-snug font-bold sm:text-2xl">«Искать истину в фактах»</p>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-paper/80">
-              <span lang="zh-Latn">shí shì qiú shì</span> – опираться на факты, а не на домыслы; изречение
-              из «Ханьшу», I век. Мы читаем его буквально: каждая цифра на витрине – с официальной
-              страницы, с цитатой и датой проверки.
-            </p>
-          </div>
-        </div>
+        <Kicker className="text-gold">Принцип</Kicker>
+        <p className="mt-4 max-w-2xl font-display text-xl leading-snug font-bold text-balance sm:text-2xl">
+          Мы печатаем только то, что вуз опубликовал сам
+        </p>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-paper/80">
+          Каждое значение на витрине – с официальной страницы вуза: с дословной цитатой, ссылкой на
+          источник и датой проверки. Мы не пересчитываем цифры вуза и не дополняем их своими.
+        </p>
       </motion.section>
 
       {/* honest CSCA paragraph */}
@@ -416,7 +424,7 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
                   ] as const
                 ).map(([label, n]) => (
                   <div key={label} className="rounded-lg border border-border bg-card-2 px-2 py-2.5">
-                    <dt className="text-[11px] leading-tight text-fg-muted">{label}</dt>
+                    <dt className="text-xs leading-tight text-fg-muted">{label}</dt>
                     <dd className="mt-1 font-display text-2xl leading-none font-bold text-accent-text">{n}</dd>
                   </div>
                 ))}
