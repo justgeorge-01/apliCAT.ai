@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T15:17:05.089Z",
+  "generated_at": "2026-09-05T16:26:21.129Z",
   "prompt_version": 14,
   "country": "CN",
   "universities": [
@@ -10,7 +10,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.bit.edu.cn/",
-      "last_checked_at": "2026-09-05T11:31:09.926Z",
+      "last_checked_at": "2026-09-05T15:25:03.467Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -30,6 +30,27 @@
           "snapshot": {
             "render_method": "wayback",
             "fetched_at": "2026-09-05T11:31:09.926Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
+          "key": "deadline.fall.application_non_eu",
+          "label_ru": "Дедлайн подачи заявки (осенний набор, иностранцы)",
+          "value": {
+            "date": "2026-06-01"
+          },
+          "display": "1 июня 2026",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Application Deadline: June 1, 2026",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:30.950Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
             "archived_at": "2026-06-02T03:17:08.000Z"
           }
         },
@@ -78,6 +99,55 @@
           }
         },
         {
+          "key": "fees.application_fee",
+          "label_ru": "Регистрационный взнос за заявку",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 60000
+          },
+          "display": "¥600",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Application fee: CNY600",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:32.820Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
+          "key": "docs.required_list",
+          "label_ru": "Необходимые документы",
+          "value": {
+            "items": [
+              "The Photocopy of Passport (Photo Page) and China Visa Page (If you have)",
+              "The Certified/Notarized Copy of High School Transcripts (Chinese or English version)",
+              "The Certified/Notarized Copy of High School Diploma (Chinese or English version)",
+              "The Valid Report of Chinese or English Language Proficiency Tests",
+              "China Scholastic competency Assessment (CSCA) transcript"
+            ]
+          },
+          "display": "The Photocopy of Passport (Photo Page) and China Visa Page (If you have), The Certified/Notarized Copy of High School Transcripts (Chinese or English version), The Certified/Notarized Copy of High School Diploma (Chinese or English version), The Valid Report of Chinese or English Language Proficiency Tests, China Scholastic competency Assessment (CSCA) transcript",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "*(1) The Photocopy of Passport (Photo Page) and China Visa Page (If you have) *(2) The Certified/Notarized Copy of High School Transcripts (Chinese or English version ) *(3) The Certified/Notarized Copy of High School Diploma (Chinese or English version ) *(4) The Valid Report of Chinese or English Language Proficiency Tests. (For Chinese Medium: HSK5≥180, The majors taught in both Chinese and Russian at the Zhuhai campus only provide HSK Level 5 scores and do not require Russian language scores. For English Medium: IELTS≥6.0/ TOEFL≥85/ Duolingo≥110 or other language certificate recognized by BIT. English native speakers are exempted) *(5) China Scholastic competency Assessment (CSCA) transcript",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
           "key": "requirements.ielts_min",
           "label_ru": "Минимальный балл IELTS",
           "value": {
@@ -95,6 +165,27 @@
           "snapshot": {
             "render_method": "wayback",
             "fetched_at": "2026-09-05T11:31:09.926Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
+          "key": "requirements.ielts_min",
+          "label_ru": "Минимальный балл IELTS",
+          "value": {
+            "value": 6
+          },
+          "display": "6",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "For English Medium: IELTS≥6.0/ TOEFL≥85/ Duolingo≥110",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:38.487Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
             "archived_at": "2026-06-02T03:17:08.000Z"
           }
         },
@@ -120,6 +211,27 @@
           }
         },
         {
+          "key": "requirements.toefl_min",
+          "label_ru": "Минимальный балл TOEFL",
+          "value": {
+            "value": 85
+          },
+          "display": "85",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "For English Medium: IELTS≥6.0/ TOEFL≥85/ Duolingo≥110",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:39.506Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
           "key": "requirements.duolingo_min",
           "label_ru": "Минимальный балл Duolingo English Test",
           "value": {
@@ -137,6 +249,27 @@
           "snapshot": {
             "render_method": "wayback",
             "fetched_at": "2026-09-05T11:31:09.926Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
+          "key": "requirements.duolingo_min",
+          "label_ru": "Минимальный балл Duolingo English Test",
+          "value": {
+            "value": 110
+          },
+          "display": "110",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "For English Medium: IELTS≥6.0/ TOEFL≥85/ Duolingo≥110",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:36.456Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
             "archived_at": "2026-06-02T03:17:08.000Z"
           }
         },
@@ -183,6 +316,27 @@
           }
         },
         {
+          "key": "funding.deadline",
+          "label_ru": "Дедлайн подачи на финансирование",
+          "value": {
+            "date": "2026-05-01"
+          },
+          "display": "1 мая 2026",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "BIT International Student Scholarship Application deadline: May 1, 2026",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:34.514Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
           "key": "scale.founded_year",
           "label_ru": "Год основания",
           "value": {
@@ -192,14 +346,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Founded in 1940, Beijing Institute of Technology (BIT)",
+          "quote": "Founded in 1940, Beijing Institute of Technology (BIT) is a top national university in China",
           "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:31:09.926Z",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
             "archived_at": "2026-06-02T03:17:08.000Z"
           }
         },
@@ -225,6 +379,27 @@
           }
         },
         {
+          "key": "requirements.hsk_min",
+          "label_ru": "Минимальный уровень HSK",
+          "value": {
+            "value": 5
+          },
+          "display": "5",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "For Chinese Medium: HSK5≥180",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:37.450Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
           "key": "requirements.csca_required",
           "label_ru": "Требуется экзамен CSCA",
           "value": {
@@ -242,6 +417,27 @@
           "snapshot": {
             "render_method": "wayback",
             "fetched_at": "2026-09-05T11:31:09.926Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
+        },
+        {
+          "key": "requirements.csca_required",
+          "label_ru": "Требуется экзамен CSCA",
+          "value": {
+            "value": true
+          },
+          "display": "да",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "China Scholastic competency Assessment (CSCA) transcript (If you haven't received your transcript yet, please provide a proof of your exam registration)",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:25:35.479Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
             "archived_at": "2026-06-02T03:17:08.000Z"
           }
         },
@@ -274,21 +470,22 @@
           "label_ru": "Предметы CSCA",
           "value": {
             "items": [
-              "mathematics"
+              "mathematics",
+              "physics"
             ]
           },
-          "display": "mathematics",
+          "display": "mathematics, physics",
           "academic_year": null,
           "degree_scope": "bachelor",
           "intake_round": null,
-          "quote": "International Economics and Trade Mathematics",
+          "quote": "Aeronautical and Astronautical Engineering Automation Computer Science and Technology Mechatronics Engineering Electronics Science and Technology Mechanical Engineering Mathematics+Physics",
           "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:31:09.926Z",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
             "archived_at": "2026-06-02T03:17:08.000Z"
           }
         },
@@ -313,6 +510,28 @@
             "fetched_at": "2026-09-05T11:31:09.926Z",
             "archived_at": "2026-06-02T03:17:08.000Z"
           }
+        },
+        {
+          "key": "fees.dormitory_month",
+          "label_ru": "Общежитие в месяц",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 90000
+          },
+          "display": "¥900",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "4 people shared room: CNY900/month",
+          "source_url": "https://isc.bit.edu.cn/aboutbit/faq/70fe36ccf5f64defb9ecda409efd2b71.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:25:03.467Z",
+            "archived_at": "2026-06-02T03:17:08.000Z"
+          }
         }
       ],
       "coverage": {
@@ -327,7 +546,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.bnu.edu.cn/",
-      "last_checked_at": "2026-09-05T11:29:34.352Z",
+      "last_checked_at": "2026-09-05T15:23:00.872Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -341,12 +560,12 @@
           "intake_round": null,
           "quote": "Online Application: November 15, 2025 - March 15, 2026",
           "source_url": "https://admission-is.bnu.edu.cn/english/admissionprogram/bachelordegreeprogram/admissionbrochure/index.html",
-          "verified_at": "2026-09-02T18:48:18.323Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:45.957Z",
+            "fetched_at": "2026-09-05T15:23:00.872Z",
             "archived_at": "2026-03-05T23:05:19.000Z"
           }
         },
@@ -368,6 +587,28 @@
           "snapshot": {
             "render_method": "wayback",
             "fetched_at": "2026-09-05T11:29:34.352Z",
+            "archived_at": "2026-03-05T23:05:19.000Z"
+          }
+        },
+        {
+          "key": "fees.tuition_year_non_eu",
+          "label_ru": "Стоимость обучения в год (иностранцы)",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 2770000
+          },
+          "display": "¥27 700",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Tuition Fee for Science, Engineering, and Arts majors: 14,250 RMB per semester, 27,700 RMB per academic year.",
+          "source_url": "https://admission-is.bnu.edu.cn/english/admissionprogram/bachelordegreeprogram/admissionbrochure/index.html",
+          "verified_at": "2026-09-05T16:25:41.212Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:23:00.872Z",
             "archived_at": "2026-03-05T23:05:19.000Z"
           }
         },
@@ -406,12 +647,12 @@
           "intake_round": null,
           "quote": "The application fee is 500 RMB",
           "source_url": "https://admission-is.bnu.edu.cn/english/admissionprogram/bachelordegreeprogram/admissionbrochure/index.html",
-          "verified_at": "2026-09-02T18:48:18.323Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:45.957Z",
+            "fetched_at": "2026-09-05T15:23:00.872Z",
             "archived_at": "2026-03-05T23:05:19.000Z"
           }
         },
@@ -465,6 +706,27 @@
             "value": 5
           },
           "display": "5",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "for other majors, a minimum score of 180 in HSK Level 5 is required",
+          "source_url": "https://admission-is.bnu.edu.cn/english/admissionprogram/bachelordegreeprogram/admissionbrochure/index.html",
+          "verified_at": "2026-09-05T16:25:42.195Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:23:00.872Z",
+            "archived_at": "2026-03-05T23:05:19.000Z"
+          }
+        },
+        {
+          "key": "requirements.hsk_min",
+          "label_ru": "Минимальный уровень HSK",
+          "value": {
+            "value": 5
+          },
+          "display": "5",
           "academic_year": "2026",
           "degree_scope": "bachelor",
           "intake_round": null,
@@ -489,14 +751,14 @@
           "academic_year": null,
           "degree_scope": "bachelor",
           "intake_round": null,
-          "quote": "Valid China Scholastic Competency Assessment (CSCA) Report",
+          "quote": "Applicant must attend the China Scholastic Competency Assessment (CSCA) held by the China Scholarship Council.",
           "source_url": "https://admission-is.bnu.edu.cn/english/admissionprogram/bachelordegreeprogram/admissionbrochure/index.html",
-          "verified_at": "2026-09-02T18:48:18.323Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:45.957Z",
+            "fetched_at": "2026-09-05T15:23:00.872Z",
             "archived_at": "2026-03-05T23:05:19.000Z"
           }
         },
@@ -534,7 +796,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.fudan.edu.cn/",
-      "last_checked_at": "2026-09-05T15:02:46.289Z",
+      "last_checked_at": "2026-09-05T15:25:03.612Z",
       "facts": [],
       "coverage": {
         "published": 0,
@@ -548,7 +810,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.hit.edu.cn/",
-      "last_checked_at": "2026-09-05T11:28:45.093Z",
+      "last_checked_at": "2026-09-05T15:22:00.117Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -569,6 +831,28 @@
             "render_method": "wayback",
             "fetched_at": "2026-09-05T11:28:45.093Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
+          }
+        },
+        {
+          "key": "fees.tuition_year_non_eu",
+          "label_ru": "Стоимость обучения в год (иностранцы)",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 2000000
+          },
+          "display": "¥20 000",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "Tuition Chinese-taught CNY20,000/year (approximately USD 2,860)",
+          "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
+          "verified_at": "2026-09-05T16:25:45.493Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
+            "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
         {
@@ -604,14 +888,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Application fee for self-financed students CNY400",
+          "quote": "Application fee for self-financed students CNY400 (approximately USD 60)",
           "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
-          "verified_at": "2026-09-05T15:04:49.216Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:44.932Z",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
             "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
@@ -626,14 +910,14 @@
           "academic_year": null,
           "degree_scope": "master",
           "intake_round": null,
-          "quote": "Remittance voucher of application fee (CNY600).",
+          "quote": "Remittance voucher of application fee (CNY600)",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -648,14 +932,14 @@
           "academic_year": null,
           "degree_scope": "phd",
           "intake_round": null,
-          "quote": "Remittance voucher of application fee (CNY600).",
+          "quote": "Remittance voucher of application fee (CNY600)",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -699,14 +983,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "HIT International Students Scholarship: October 1st, 2025 - July 15th, 2026.",
+          "quote": "HIT Scholarship Elite 100% tuition waiver July 15th,2026",
           "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
-          "verified_at": "2026-09-05T15:04:46.882Z",
+          "verified_at": "2026-09-05T16:25:43.858Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:44.932Z",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
             "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
@@ -720,14 +1004,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Applicants should have an Academic lELTS>6.0 (no subtest lower than 5.5)",
+          "quote": "Applicants should have an Academic lELTS>6.0 (no subtest lower than 5.5), or TOEFL (iBT) >80.",
           "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
-          "verified_at": "2026-09-05T15:04:52.418Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:44.932Z",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
             "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
@@ -741,14 +1025,14 @@
           "academic_year": null,
           "degree_scope": "bachelor",
           "intake_round": null,
-          "quote": "IELTS≥ 6.0 scores",
+          "quote": "English-taught programs: TOEFL≥80scores, IELTS≥ 6.0 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -762,14 +1046,14 @@
           "academic_year": null,
           "degree_scope": "master",
           "intake_round": null,
-          "quote": "IELTS≥ 6.0 scores",
+          "quote": "English-taught programs: TOEFL≥80 scores, IELTS≥ 6.0 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -783,14 +1067,14 @@
           "academic_year": null,
           "degree_scope": "phd",
           "intake_round": null,
-          "quote": "IELTS≥ 6.0 scores, or equivalent English language proficiency certificates.",
+          "quote": "English-taught programs: TOEFL≥80 scores, IELTS≥ 6.0 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -804,14 +1088,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "or TOEFL (iBT) >80.",
+          "quote": "Applicants should have an Academic lELTS>6.0 (no subtest lower than 5.5), or TOEFL (iBT) >80.",
           "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
-          "verified_at": "2026-09-05T15:04:53.289Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:44.932Z",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
             "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
@@ -827,12 +1111,12 @@
           "intake_round": null,
           "quote": "English-taught programs: TOEFL≥80scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -848,12 +1132,12 @@
           "intake_round": null,
           "quote": "English-taught programs: TOEFL≥80 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -869,12 +1153,138 @@
           "intake_round": null,
           "quote": "English-taught programs: TOEFL≥80 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
+            "archived_at": "2026-05-11T05:57:45.000Z"
+          }
+        },
+        {
+          "key": "requirements.language_of_instruction",
+          "label_ru": "Язык обучения",
+          "value": {
+            "value": "Chinese"
+          },
+          "display": "китайский",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "All bachelor's degree programs are taught in Chinese.",
+          "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
+            "archived_at": "2026-06-06T14:16:03.000Z"
+          }
+        },
+        {
+          "key": "funding.covers_tuition",
+          "label_ru": "Стипендия покрывает обучение",
+          "value": {
+            "value": true
+          },
+          "display": "да",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Elite: 100%tuition fee waiver",
+          "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
+            "archived_at": "2026-05-11T05:57:45.000Z"
+          }
+        },
+        {
+          "key": "funding.duration_months",
+          "label_ru": "Срок выплаты стипендии",
+          "value": {
+            "months": 48
+          },
+          "display": "48 месяцев",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Bachelor's Degree 4 years",
+          "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
+            "archived_at": "2026-05-11T05:57:45.000Z"
+          }
+        },
+        {
+          "key": "funding.duration_months",
+          "label_ru": "Срок выплаты стипендии",
+          "value": {
+            "months": 36
+          },
+          "display": "36 месяцев",
+          "academic_year": null,
+          "degree_scope": "master",
+          "intake_round": null,
+          "quote": "Master's Degree 2-3 years",
+          "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
+            "archived_at": "2026-05-11T05:57:45.000Z"
+          }
+        },
+        {
+          "key": "funding.duration_months",
+          "label_ru": "Срок выплаты стипендии",
+          "value": {
+            "months": 48
+          },
+          "display": "48 месяцев",
+          "academic_year": null,
+          "degree_scope": "phd",
+          "intake_round": null,
+          "quote": "Doctoral Degree 4 years",
+          "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
+            "archived_at": "2026-05-11T05:57:45.000Z"
+          }
+        },
+        {
+          "key": "funding.deadline",
+          "label_ru": "Дедлайн подачи на финансирование",
+          "value": {
+            "date": "2026-05-31"
+          },
+          "display": "31 мая 2026",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "May 31st, 2026 Application Deadline",
+          "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -890,12 +1300,12 @@
           "intake_round": null,
           "quote": "HSK level 4≥210 scores (valid for two years).",
           "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
-          "verified_at": "2026-09-05T15:04:51.546Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:44.932Z",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
             "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
@@ -911,12 +1321,12 @@
           "intake_round": null,
           "quote": "Chinese-taught programs: HSK level 4 ≥ 210 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -930,14 +1340,14 @@
           "academic_year": null,
           "degree_scope": "master",
           "intake_round": null,
-          "quote": "Chinese-taught programs: HSK level 4 ≥ 210 scores (valid for two years).",
+          "quote": "Chinese-taught programs: HSK level 4 ≥ 210 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -951,14 +1361,14 @@
           "academic_year": null,
           "degree_scope": "phd",
           "intake_round": null,
-          "quote": "Chinese-taught programs: HSK level 4 ≥ 210 scores (valid for two years).",
+          "quote": "Chinese-taught programs: HSK level 4 ≥ 210 scores",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
           }
         },
@@ -974,12 +1384,12 @@
           "intake_round": null,
           "quote": "All applicants have to take the China Scholastic Competency Assessment (CSCA) and get the score report.",
           "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
-          "verified_at": "2026-09-05T15:04:50.674Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:44.932Z",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
             "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
@@ -995,13 +1405,40 @@
           "intake_round": null,
           "quote": "④ China Scholastic Competency Assessment (CSCA) score report.",
           "source_url": "https://studyathit.hit.edu.cn/18367/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:45.093Z",
+            "fetched_at": "2026-09-05T15:22:00.117Z",
             "archived_at": "2026-05-11T05:57:45.000Z"
+          }
+        },
+        {
+          "key": "requirements.csca_subjects",
+          "label_ru": "Предметы CSCA",
+          "value": {
+            "items": [
+              "chinese",
+              "english",
+              "mathematics",
+              "physics",
+              "chemistry"
+            ]
+          },
+          "display": "chinese, english, mathematics, physics, chemistry",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "For the required test subjects for each undergraduate major, please refer to VIII. Attachments.",
+          "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
+            "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
         {
@@ -1042,14 +1479,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "CNY 800-1,000/month /bed",
+          "quote": "Accommodation fee (Excluding electricity, water, and internet charges) CNY 800-1,000/month /bed",
           "source_url": "https://studyathit.hit.edu.cn/18358/list.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:44.932Z",
+            "fetched_at": "2026-09-05T15:21:59.739Z",
             "archived_at": "2026-06-06T14:16:03.000Z"
           }
         },
@@ -1077,7 +1514,7 @@
         }
       ],
       "coverage": {
-        "published": 8,
+        "published": 10,
         "expected": 11
       }
     },
@@ -1088,7 +1525,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.hhu.edu.cn/",
-      "last_checked_at": "2026-09-05T11:29:34.516Z",
+      "last_checked_at": "2026-09-05T15:23:01.382Z",
       "facts": [],
       "coverage": {
         "published": 0,
@@ -1102,7 +1539,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.hust.edu.cn/",
-      "last_checked_at": "2026-09-05T11:29:32.825Z",
+      "last_checked_at": "2026-09-05T15:23:00.050Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -1114,14 +1551,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Application Period: October 15, 2025 to June 15, 2026",
+          "quote": "Application Period: October 15, 2025 to June 15, 2026.",
           "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
-          "verified_at": "2026-09-05T15:04:54.241Z",
+          "verified_at": "2026-09-05T16:25:47.118Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:29:32.825Z",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
             "archived_at": "2026-04-23T00:04:47.000Z"
           }
         },
@@ -1181,12 +1618,41 @@
           "intake_round": null,
           "quote": "Applicants shall pay the application fee (non-refundable) of 600 CNY/100 USD",
           "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
-          "verified_at": "2026-09-05T15:04:55.116Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:29:32.825Z",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
+            "archived_at": "2026-04-23T00:04:47.000Z"
+          }
+        },
+        {
+          "key": "docs.required_list",
+          "label_ru": "Необходимые документы",
+          "value": {
+            "items": [
+              "The exam report of the \"China Scholastic Competency Assessment\" (CSCA) organized by the China Scholarship Council (CSC)",
+              "High school graduation certificate or proof of impending graduation",
+              "High school transcripts",
+              "Personal Statement",
+              "Personal Introduction Video",
+              "Language Proficiency Certificate",
+              "Other supporting materials that can prove learning ability and comprehensive quality"
+            ]
+          },
+          "display": "The exam report of the \"China Scholastic Competency Assessment\" (CSCA) organized by the China Scholarship Council (CSC), High school graduation certificate or proof of impending graduation, High school transcripts, Personal Statement, Personal Introduction Video, Language Proficiency Certificate, Other supporting materials that can prove learning ability and comprehensive quality",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "Part 1. Academic Documents 1. The exam report of the \"China Scholastic Competency Assessment\" (CSCA) organized by the China Scholarship Council (CSC). For specific information about the test content, time, etc., please visit the official website of the CSCA at www.csca.cn. The corresponding subjects for the CSCA exam are as follows: 2. High school graduation certificate or proof of impending graduation (for applicants in their final year of high school study). 3. High school transcripts. 4. Personal Statement: Introduce yourself in details, explain your understanding of China, the reasons and your expectations for studying at HUST. 5. Personal Introduction Video: Please record and submit a video in English or Chinese within 60 seconds. 6. Language Proficiency Certificate: ● Chinese-medium: HSK4 with scores 180 or above for programs of Science, Engineering and Medicine; HSK5 with scores 180 or above for programs of Economics, Management, Literature, Education, Philosophy, Arts and Law, and the School of Artificial Intelligence. Or the previous degree education was instructed in Chinese or mother tongue is Chinese, HSK scores can be exempted after verification. ● English-medium: TOEFL (≥80), IELTS (≥5.5), Or other certificates of the same proficiency level which are accepted by HUST; Or the previous degree education was instructed in English or mother tongue is English, the English proficiency certificate can be exempted after confirmation. 7. Other supporting materials that can prove learning ability and comprehensive quality, such as award certificates, scientific and technological achievements, publications, participation in activities, etc.",
+          "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
+          "verified_at": "2026-09-05T16:25:48.137Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
             "archived_at": "2026-04-23T00:04:47.000Z"
           }
         },
@@ -1200,14 +1666,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "IELTS (≥5.5)",
+          "quote": "TOEFL (≥80), IELTS (≥5.5), Or other certificates of the same proficiency level which are accepted by HUST",
           "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
-          "verified_at": "2026-09-03T17:04:40.628Z",
+          "verified_at": "2026-09-05T16:25:50.236Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:45.548Z",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
             "archived_at": "2026-04-23T00:04:47.000Z"
           }
         },
@@ -1242,14 +1708,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "TOEFL (≥80)",
+          "quote": "TOEFL (≥80), IELTS (≥5.5), Or other certificates of the same proficiency level which are accepted by HUST",
           "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
-          "verified_at": "2026-09-03T17:04:40.628Z",
+          "verified_at": "2026-09-05T16:25:51.392Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:45.548Z",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
             "archived_at": "2026-04-23T00:04:47.000Z"
           }
         },
@@ -1328,12 +1794,12 @@
           "intake_round": null,
           "quote": "HSK4 with scores 180 or above for programs of Science, Engineering and Medicine",
           "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:25:49.173Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:29:32.825Z",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
             "archived_at": "2026-04-23T00:04:47.000Z"
           }
         },
@@ -1349,12 +1815,12 @@
           "intake_round": null,
           "quote": "The exam report of the \"China Scholastic Competency Assessment\" (CSCA) organized by the China Scholarship Council (CSC).",
           "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:29:32.825Z",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
             "archived_at": "2026-04-23T00:04:47.000Z"
           }
         },
@@ -1404,6 +1870,28 @@
             "fetched_at": "2026-09-02T16:33:45.548Z",
             "archived_at": "2026-04-23T00:04:47.000Z"
           }
+        },
+        {
+          "key": "fees.dormitory_month",
+          "label_ru": "Общежитие в месяц",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 70000
+          },
+          "display": "¥700",
+          "academic_year": "2026",
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "Accommodation 700-1,200 CNY/month",
+          "source_url": "https://iso.hust.edu.cn/info/1194/4638.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:23:00.050Z",
+            "archived_at": "2026-04-23T00:04:47.000Z"
+          }
         }
       ],
       "coverage": {
@@ -1418,7 +1906,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.nju.edu.cn/",
-      "last_checked_at": "2026-09-05T11:28:43.639Z",
+      "last_checked_at": "2026-09-05T15:21:59.557Z",
       "facts": [
         {
           "key": "fees.tuition_year_non_eu",
@@ -1465,6 +1953,57 @@
           }
         },
         {
+          "key": "fees.application_fee",
+          "label_ru": "Регистрационный взнос за заявку",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 50000
+          },
+          "display": "¥500",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Online Application Fee: ￥500",
+          "source_url": "https://hwxy.nju.edu.cn/English/StudyatNJU/Admissions/BachelorsPrograms/index.html",
+          "verified_at": "2026-09-05T16:25:53.562Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:59.557Z",
+            "archived_at": "2026-03-02T06:34:17.000Z"
+          }
+        },
+        {
+          "key": "docs.required_list",
+          "label_ru": "Необходимые документы",
+          "value": {
+            "items": [
+              "Application Form for International Students of Nanjing University",
+              "Passport copy",
+              "Copy of high school graduation certificate, or original verification of expected graduation for applicants who are yet to graduate",
+              "Original or notarized copy of the full high school score report",
+              "Copy of HSK certificate",
+              "Test report of the China Scholastic Competency Assessment (CSCA)",
+              "Two letters of recommendation"
+            ]
+          },
+          "display": "Application Form for International Students of Nanjing University, Passport copy, Copy of high school graduation certificate, or original verification of expected graduation for applicants who are yet to graduate, Original or notarized copy of the full high school score report, Copy of HSK certificate, Test report of the China Scholastic Competency Assessment (CSCA), Two letters of recommendation",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "fill in the application form, submit and upload the required application materials： ① Application Form for International Students of Nanjing University (generated automatically during online application)； ② Passport copy (Applicants in mainland China are also required to provide a copy of the current valid visa page or residence permit page); ③ Copy of high school graduation certificate, or original verification of expected graduation for applicants who are yet to graduate; ④ Original or notarized copy of the full high school score report; ⑤ Copy of HSK certificate, score at least 180 on the HSK (level 5); (or printed HSK score webpage, original certificate to be checked at registration);transfer students majoring in Chinese language (junior year) should score above HSK6 grade 180; There not required for applicants who have received 12-year Chinese education in Malaysia and Singapore; ⑥ Test report of the China Scholastic Competency Assessment (CSCA); Starting from the 2026/2027 academic year, all international students applying for undergraduate programs are required to take the China Scholastic Competency Assessment (CSCA), and submit the test report. This assessment organized by the China Scholarship Council on behalf of the Ministry of Education of China. *The test service will be provided regularly with five tests per year in January, March, April, June, and December. For test schedules, testing methods, fee standards, etc., please visit the official website of CSCA (www.csca.cn).For detailed subject requirements, please refer to \"Catalog of Undergraduate Programs 2026\"https://hwxy.nju.edu.cn/lxnd/zsxx/bkxm/zyml/index.html. Deadline for submitting Scores to NJU is May 15, 2026; ⑦Two letters of recommendation (must be original in Chinese or English); ⑧ Personal Statement; r Additional material:",
+          "source_url": "https://hwxy.nju.edu.cn/English/StudyatNJU/Admissions/BachelorsPrograms/index.html",
+          "verified_at": "2026-09-05T16:25:52.616Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:59.557Z",
+            "archived_at": "2026-03-02T06:34:17.000Z"
+          }
+        },
+        {
           "key": "requirements.ielts_min",
           "label_ru": "Минимальный балл IELTS",
           "value": {
@@ -1476,12 +2015,12 @@
           "intake_round": null,
           "quote": "Major of English applicants: English Proficiency Level IELTS test score 5.5 or above",
           "source_url": "https://hwxy.nju.edu.cn/English/StudyatNJU/Admissions/BachelorsPrograms/index.html",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:25:56.181Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.639Z",
+            "fetched_at": "2026-09-05T15:21:59.557Z",
             "archived_at": "2026-03-02T06:34:17.000Z"
           }
         },
@@ -1497,12 +2036,12 @@
           "intake_round": null,
           "quote": "Major of English applicants: English Proficiency Level IELTS test score 5.5 or above / TOEFL test score 70 or above.",
           "source_url": "https://hwxy.nju.edu.cn/English/StudyatNJU/Admissions/BachelorsPrograms/index.html",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:25:57.183Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.639Z",
+            "fetched_at": "2026-09-05T15:21:59.557Z",
             "archived_at": "2026-03-02T06:34:17.000Z"
           }
         },
@@ -1518,12 +2057,12 @@
           "intake_round": null,
           "quote": "All majors in the undergraduate program are taught in Chinese.",
           "source_url": "https://hwxy.nju.edu.cn/English/StudyatNJU/Admissions/BachelorsPrograms/index.html",
-          "verified_at": "2026-09-05T15:04:57.440Z",
-          "origin": "manual",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.639Z",
+            "fetched_at": "2026-09-05T15:21:59.557Z",
             "archived_at": "2026-03-02T06:34:17.000Z"
           }
         },
@@ -1560,12 +2099,12 @@
           "intake_round": null,
           "quote": "Copy of HSK certificate, score at least 180 on the HSK (level 5)",
           "source_url": "https://hwxy.nju.edu.cn/English/StudyatNJU/Admissions/BachelorsPrograms/index.html",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:25:55.162Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.639Z",
+            "fetched_at": "2026-09-05T15:21:59.557Z",
             "archived_at": "2026-03-02T06:34:17.000Z"
           }
         },
@@ -1581,12 +2120,12 @@
           "intake_round": null,
           "quote": "Starting from the 2026/2027 academic year, applicants are required to take the China Scholastic Competency Assessment (CSCA), and submit the test report.",
           "source_url": "https://hwxy.nju.edu.cn/English/StudyatNJU/Admissions/BachelorsPrograms/index.html",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.639Z",
+            "fetched_at": "2026-09-05T15:21:59.557Z",
             "archived_at": "2026-03-02T06:34:17.000Z"
           }
         }
@@ -1603,7 +2142,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.pku.edu.cn/",
-      "last_checked_at": "2026-09-05T11:27:06.020Z",
+      "last_checked_at": "2026-09-05T15:19:41.169Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -1617,7 +2156,7 @@
           "intake_round": 1,
           "quote": "Round 1: The online application system will be open from 12:00 on 19 December 2025 (Friday) to 23:59 on 28 February 2026 (Saturday)",
           "source_url": "https://isd.pku.edu.cn/en/detail.php?id=813",
-          "verified_at": "2026-09-05T15:04:59.191Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -1638,7 +2177,7 @@
           "intake_round": 2,
           "quote": "Round 2: The online application system will be open from 12:00 on 12 June 2026 (Friday) to 23:59 on 10 July 2026 (Friday)",
           "source_url": "https://isd.pku.edu.cn/en/detail.php?id=813",
-          "verified_at": "2026-09-05T15:04:58.316Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -1660,7 +2199,7 @@
           "intake_round": null,
           "quote": "Application fee. 800 RMB, payable online when submitting the online application.",
           "source_url": "https://isd.pku.edu.cn/en/detail.php?id=813",
-          "verified_at": "2026-09-05T15:05:00.925Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -1703,6 +2242,27 @@
           }
         },
         {
+          "key": "requirements.language_of_instruction",
+          "label_ru": "Язык обучения",
+          "value": {
+            "value": "Chinese"
+          },
+          "display": "китайский",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "The study duration for undergraduate international students is between 4 to 6 years, with Chinese as the medium of instruction.",
+          "source_url": "https://isd.pku.edu.cn/en/detail.php?id=813",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-04T18:44:38.918Z",
+            "archived_at": null
+          }
+        },
+        {
           "key": "scale.founded_year",
           "label_ru": "Год основания",
           "value": {
@@ -1714,7 +2274,33 @@
           "intake_round": null,
           "quote": "Peking University was founded during the Reform Movement of 1898.",
           "source_url": "https://isd.pku.edu.cn/en/detail.php?id=813",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-04T18:44:38.918Z",
+            "archived_at": null
+          }
+        },
+        {
+          "key": "requirements.csca_subjects",
+          "label_ru": "Предметы CSCA",
+          "value": {
+            "items": [
+              "chinese",
+              "mathematics",
+              "physics",
+              "chemistry"
+            ]
+          },
+          "display": "chinese, mathematics, physics, chemistry",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Applicants who apply to the departments of the Faculty of Science, the Faculty of Information Science and Technology, and the Faculty of Engineering at Peking University must take at least one elective course in Physics or Chemistry, in addition to the mandatory exams of Chinese and Mathematics for science subjects. Applicants for other departments are required to take both the Chinese and Mathematics exams for humanities subjects.",
+          "source_url": "https://isd.pku.edu.cn/en/detail.php?id=813",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -1725,7 +2311,7 @@
         }
       ],
       "coverage": {
-        "published": 1,
+        "published": 3,
         "expected": 11
       }
     },
@@ -1736,7 +2322,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.sjtu.edu.cn/",
-      "last_checked_at": "2026-09-05T15:05:21.395Z",
+      "last_checked_at": "2026-09-05T15:26:09.819Z",
       "facts": [],
       "coverage": {
         "published": 0,
@@ -1750,7 +2336,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.shu.edu.cn/",
-      "last_checked_at": "2026-09-05T15:03:37.923Z",
+      "last_checked_at": "2026-09-05T15:26:00.214Z",
       "facts": [],
       "coverage": {
         "published": 0,
@@ -1764,32 +2350,31 @@
       "city": null,
       "country": "CN",
       "website": "https://www.smbu.edu.cn/",
-      "last_checked_at": "2026-09-05T11:30:15.602Z",
+      "last_checked_at": "2026-09-05T15:23:57.924Z",
       "facts": [
         {
           "key": "docs.required_list",
           "label_ru": "Необходимые документы",
           "value": {
             "items": [
-              "Application Form 2025",
-              "A copy of passport personal information page",
+              "2025 Application Form",
+              "Copy of passport personal information page",
               "Scanned color copy of the high school graduation certificate and transcript in PDF format",
-              "Passport photo in JPEG, 30mm*40mm, 200px*280px, no more than 30kb",
-              "For SMBU Single Degree programs it is required to provide a personal CV"
+              "Passport photo in JPEG, 30mm*40mm, 200px*280px, no more than 30kb"
             ]
           },
-          "display": "Application Form 2025, A copy of passport personal information page, Scanned color copy of the high school graduation certificate and transcript in PDF format, Passport photo in JPEG, 30mm*40mm, 200px*280px, no more than 30kb, For SMBU Single Degree programs it is required to provide a personal CV",
+          "display": "2025 Application Form, Copy of passport personal information page, Scanned color copy of the high school graduation certificate and transcript in PDF format, Passport photo in JPEG, 30mm*40mm, 200px*280px, no more than 30kb",
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "The following documents are to be sent along with the application: (1) 2025年申请表 Application Form 2025 (2) 护照个人信息页 A copy of passport personal information page (3) 高中毕业证书及成绩单彩色扫描件，PDF格式 Scanned color copy of the high school graduation certificate and transcript in PDF format. (4) 护照照片，JPEG格式，30mm*40mm，200px*280px，不超过30kb Passport photo in JPEG, 30mm*40mm, 200px*280px, no more than 30kb (5) 单学籍专业需提交个人简历 For SMBU Single Degree programs it is required to provide a personal CV",
+          "quote": "The following documents are to be sent along with the application: (1) 2025年申请表 Application Form 2025 (2) 护照个人信息页 A copy of passport personal information page (3) 高中毕业证书及成绩单彩色扫描件，PDF格式 Scanned color copy of the high school graduation certificate and transcript in PDF format. (4) 护照照片，JPEG格式，30mm*40mm，200px*280px，不超过30kb Passport photo in JPEG, 30mm*40mm, 200px*280px, no more than 30kb",
           "source_url": "https://en.smbu.edu.cn/info/1014/1396.htm",
-          "verified_at": "2026-09-02T18:48:18.323Z",
+          "verified_at": "2026-09-05T16:25:59.560Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-02T16:34:29.083Z",
+            "fetched_at": "2026-09-05T15:23:57.924Z",
             "archived_at": null
           }
         },
@@ -1815,6 +2400,27 @@
           }
         },
         {
+          "key": "requirements.ielts_min",
+          "label_ru": "Минимальный балл IELTS",
+          "value": {
+            "value": 6.5
+          },
+          "display": "6,5",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Applicants with an IELTS score of 6.5 or above or a TOEFL score of 80 or above may be exempt from the English proficiency examination",
+          "source_url": "https://en.smbu.edu.cn/info/1014/1396.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-05T15:23:57.924Z",
+            "archived_at": null
+          }
+        },
+        {
           "key": "requirements.toefl_min",
           "label_ru": "Минимальный балл TOEFL",
           "value": {
@@ -1832,6 +2438,27 @@
           "snapshot": {
             "render_method": "fetch",
             "fetched_at": "2026-09-05T11:30:15.602Z",
+            "archived_at": null
+          }
+        },
+        {
+          "key": "requirements.toefl_min",
+          "label_ru": "Минимальный балл TOEFL",
+          "value": {
+            "value": 80
+          },
+          "display": "80",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Applicants with an IELTS score of 6.5 or above or a TOEFL score of 80 or above may be exempt from the English proficiency examination",
+          "source_url": "https://en.smbu.edu.cn/info/1014/1396.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-05T15:23:57.924Z",
             "archived_at": null
           }
         },
@@ -1857,6 +2484,27 @@
           }
         },
         {
+          "key": "requirements.language_of_instruction",
+          "label_ru": "Язык обучения",
+          "value": {
+            "value": "English"
+          },
+          "display": "английский",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Biology（Taught in English）",
+          "source_url": "https://en.smbu.edu.cn/info/1014/1396.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-05T15:23:57.924Z",
+            "archived_at": null
+          }
+        },
+        {
           "key": "requirements.entrance_exam_required",
           "label_ru": "Требуется вступительный экзамен",
           "value": {
@@ -1874,6 +2522,49 @@
           "snapshot": {
             "render_method": "fetch",
             "fetched_at": "2026-09-02T16:34:29.083Z",
+            "archived_at": null
+          }
+        },
+        {
+          "key": "requirements.entrance_exam_required",
+          "label_ru": "Требуется вступительный экзамен",
+          "value": {
+            "value": true
+          },
+          "display": "да",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "入学考试 Entrance examination",
+          "source_url": "https://en.smbu.edu.cn/info/1014/1396.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-05T15:23:57.924Z",
+            "archived_at": null
+          }
+        },
+        {
+          "key": "funding.amount_total",
+          "label_ru": "Стипендия, общая сумма",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 1000000
+          },
+          "display": "¥10 000",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Shenzhen Universiade Scholarship: CNY 10000-30000 per year, subject to the current year's funding announcement.",
+          "source_url": "https://en.smbu.edu.cn/info/1014/1396.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-05T15:23:57.924Z",
             "archived_at": null
           }
         },
@@ -1897,6 +2588,27 @@
             "fetched_at": "2026-09-05T11:30:15.602Z",
             "archived_at": null
           }
+        },
+        {
+          "key": "requirements.hsk_min",
+          "label_ru": "Минимальный уровень HSK",
+          "value": {
+            "value": 4
+          },
+          "display": "4",
+          "academic_year": null,
+          "degree_scope": "bachelor",
+          "intake_round": null,
+          "quote": "Applicants for the Electrical and Computer Engineering program are required to have HSK Level 4 Chinese language proficiency and submit a certificate.",
+          "source_url": "https://en.smbu.edu.cn/info/1014/1396.htm",
+          "verified_at": "2026-09-05T16:16:14.698Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-05T15:23:57.924Z",
+            "archived_at": null
+          }
         }
       ],
       "coverage": {
@@ -1911,7 +2623,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.sustech.edu.cn/",
-      "last_checked_at": "2026-09-05T11:30:22.491Z",
+      "last_checked_at": "2026-09-05T15:24:03.344Z",
       "facts": [],
       "coverage": {
         "published": 0,
@@ -1925,7 +2637,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.sysu.edu.cn/",
-      "last_checked_at": "2026-09-05T11:30:22.265Z",
+      "last_checked_at": "2026-09-05T15:24:02.163Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -1939,7 +2651,7 @@
           "intake_round": 1,
           "quote": "First Round: January 1-February 28, 2026",
           "source_url": "https://iso.sysu.edu.cn/en/application/selffunded/1420575.htm",
-          "verified_at": "2026-09-05T15:05:06.776Z",
+          "verified_at": "2026-09-05T16:26:01.968Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -1960,7 +2672,7 @@
           "intake_round": 2,
           "quote": "Second Round: March 1-April 30, 2026",
           "source_url": "https://iso.sysu.edu.cn/en/application/selffunded/1420575.htm",
-          "verified_at": "2026-09-05T15:05:07.695Z",
+          "verified_at": "2026-09-05T16:26:02.999Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -1980,9 +2692,9 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "The application fee is RMB 400. Once paid, it is non-refundable.",
+          "quote": "The application fee is RMB 400.",
           "source_url": "https://iso.sysu.edu.cn/en/application/selffunded/1420575.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -2022,9 +2734,9 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Sun Yat-sen University (hereinafter referred to as \"SYSU\") was founded in 1924 by Dr. Sun Yat-sen",
+          "quote": "Sun Yat-sen University (hereinafter referred to as \"SYSU\") was founded in 1924",
           "source_url": "https://iso.sysu.edu.cn/en/application/selffunded/1420575.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -2045,7 +2757,7 @@
           "intake_round": null,
           "quote": "Applicants must submit a valid HSK (Chinese Proficiency Test) certificate with a minimum score of 180 at Level 5 or above.",
           "source_url": "https://iso.sysu.edu.cn/en/application/selffunded/1420575.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -2067,6 +2779,27 @@
           "quote": "Applicants applying for undergraduate programs taught in Chinese Language must have a minimum score of 180 at HSK Level 4 or above.",
           "source_url": "https://iso.sysu.edu.cn/en/application/selffunded/1420575.htm",
           "verified_at": "2026-09-05T12:12:21.249Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-04T18:44:56.883Z",
+            "archived_at": null
+          }
+        },
+        {
+          "key": "requirements.csca_required",
+          "label_ru": "Требуется экзамен CSCA",
+          "value": {
+            "value": true
+          },
+          "display": "да",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "Applicants must participate in the China Scholastic Competency Assessment (hereinafter referred to as the \"CSCA Test\") for undergraduate admission",
+          "source_url": "https://iso.sysu.edu.cn/en/application/selffunded/1420575.htm",
+          "verified_at": "2026-09-05T16:26:04.753Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
@@ -2109,7 +2842,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.tongji.edu.cn/",
-      "last_checked_at": "2026-09-05T15:04:29.683Z",
+      "last_checked_at": "2026-09-05T15:26:09.084Z",
       "facts": [],
       "coverage": {
         "published": 0,
@@ -2123,7 +2856,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.tsinghua.edu.cn/",
-      "last_checked_at": "2026-09-05T11:27:04.968Z",
+      "last_checked_at": "2026-09-05T15:19:40.170Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -2137,12 +2870,12 @@
           "intake_round": 1,
           "quote": "Online application (Beijing Time): 8:00 AM September 30, 2025—5:00 PM November 28, 2025",
           "source_url": "https://international.join-tsinghua.edu.cn/Admission1/Schedule.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:27:04.290Z",
+            "fetched_at": "2026-09-05T15:19:39.138Z",
             "archived_at": "2026-07-28T02:50:22.000Z"
           }
         },
@@ -2158,12 +2891,12 @@
           "intake_round": 2,
           "quote": "Online application (Beijing Time): 8:00 AM November 29, 2025—5:00 PM February 28, 2026",
           "source_url": "https://international.join-tsinghua.edu.cn/Admission1/Schedule.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:26:05.843Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:27:04.290Z",
+            "fetched_at": "2026-09-05T15:19:39.138Z",
             "archived_at": "2026-07-28T02:50:22.000Z"
           }
         },
@@ -2201,27 +2934,27 @@
       "city": null,
       "country": "CN",
       "website": "https://www.ustc.edu.cn/",
-      "last_checked_at": "2026-09-05T11:28:43.239Z",
+      "last_checked_at": "2026-09-05T15:21:58.020Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
           "label_ru": "Дедлайн подачи заявки (осенний набор, иностранцы)",
           "value": {
-            "date": "2026-03-31"
+            "date": "2026-01-31"
           },
-          "display": "31 марта 2026",
+          "display": "31 января 2026",
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Application time: November 14, 2025 -- March 31, 2026",
-          "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=17",
-          "verified_at": "2026-09-05T15:05:08.577Z",
+          "quote": "Online Application October 16th, 2025--January 31st, 2026",
+          "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=9",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.239Z",
-            "archived_at": "2026-05-08T14:19:42.000Z"
+            "fetched_at": "2026-09-05T15:20:42.959Z",
+            "archived_at": "2026-06-10T00:51:44.000Z"
           }
         },
         {
@@ -2235,14 +2968,14 @@
           "academic_year": null,
           "degree_scope": "master",
           "intake_round": null,
-          "quote": "Tuition fee: doctoral programs: 35,000 RMB per academic year master's programs: 30,000 RMB per academic year",
+          "quote": "master's programs: 30,000 RMB per academic year",
           "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=9",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:27:56.586Z",
+            "fetched_at": "2026-09-05T15:20:42.959Z",
             "archived_at": "2026-06-10T00:51:44.000Z"
           }
         },
@@ -2279,14 +3012,14 @@
           "academic_year": null,
           "degree_scope": "phd",
           "intake_round": null,
-          "quote": "Tuition fee: doctoral programs: 35,000 RMB per academic year master's programs: 30,000 RMB per academic year",
+          "quote": "doctoral programs: 35,000 RMB per academic year",
           "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=9",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:27:56.586Z",
+            "fetched_at": "2026-09-05T15:20:42.959Z",
             "archived_at": "2026-06-10T00:51:44.000Z"
           }
         },
@@ -2309,12 +3042,33 @@
           "intake_round": null,
           "quote": "Application materials required: ● Application Form for International Students (Undergraduate Program) (Annex II) ● Photocopy of passport (including pages with Chinese visa or residence permit, if applicable) ● Notarized photocopies of senior high school graduation certificate and transcripts. Applicants who will be graduating from senior high school before July 2026 should provide Pre-graduation Certificate issued by senior high school (Original senior high school graduation certificate and transcripts are required upon registration if get admitted). ● Photocopies of Certificate of new HSK Level 5 and transcripts (original certificate and transcripts are required upon registration if get admitted); or a proof of studying at a high school where the teaching language is Chinese. ● Foreigner Physical Examination Form (Annex III) ● Recommendation letter from senior high school (original copy in Chinese or English)",
           "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=17",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.239Z",
+            "fetched_at": "2026-09-05T15:21:58.020Z",
+            "archived_at": "2026-05-08T14:19:42.000Z"
+          }
+        },
+        {
+          "key": "deadline.scholarship",
+          "label_ru": "Дедлайн подачи на стипендию",
+          "value": {
+            "date": "2026-03-31"
+          },
+          "display": "31 марта 2026",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "Application time: November 14, 2025 -- March 31, 2026",
+          "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=17",
+          "verified_at": "2026-09-05T16:26:06.943Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:58.020Z",
             "archived_at": "2026-05-08T14:19:42.000Z"
           }
         },
@@ -2328,15 +3082,37 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Applicants for programs instructed in Chinese should have passed new HSK Level 4 or above; applicants whose native language is Chinese, or can provide proof of studying at a high school / university where the teaching language is Chinese, can apply for HSK test exemption. Applicants for programs instructed in English need to provide proof of English language proficiency.",
+          "quote": "Applicants for programs instructed in Chinese should have passed new HSK Level 4 or above",
           "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=9",
-          "verified_at": "2026-09-05T15:05:11.212Z",
-          "origin": "manual",
+          "verified_at": "2026-09-05T16:26:12.342Z",
+          "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:27:56.586Z",
+            "fetched_at": "2026-09-05T15:20:42.959Z",
             "archived_at": "2026-06-10T00:51:44.000Z"
+          }
+        },
+        {
+          "key": "funding.amount_month",
+          "label_ru": "Стипендия в месяц",
+          "value": {
+            "currency": "CNY",
+            "amount_minor": 250000
+          },
+          "display": "¥2 500",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "monthly stipend of 2,500 RMB",
+          "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=17",
+          "verified_at": "2026-09-05T16:26:08.039Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:58.020Z",
+            "archived_at": "2026-05-08T14:19:42.000Z"
           }
         },
         {
@@ -2371,15 +3147,15 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Excellent applicants may apply for USTC Fellowship, which covers tuition fee, insurance fee, monthly stipend (up to 7,000 RMB for PhD students and up to 3,000 RMB for master students) and accommodation subsidy.",
-          "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=9",
-          "verified_at": "2026-09-03T17:04:40.628Z",
+          "quote": "Level A, funded by USTC, includes tuition waiver",
+          "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=17",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
-            "render_method": "fetch",
-            "fetched_at": "2026-09-03T16:47:59.842Z",
-            "archived_at": null
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:21:58.020Z",
+            "archived_at": "2026-05-08T14:19:42.000Z"
           }
         },
         {
@@ -2415,12 +3191,12 @@
           "intake_round": null,
           "quote": "Having passed new HSK Level 5 or above",
           "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=17",
-          "verified_at": "2026-09-05T15:05:10.328Z",
+          "verified_at": "2026-09-05T16:26:11.323Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:28:43.239Z",
+            "fetched_at": "2026-09-05T15:21:58.020Z",
             "archived_at": "2026-05-08T14:19:42.000Z"
           }
         },
@@ -2457,18 +3233,39 @@
           "intake_round": null,
           "quote": "Applicants for programs instructed in Chinese should have passed new HSK Level 4 or above",
           "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=9",
-          "verified_at": "2026-09-05T15:05:09.454Z",
+          "verified_at": "2026-09-05T16:26:09.131Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:27:56.586Z",
+            "fetched_at": "2026-09-05T15:20:42.959Z",
+            "archived_at": "2026-06-10T00:51:44.000Z"
+          }
+        },
+        {
+          "key": "requirements.hsk_min",
+          "label_ru": "Минимальный уровень HSK",
+          "value": {
+            "value": 4
+          },
+          "display": "4",
+          "academic_year": null,
+          "degree_scope": "phd",
+          "intake_round": null,
+          "quote": "Applicants for programs instructed in Chinese should have passed new HSK Level 4 or above",
+          "source_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=9",
+          "verified_at": "2026-09-05T16:26:10.227Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:20:42.959Z",
             "archived_at": "2026-06-10T00:51:44.000Z"
           }
         }
       ],
       "coverage": {
-        "published": 6,
+        "published": 7,
         "expected": 11
       }
     },
@@ -2479,7 +3276,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.whu.edu.cn/",
-      "last_checked_at": "2026-09-05T11:30:21.411Z",
+      "last_checked_at": "2026-09-05T15:24:01.763Z",
       "facts": [],
       "coverage": {
         "published": 0,
@@ -2493,8 +3290,29 @@
       "city": null,
       "country": "CN",
       "website": "https://www.xjtlu.edu.cn/",
-      "last_checked_at": "2026-09-05T11:30:13.124Z",
+      "last_checked_at": "2026-09-05T15:23:56.148Z",
       "facts": [
+        {
+          "key": "deadline.fall.application_non_eu",
+          "label_ru": "Дедлайн подачи заявки (осенний набор, иностранцы)",
+          "value": {
+            "date": "2026-06-15"
+          },
+          "display": "15 июня 2026",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "For most undergraduate programmes, the closing date for September 2026 entry is 15 June 2026.",
+          "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/how-to-apply",
+          "verified_at": "2026-09-05T16:26:16.070Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "fetch",
+            "fetched_at": "2026-09-05T15:23:52.556Z",
+            "archived_at": null
+          }
+        },
         {
           "key": "deadline.fall.application_non_eu",
           "label_ru": "Дедлайн подачи заявки (осенний набор, иностранцы)",
@@ -2507,12 +3325,12 @@
           "intake_round": 1,
           "quote": "First round: 30 November 2025",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-05T11:30:13.124Z",
+            "fetched_at": "2026-09-05T15:23:56.148Z",
             "archived_at": null
           }
         },
@@ -2528,12 +3346,12 @@
           "intake_round": 2,
           "quote": "Second round: 15 January 2026",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-05T11:30:13.124Z",
+            "fetched_at": "2026-09-05T15:23:56.148Z",
             "archived_at": null
           }
         },
@@ -2549,12 +3367,12 @@
           "intake_round": 3,
           "quote": "Third round: 28 February 2026",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-05T11:30:13.124Z",
+            "fetched_at": "2026-09-05T15:23:56.148Z",
             "archived_at": null
           }
         },
@@ -2570,12 +3388,12 @@
           "intake_round": 4,
           "quote": "Fourth round: 31 March 2026",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-05T11:30:13.124Z",
+            "fetched_at": "2026-09-05T15:23:56.148Z",
             "archived_at": null
           }
         },
@@ -2591,12 +3409,12 @@
           "intake_round": 5,
           "quote": "Fifth round: 15 May 2026",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-05T11:30:13.124Z",
+            "fetched_at": "2026-09-05T15:23:56.148Z",
             "archived_at": null
           }
         },
@@ -2634,12 +3452,12 @@
           "intake_round": null,
           "quote": "International Students: RMB 93,000 per academic year.",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-05T11:30:13.124Z",
+            "fetched_at": "2026-09-05T15:23:56.148Z",
             "archived_at": null
           }
         },
@@ -2650,26 +3468,21 @@
             "items": [
               "Certificates of education qualifications",
               "Transcripts, translated into English",
-              "Certificates of English language qualifications such as IELTS, TOEFL or other acceptable English qualifications (as required for non-native speakers of English)",
-              "A-level, IB, SAT, ACT or other entrance aptitude test scores (if available)",
-              "International students: Photocopy of your passport",
-              "Hongkong, Macao, Taiwan students: Passport, Mainland travel permit, and HK or Macao Permanent ID/Taiwan ID",
-              "Passport sized colour photo with a white background",
-              "Portfolio (only for Year Two direct entry and Year Three transfer in BEng Architecture, BA Filmmaking, BA TV Production and BA Digital Media Arts）"
+              "Certificates of English language qualifications such as IELTS, TOEFL or other acceptable English qualifications"
             ]
           },
-          "display": "Certificates of education qualifications, Transcripts, translated into English, Certificates of English language qualifications such as IELTS, TOEFL or other acceptable English qualifications (as required for non-native speakers of English), A-level, IB, SAT, ACT or other entrance aptitude test scores (if available), International students: Photocopy of your passport, Hongkong, Macao, Taiwan students: Passport, Mainland travel permit, and HK or Macao Permanent ID/Taiwan ID, Passport sized colour photo with a white background, Portfolio (only for Year Two direct entry and Year Three transfer in BEng Architecture, BA Filmmaking, BA TV Production and BA Digital Media Arts）",
+          "display": "Certificates of education qualifications, Transcripts, translated into English, Certificates of English language qualifications such as IELTS, TOEFL or other acceptable English qualifications",
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "To successfully apply to XJTLU, you will need the following documents: Certificates of education qualifications Transcripts, translated into English Certificates of English language qualifications such as IELTS, TOEFL or other acceptable English qualifications (as required for non-native speakers of English) A-level, IB, SAT, ACT or other entrance aptitude test scores (if available) International students: Photocopy of your passport Hongkong, Macao, Taiwan students: Passport, Mainland travel permit, and HK or Macao Permanent ID/Taiwan ID Passport sized colour photo with a white background Portfolio (only for Year Two direct entry and Year Three transfer in BEng Architecture, BA Filmmaking, BA TV Production and BA Digital Media Arts）",
+          "quote": "To successfully apply to XJTLU, you will need the following documents: Certificates of education qualifications Transcripts, translated into English Certificates of English language qualifications such as IELTS, TOEFL or other acceptable English qualifications",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/how-to-apply",
-          "verified_at": "2026-09-05T15:05:15.928Z",
+          "verified_at": "2026-09-05T16:26:16.936Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-05T11:30:10.430Z",
+            "fetched_at": "2026-09-05T15:23:52.556Z",
             "archived_at": null
           }
         },
@@ -2684,14 +3497,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "you are required to pay a non-refundable deposit of RMB 10,000 to secure your place at XJTLU.",
+          "quote": "you are required to pay a non-refundable deposit of RMB 10,000 to secure your place at XJTLU",
           "source_url": "https://www.xjtlu.edu.cn/en/admissions/global/how-to-apply",
-          "verified_at": "2026-09-02T18:48:18.323Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "fetch",
-            "fetched_at": "2026-09-02T16:34:24.501Z",
+            "fetched_at": "2026-09-05T15:23:52.556Z",
             "archived_at": null
           }
         },
@@ -2751,8 +3564,29 @@
       "city": null,
       "country": "CN",
       "website": "https://www.xjtu.edu.cn/",
-      "last_checked_at": "2026-09-05T11:29:21.229Z",
+      "last_checked_at": "2026-09-05T15:22:49.463Z",
       "facts": [
+        {
+          "key": "deadline.fall.application_non_eu",
+          "label_ru": "Дедлайн подачи заявки (осенний набор, иностранцы)",
+          "value": {
+            "date": "2026-06-30"
+          },
+          "display": "30 июня 2026",
+          "academic_year": null,
+          "degree_scope": null,
+          "intake_round": null,
+          "quote": "Application Time November1st, 2025 –June 30th, 2026",
+          "source_url": "https://sie.xjtu.edu.cn/en/info/1119/2943.htm",
+          "verified_at": "2026-09-05T16:26:13.205Z",
+          "origin": "auto",
+          "certainty": "verified",
+          "snapshot": {
+            "render_method": "wayback",
+            "fetched_at": "2026-09-05T15:22:49.463Z",
+            "archived_at": "2025-12-13T22:32:34.000Z"
+          }
+        },
         {
           "key": "deadline.fall.application_non_eu",
           "label_ru": "Дедлайн подачи заявки (осенний набор, иностранцы)",
@@ -2807,14 +3641,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Self-sponsored program: RMB 500",
+          "quote": "Application fee Self-sponsored program: RMB 500",
           "source_url": "https://sie.xjtu.edu.cn/en/info/1119/2943.htm",
-          "verified_at": "2026-09-05T15:05:13.213Z",
+          "verified_at": "2026-09-05T16:26:14.067Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:29:21.229Z",
+            "fetched_at": "2026-09-05T15:22:49.463Z",
             "archived_at": "2025-12-13T22:32:34.000Z"
           }
         },
@@ -2860,14 +3694,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "English-taught program: Submit English proficiency certificate. IELTS 6.0 or TOEFL 80",
+          "quote": "English-taught program: Submit English proficiency certificate. IELTS 6.0 or TOEFL 80 (or above)",
           "source_url": "https://sie.xjtu.edu.cn/en/info/1119/2943.htm",
-          "verified_at": "2026-09-03T17:04:40.628Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:34.469Z",
+            "fetched_at": "2026-09-05T15:22:49.463Z",
             "archived_at": "2025-12-13T22:32:34.000Z"
           }
         },
@@ -2904,12 +3738,12 @@
           "intake_round": null,
           "quote": "English-taught program: Submit English proficiency certificate. IELTS 6.0 or TOEFL 80 (or above)",
           "source_url": "https://sie.xjtu.edu.cn/en/info/1119/2943.htm",
-          "verified_at": "2026-09-03T17:04:40.628Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:34.469Z",
+            "fetched_at": "2026-09-05T15:22:49.463Z",
             "archived_at": "2025-12-13T22:32:34.000Z"
           }
         },
@@ -2944,14 +3778,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Xi'an Jiaotong University (XJTU), founded in 1896",
+          "quote": "Xi'an Jiaotong University (XJTU), founded in 1896, is a national key university",
           "source_url": "https://sie.xjtu.edu.cn/en/info/1119/2943.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:29:21.229Z",
+            "fetched_at": "2026-09-05T15:22:49.463Z",
             "archived_at": "2025-12-13T22:32:34.000Z"
           }
         },
@@ -2965,14 +3799,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Proficiency must be above HSK 4 or equivalent",
+          "quote": "Chinese-taught program: Submit Chinese proficiency certificate. Proficiency must be above HSK 4 or equivalent.",
           "source_url": "https://sie.xjtu.edu.cn/en/info/1119/2943.htm",
-          "verified_at": "2026-09-02T18:48:18.323Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:34.469Z",
+            "fetched_at": "2026-09-05T15:22:49.463Z",
             "archived_at": "2025-12-13T22:32:34.000Z"
           }
         },
@@ -3007,14 +3841,14 @@
           "academic_year": null,
           "degree_scope": null,
           "intake_round": null,
-          "quote": "Applicants are required to take the \"CSCA Test\" organized by the China Scholarship Council",
+          "quote": "1.Take the China Scholastic Competency Assessment（CSCA） Applicants are required to take the \"CSCA Test\"",
           "source_url": "https://sie.xjtu.edu.cn/en/info/1119/2943.htm",
-          "verified_at": "2026-09-02T18:48:18.323Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-02T16:33:34.469Z",
+            "fetched_at": "2026-09-05T15:22:49.463Z",
             "archived_at": "2025-12-13T22:32:34.000Z"
           }
         },
@@ -3052,7 +3886,7 @@
       "city": null,
       "country": "CN",
       "website": "https://www.zju.edu.cn/",
-      "last_checked_at": "2026-09-05T11:27:54.244Z",
+      "last_checked_at": "2026-09-05T15:20:42.481Z",
       "facts": [
         {
           "key": "deadline.fall.application_non_eu",
@@ -3180,14 +4014,14 @@
           "academic_year": "2026/2027",
           "degree_scope": "bachelor",
           "intake_round": null,
-          "quote": "According to the requirements of the relevant authorities, starting from the 2026/2027 academic year, all international students applying for undergraduate programs must provide valid CSCA report.",
+          "quote": "starting from the 2026/2027 academic year, all international students applying for undergraduate programs must provide valid CSCA report",
           "source_url": "https://iczu.zju.edu.cn/iczuen/2025/1201/c63325a3111890/page.htm",
-          "verified_at": "2026-09-05T12:12:21.249Z",
+          "verified_at": "2026-09-05T16:16:14.698Z",
           "origin": "auto",
           "certainty": "verified",
           "snapshot": {
             "render_method": "wayback",
-            "fetched_at": "2026-09-05T11:27:54.244Z",
+            "fetched_at": "2026-09-05T15:20:42.481Z",
             "archived_at": "2026-02-07T10:29:08.000Z"
           }
         }
