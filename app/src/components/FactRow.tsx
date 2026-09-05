@@ -18,7 +18,9 @@ const CRITICAL_FIELD_LABEL = "критичное поле: сверьтесь с
 
 /**
  * The contour seal of a critical field (deadlines, HSK/IELTS, CSCA):
- * 核 «сверить», warning tone. Next to a row label it names the field itself
+ * 核 «сверить», warning tone, DASHED rim (`.seal-critical`) – this is not a
+ * provenance state, and the dashed square keeps it from reading as the solid
+ * contour of 档 (archive copy). Next to a row label it names the field itself
  * (role="img" + label); in the disclaimer line under the card the text next
  * to it carries the meaning, so there it is `decorative`.
  */
@@ -28,7 +30,7 @@ export function CriticalSeal({ decorative = false, className }: { decorative?: b
       glyph="核"
       variant="outline"
       tone="warning"
-      className={className}
+      className={cn("seal-critical", className)}
       {...(decorative ? {} : { role: "img", "aria-label": CRITICAL_FIELD_LABEL, title: CRITICAL_FIELD_LABEL })}
     />
   )

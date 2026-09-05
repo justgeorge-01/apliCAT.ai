@@ -303,7 +303,7 @@ export function Sidebar(props: SidebarProps) {
                 </span>
                 <span
                   className={cn(
-                    "truncate text-[10px] leading-none tracking-[0.08em] uppercase",
+                    "truncate text-xs leading-none tracking-[0.08em] uppercase",
                     active ? "font-semibold" : "font-medium",
                   )}
                 >
@@ -319,7 +319,7 @@ export function Sidebar(props: SidebarProps) {
             <span className="flex h-5 items-center">
               <Settings className="size-5" />
             </span>
-            <span className="truncate text-[10px] leading-none font-medium tracking-[0.08em] uppercase">Настройки</span>
+            <span className="truncate text-xs leading-none font-medium tracking-[0.08em] uppercase">Настройки</span>
           </button>
         </div>
       </nav>

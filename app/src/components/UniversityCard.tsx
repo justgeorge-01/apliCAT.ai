@@ -31,7 +31,7 @@ function FactLine({ fact, sublabel }: { fact: Fact; sublabel?: string }) {
         {sublabel && <span className="text-fg-muted">{sublabel} – </span>}
         {fact.display}
       </div>
-      <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px] leading-none text-fg-muted">
+      <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs leading-none text-fg-muted">
         <Seal {...sealOfFact(fact)} size="sm" />
         <span>{provenanceText(fact)}</span>
         <span className="text-fg-faint" aria-hidden="true">
@@ -69,7 +69,7 @@ function FactRow({
 }) {
   return (
     <div className="py-3 first:pt-0 last:pb-0">
-      <dt className="font-body text-[11px] font-semibold tracking-[0.14em] text-fg-muted uppercase">{label}</dt>
+      <dt className="font-body text-xs font-semibold tracking-[0.14em] text-fg-muted uppercase">{label}</dt>
       <dd className="mt-1.5 grid gap-2">
         {lead}
         {facts.length > 0 ? (
@@ -129,7 +129,7 @@ function MatchBlock({ match }: { match: MatchResult }) {
         <div className="mt-2.5 grid gap-2.5">
           {groups.map((g) => (
             <div key={g.key}>
-              <div className={cn("font-body text-[11px] font-semibold tracking-[0.14em] uppercase", g.tone.text)}>
+              <div className={cn("font-body text-xs font-semibold tracking-[0.14em] uppercase", g.tone.text)}>
                 {g.title}
               </div>
               <ul className={cn("mt-1 grid gap-1 border-l-2 pl-2.5 text-[13px] leading-snug", g.tone.rule)}>

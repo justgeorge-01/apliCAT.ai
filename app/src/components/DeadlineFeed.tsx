@@ -70,7 +70,7 @@ function Countdown({ item }: { item: DeadlineItem }) {
             <div className="font-display text-[28px] leading-none font-bold text-accent-text tabular-nums">
               {item.daysLeft}
             </div>
-            <div className="mt-1 text-[11px] font-semibold tracking-[0.14em] text-fg-muted uppercase">
+            <div className="mt-1 text-xs font-semibold tracking-[0.14em] text-fg-muted uppercase">
               {pluralRu(item.daysLeft, "день", "дня", "дней")}
             </div>
           </>

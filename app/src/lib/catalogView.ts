@@ -9,6 +9,7 @@
  * Lives outside `pages/Find.tsx` because component files may export only
  * components (react-refresh rule) and these need unit tests.
  */
+import type { CscaStatus } from "@/data/china"
 import type { Fact, University } from "@/data/china.types"
 import {
   amountMinorOf,
@@ -348,6 +349,22 @@ export function emptyFactText(u: University): string {
 export function cscaEmptyText(u: University): string {
   const lc = lastChecked(u)
   return lc ? `вуз не заявил · проверено ${formatCheckedAt(lc)}` : "вуз не заявил · проверка не проводилась"
+}
+
+/* ---------- CSCA status: one colour system on every screen ---------- */
+
+/**
+ * How the three CSCA states are painted – the single source of truth for the
+ * landing, the catalog card and the university card, so «CSCA требуется» is
+ * never amber in one place and red in another. Printed-label look, no icons:
+ * «требуется» is a red label with a thin red rim, «не требуется» an ink
+ * contour, «не опубликовано» a dashed contour – told apart by colour AND by
+ * the words. Informational only – never a verdict about the applicant.
+ */
+export const CSCA_BADGE: Record<CscaStatus, { variant: "default" | "outline"; className: string }> = {
+  required: { variant: "default", className: "border-accent/40 font-semibold" },
+  not_required: { variant: "outline", className: "border-fg/40 text-fg" },
+  unknown: { variant: "outline", className: "border-dashed text-fg-muted" },
 }
 
 /* ---------- misc ---------- */
