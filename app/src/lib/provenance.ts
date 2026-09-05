@@ -30,19 +30,28 @@ export function provenanceOf(fact: Fact): Provenance {
       note: "Демо-факт: перенесён вручную с официальной страницы, конвейер проверки не проходил.",
     }
   }
-  if (fact.snapshot?.render_method === "wayback") {
-    const archived = formatCheckedAt(fact.snapshot.archived_at ?? fact.verified_at)
-    return {
-      kind: "wayback",
-      label: `по архивной копии от ${archived}`,
-      note: `Официальная страница была недоступна, значение взято из архивной копии (archive.org) от ${archived}.`,
-    }
-  }
+  const archived =
+    fact.snapshot?.render_method === "wayback"
+      ? formatCheckedAt(fact.snapshot.archived_at ?? fact.verified_at)
+      : null
+  // A human's decision outranks the way the page was obtained: a value an
+  // operator corrected stays «проверено вручную» even when the page it was
+  // checked against came from the archive – the archive is then the caveat
+  // in the note, not the headline.
   if (fact.origin === "manual") {
     return {
       kind: "manual",
       label: `проверено вручную · ${checked}`,
-      note: "Значение введено оператором по официальной странице вуза.",
+      note: archived
+        ? `Значение введено оператором по архивной копии официальной страницы (archive.org) от ${archived}.`
+        : "Значение введено оператором по официальной странице вуза.",
+    }
+  }
+  if (archived) {
+    return {
+      kind: "wayback",
+      label: `по архивной копии от ${archived}`,
+      note: `Официальная страница была недоступна, значение взято из архивной копии (archive.org) от ${archived}.`,
     }
   }
   const fetched = fact.snapshot?.fetched_at ? formatCheckedAt(fact.snapshot.fetched_at) : null
