@@ -13,8 +13,7 @@ import {
   hasProvenance,
   isDeadlinePassed,
   normalizeCatalog,
-  yearInChinaEstimate,
-} from "@/data/china"
+  yearInChinaEstimate, arrangeFacts, factCoordinates } from "@/data/china"
 import { CARD_EXPECTED, FIXTURE_CATALOG } from "@/data/china.fixture"
 import type { Fact, University } from "@/data/china.types"
 
@@ -103,7 +102,8 @@ describe("normalizeCatalog", () => {
     expect(c.prompt_version).toBe(12)
     expect(c.demo).toBeUndefined()
     expect(c.universities).toHaveLength(1)
-    expect(c.universities[0].facts).toEqual([good])
+    // the loader adds the two coordinate fields (null when the export omits them)
+    expect(c.universities[0].facts).toEqual([{ ...good, degree_scope: null, intake_round: null }])
     expect(c.universities[0].coverage).toEqual({ published: 1, expected: CARD_KEYS.length })
     expect(c.universities[0].last_checked_at).toBeNull()
   })
@@ -185,5 +185,45 @@ describe("helpers", () => {
   it("card constants cover every key with a label and six rows in the spec order", () => {
     for (const k of CARD_KEYS) expect(FACT_LABELS_RU[k]).toBeTruthy()
     expect(CARD_ROWS.map((r) => r.id)).toEqual(["deadline", "tuition", "language", "csca", "scholarship", "dormitory"])
+  })
+})
+
+describe("arrangeFacts / factCoordinates – a value is printed with the degree it holds for", () => {
+  const base = {
+    key: "fees.tuition_year_non_eu" as const,
+    label_ru: "Стоимость",
+    value: { amount_minor: 1, currency: "CNY" },
+    quote: "q",
+    source_url: "https://u.edu.cn/x",
+    verified_at: "2026-09-05",
+    origin: "auto" as const,
+    certainty: "verified" as const,
+    snapshot: null,
+    academic_year: null,
+    intake_round: null,
+  }
+  it("puts the bachelor value first, then the unscoped one, then the other levels", () => {
+    const facts = [
+      { ...base, display: "¥150 000", degree_scope: "mba" as const },
+      { ...base, display: "¥30 000", degree_scope: "master" as const },
+      { ...base, display: "¥26 000", degree_scope: null },
+      { ...base, display: "¥24 000", degree_scope: "bachelor" as const },
+    ]
+    expect(arrangeFacts(facts).map((f) => f.display)).toEqual(["¥24 000", "¥26 000", "¥30 000", "¥150 000"])
+  })
+  it("drops an exact duplicate (same print, same coordinates) and keeps a differently scoped twin", () => {
+    const facts = [
+      { ...base, display: "5", degree_scope: null },
+      { ...base, display: "5", degree_scope: null },
+      { ...base, display: "5", degree_scope: "bachelor" as const },
+    ]
+    expect(arrangeFacts(facts)).toHaveLength(2)
+  })
+  it("prints year · degree · round, and nothing when none is stated", () => {
+    expect(factCoordinates({ ...base, display: "x", academic_year: "2026/2027", degree_scope: "master", intake_round: 2 })).toBe(
+      "учебный год 2026/2027 · магистратура · раунд 2",
+    )
+    expect(factCoordinates({ ...base, display: "x", degree_scope: "all" })).toBe("")
+    expect(factCoordinates({ ...base, display: "x", degree_scope: null })).toBe("")
   })
 })

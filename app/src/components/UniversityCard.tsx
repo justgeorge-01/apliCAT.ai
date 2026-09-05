@@ -8,7 +8,7 @@ import { CscaBadge } from "@/components/CscaBadge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { factOf, factsOf } from "@/data/china"
+import { factOf, factsOf, DEGREE_RU } from "@/data/china"
 import type { Fact, University } from "@/data/china.types"
 import { cscaEmptyText, displayName, emptyFactText, matchSummary, provenanceText } from "@/lib/catalogView"
 import type { MatchResult } from "@/lib/match"
@@ -29,6 +29,9 @@ function FactLine({ fact, sublabel }: { fact: Fact; sublabel?: string }) {
       <div className="text-sm leading-snug break-words text-fg">
         {sublabel && <span className="text-fg-muted">{sublabel} – </span>}
         {fact.display}
+        {fact.degree_scope && DEGREE_RU[fact.degree_scope] && (
+          <span className="text-fg-muted"> · {DEGREE_RU[fact.degree_scope]}</span>
+        )}
       </div>
       <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs leading-none text-fg-muted">
         <ProvenanceIcon fact={fact} />

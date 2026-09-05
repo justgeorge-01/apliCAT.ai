@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 import { AlertTriangle } from "lucide-react"
 
 import { ProvenanceBadge } from "@/components/ProvenanceBadge"
-import { formatCheckedAt } from "@/data/china"
+import { factCoordinates, formatCheckedAt } from "@/data/china"
 import type { Fact } from "@/data/china.types"
 import { cn } from "@/lib/utils"
 
@@ -56,7 +56,7 @@ export function FactItem({ fact, sublabel }: FactItemProps) {
         <div className="font-display text-lg leading-snug font-bold break-words text-fg sm:text-xl">
           {fact.display}
         </div>
-        {fact.academic_year && <div className="mt-0.5 text-xs text-fg-muted">учебный год {fact.academic_year}</div>}
+        {factCoordinates(fact) && <div className="mt-0.5 text-xs text-fg-muted">{factCoordinates(fact)}</div>}
       </div>
       <ProvenanceBadge fact={fact} className="mt-0.5 sm:mt-1" />
     </div>
