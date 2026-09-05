@@ -367,6 +367,13 @@ export const CSCA_BADGE: Record<CscaStatus, { variant: "default" | "outline"; cl
   unknown: { variant: "outline", className: "border-dashed text-fg-muted" },
 }
 
+/** The ONE wording of the three CSCA states – landing, catalog card and university card all print this. */
+export const CSCA_LABEL: Record<CscaStatus, string> = {
+  required: "CSCA требуется",
+  not_required: "CSCA не требуется",
+  unknown: "CSCA не опубликовано",
+}
+
 /* ---------- misc ---------- */
 
 const NBSP = " "

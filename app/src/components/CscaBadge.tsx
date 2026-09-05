@@ -1,14 +1,9 @@
 import { Badge } from "@/components/ui/badge"
-import { cscaStatus, factOf, formatCheckedAt, type CscaStatus } from "@/data/china"
+import { cscaStatus, factOf, formatCheckedAt } from "@/data/china"
 import type { University } from "@/data/china.types"
-import { CSCA_BADGE } from "@/lib/catalogView"
+import { CSCA_BADGE, CSCA_LABEL } from "@/lib/catalogView"
 import { cn } from "@/lib/utils"
 
-const LABELS: Record<CscaStatus, string> = {
-  required: "CSCA требуется",
-  not_required: "CSCA не требуется",
-  unknown: "CSCA: не опубликовано",
-}
 
 /**
  * CSCA badge of a university card (spec §3.2): required / not required /
@@ -26,7 +21,7 @@ export function CscaBadge({ u, className }: { u: University; className?: string 
 
   return (
     <Badge variant={style.variant} className={cn(style.className, className)} title={title} data-status={status}>
-      {LABELS[status]}
+      {CSCA_LABEL[status]}
     </Badge>
   )
 }

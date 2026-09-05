@@ -152,20 +152,20 @@ describe("CscaBlock", () => {
 
   it("required: status badge + the fact with its badge", () => {
     const out = html(<CscaBlock u={uni([required])} />)
-    expect(out).toContain("Требуется")
+    expect(out).toContain("CSCA требуется")
     expect(out).toContain("требуется с 2026/27")
     expect(out).toContain("демо · 31 августа 2026")
   })
 
   it("not required", () => {
     const out = html(<CscaBlock u={uni([{ ...required, value: { value: false }, display: "не требуется" }])} />)
-    expect(out).toContain("Не требуется")
+    expect(out).toContain("CSCA не требуется")
   })
 
-  it("unknown: «вуз не заявил · проверено <дата>»", () => {
+  it("unknown: «CSCA не опубликовано» + «вуз не публикует · проверено <дата>»", () => {
     const out = html(<CscaBlock u={uni([])} />)
     expect(out).toContain("Вуз не заявил")
-    expect(out).toContain("вуз не заявил · проверено 31 августа 2026")
+    expect(out).toContain("вуз не публикует · проверено 31 августа 2026")
   })
 
   it("modules are listed even when the requirement itself is not stated", () => {
@@ -177,7 +177,7 @@ describe("CscaBlock", () => {
     })
     const out = html(<CscaBlock u={uni([subjects])} />)
     expect(out).toContain("Вуз не заявил")
-    expect(out).toContain("вуз не заявил · проверено 31 августа 2026")
+    expect(out).toContain("вуз не публикует · проверено 31 августа 2026")
     expect(out).toContain("Модули CSCA")
     expect(out).toContain("математика, физика")
   })

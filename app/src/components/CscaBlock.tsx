@@ -2,9 +2,9 @@ import { ExternalLink } from "lucide-react"
 
 import { FactItem, FactRow } from "@/components/FactRow"
 import { Badge } from "@/components/ui/badge"
-import { cscaStatus, factsOf, formatCheckedAt, lastChecked, type CscaStatus } from "@/data/china"
+import { cscaStatus, factsOf, formatCheckedAt, lastChecked } from "@/data/china"
 import type { University } from "@/data/china.types"
-import { CSCA_BADGE } from "@/lib/catalogView"
+import { CSCA_BADGE, CSCA_LABEL } from "@/lib/catalogView"
 import { cn } from "@/lib/utils"
 
 /**
@@ -22,11 +22,6 @@ const CSCA_NOTE = {
   verified_at: "2026-08-31",
 }
 
-const STATUS_LABEL: Record<CscaStatus, string> = {
-  required: "Требуется",
-  not_required: "Не требуется",
-  unknown: "Вуз не заявил",
-}
 
 export interface CscaBlockProps {
   u: University
@@ -54,12 +49,11 @@ export function CscaBlock({ u, className }: CscaBlockProps) {
       lastCheckedAt={lastChecked(u)}
       critical
       sublabels
-      emptyLabel="вуз не заявил"
       className={cn("my-3 rounded-md border-b-0 border-l-2 border-accent bg-accent-soft px-4 sm:px-5", className)}
       lead={
         <div>
           <Badge variant={CSCA_BADGE[status].variant} className={CSCA_BADGE[status].className}>
-            {STATUS_LABEL[status]}
+            {CSCA_LABEL[status]}
           </Badge>
         </div>
       }
