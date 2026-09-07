@@ -7,9 +7,9 @@ export const DEFAULT_PARTNER_SLUG = "abitura"
  * Registry of partner configs. A partner's brand is shown only when its slug is
  * explicitly selected (`?partner=` or `VITE_PARTNER`), never by default.
  *
- * `zhuiqiu` is the partner config: the Telegram link is the partner's own handle,
- * replaces once the partner has agreed; the copy is deliberately neutral and
- * makes no claims about the partner's results.
+ * `zhuiqiu` is the partner config: the Telegram link is the partner's own
+ * handle (@zhuiqiu_yu); the copy is deliberately neutral and makes no claims
+ * about the partner's results.
  */
 export const PARTNERS: Record<string, Partner> = {
   abitura: {
@@ -23,7 +23,7 @@ export const PARTNERS: Record<string, Partner> = {
     tagline: "Наставник по поступлению в вузы Китая",
     lead: {
       label: "Обсудить с наставником",
-      // Placeholder – the owner replaces it with the partner's real Telegram.
+      // The partner's Telegram, set by the owner on 07.09.2026.
       url: "https://t.me/zhuiqiu_yu",
     },
     expertPage: {
