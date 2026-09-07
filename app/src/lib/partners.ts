@@ -7,7 +7,7 @@ export const DEFAULT_PARTNER_SLUG = "abitura"
  * Registry of partner configs. A partner's brand is shown only when its slug is
  * explicitly selected (`?partner=` or `VITE_PARTNER`), never by default.
  *
- * `zhuiqiu` is a DEMO config: the Telegram link is a placeholder the owner
+ * `zhuiqiu` is the partner config: the Telegram link is the partner's own handle,
  * replaces once the partner has agreed; the copy is deliberately neutral and
  * makes no claims about the partner's results.
  */
@@ -24,7 +24,7 @@ export const PARTNERS: Record<string, Partner> = {
     lead: {
       label: "Обсудить с наставником",
       // Placeholder – the owner replaces it with the partner's real Telegram.
-      url: "https://t.me/placeholder",
+      url: "https://t.me/zhuiqiu_yu",
     },
     expertPage: {
       title: "Zhuiqiu разбирает такие кейсы",
