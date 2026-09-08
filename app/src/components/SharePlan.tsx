@@ -125,6 +125,8 @@ export interface PlanBackupProps {
   plan: Plan
   /** Called with the parsed plan – the page replaces its plan with it. */
   onImport: (plan: Plan) => void
+  /** Signed in: the plan lives in the account, the file is a personal copy. */
+  signed?: boolean
 }
 
 function uniCount(n: number): string {
@@ -140,7 +142,7 @@ function uniCount(n: number): string {
  * device. Import REPLACES the current plan (after a confirmation when the
  * current plan is not empty).
  */
-export function PlanBackup({ plan, onImport }: PlanBackupProps) {
+export function PlanBackup({ plan, onImport, signed }: PlanBackupProps) {
   const toast = useToast()
   const fileRef = useRef<HTMLInputElement>(null)
   const [pending, setPending] = useState<Plan | null>(null)
@@ -194,8 +196,9 @@ export function PlanBackup({ plan, onImport }: PlanBackupProps) {
     <Card className="gap-0 p-5">
       <Kicker as="h2">Резервная копия</Kicker>
       <p className="mt-2 text-sm leading-relaxed text-fg-muted">
-        План хранится только в этом браузере. Сохраните JSON-файл, чтобы не потерять статусы и отметки при очистке
-        данных, и восстановите его при необходимости.
+        {signed
+          ? "План хранится в аккаунте. JSON-файл – ваша личная копия; импорт заменит план в аккаунте."
+          : "План хранится только в этом браузере. Сохраните JSON-файл, чтобы не потерять статусы и отметки при очистке данных, и восстановите его при необходимости."}
       </p>
 
       <div className="mt-4 flex flex-wrap gap-2">

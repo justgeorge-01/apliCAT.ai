@@ -1,4 +1,4 @@
-import { CalendarDays, ExternalLink } from "lucide-react"
+import { CalendarDays, ExternalLink, ListChecks } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -140,8 +140,14 @@ function DeadlineRow({
                 общие
               </span>
             )}
+            {item.kind === "task" && (
+              <span className="inline-flex items-center gap-1 text-xs text-fg-muted">
+                <ListChecks className="size-3.5 shrink-0" aria-hidden="true" />
+                задача
+              </span>
+            )}
           </div>
-          {item.kind === "university" && item.subtitle && (
+          {item.kind !== "common" && item.subtitle && (
             <div className="text-xs text-fg-muted">{item.subtitle}</div>
           )}
         </div>
@@ -153,7 +159,10 @@ function DeadlineRow({
       <div className={cn("mt-1.5 text-sm leading-snug", item.passed && "text-fg-muted")}>{item.display}</div>
 
       {item.note && <div className="mt-1 text-xs text-fg-faint">{item.note}</div>}
-      <SourceLink className="mt-1" url={item.source_url} verifiedAt={item.verified_at} />
+      {/* a task is the user's own entry – it has no source line */}
+      {item.source_url && item.verified_at && (
+        <SourceLink className="mt-1" url={item.source_url} verifiedAt={item.verified_at} />
+      )}
     </li>
   )
 }
@@ -169,9 +178,10 @@ export interface DeadlineFeedProps {
 }
 
 /**
- * Лента дедлайнов (spec §3.4): deadlines of the universities in the plan and
- * the common dates (CSCA sessions, CSC window) on one ascending timeline with
- * a countdown. Presentational – the page computes the items.
+ * Лента дедлайнов (spec §3.4, cabinet §4): deadlines of the universities in the
+ * plan, the common dates (CSCA sessions, CSC window) and the open tasks with a
+ * due date on one ascending timeline with a countdown. Presentational – the
+ * page computes the items.
  */
 export function DeadlineFeed({ items, hiddenPast, showPast, onToggleShowPast, onOpenUniversity }: DeadlineFeedProps) {
   const hasCritical = items.some((i) => i.critical)

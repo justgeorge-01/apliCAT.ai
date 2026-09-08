@@ -10,6 +10,8 @@ export interface DocChecklistProps {
   university: University
   entry: PlanEntry
   onToggle: (docId: string, done: boolean) => void
+  /** The mentor's view: the same list, boxes disabled. */
+  readOnly?: boolean
 }
 
 /**
@@ -21,7 +23,7 @@ export interface DocChecklistProps {
  * Paper ledger look: a thin rule between items, a square box in an ink frame,
  * a red check mark once the document is ready; the progress is a hairline.
  */
-export function DocChecklist({ university: u, entry, onToggle }: DocChecklistProps) {
+export function DocChecklist({ university: u, entry, onToggle, readOnly }: DocChecklistProps) {
   const items = docChecklist(u).filter((d) => d.origin === "base" || (d.source_url && d.verified_at))
   const progress = docProgress(entry, u)
   const hasUniList = items.some((d) => d.origin === "university")
@@ -62,13 +64,14 @@ export function DocChecklist({ university: u, entry, onToggle }: DocChecklistPro
               <Checkbox
                 id={id}
                 checked={done}
+                disabled={readOnly}
                 onCheckedChange={(v) => onToggle(d.id, v === true)}
                 className="mt-0.5 rounded-[2px] border-fg/70 bg-card data-[state=checked]:border-fg data-[state=checked]:bg-card data-[state=checked]:text-accent-text"
               />
               <div className="min-w-0 flex-1">
                 <label
                   htmlFor={id}
-                  className={cn("block cursor-pointer text-sm leading-snug", done && "text-fg-muted line-through")}
+                  className={cn("block text-sm leading-snug", !readOnly && "cursor-pointer", done && "text-fg-muted line-through")}
                 >
                   {d.label}
                 </label>
