@@ -6,14 +6,17 @@ import {
   ChevronDown,
   ClipboardList,
   Home,
+  LogIn,
   PenLine,
   Search,
   Settings,
+  Trash2,
+  UserRound,
 } from "lucide-react"
 
 import { HanziKicker } from "@/components/ui/hanzi-kicker"
 import { FEATURES } from "@/lib/features"
-import { isProgramsTab, mainTabs, PROGRAMS_SUBTABS, type NavItem, type Tab } from "@/lib/nav"
+import { isProgramsTab, mainTabs, PROGRAMS_SUBTABS, type NavContext, type NavItem, type Tab } from "@/lib/nav"
 import type { Partner } from "@/lib/partner"
 import { cn } from "@/lib/utils"
 
@@ -24,13 +27,15 @@ type IconType = React.ComponentType<{ className?: string }>
 /**
  * Han-character kicker per «Китай» tab – the Russian label lives in lib/nav.ts
  * and always sits next to the glyphs (DESIGN.md: never a character on its own).
- *  首页 «главная страница» · 大学 «университеты» (Каталог) · 我的计划 «мой план».
- * Legacy tabs (Europe / AI) have no kicker and keep a lucide icon.
+ *  首页 «главная страница» · 大学 «университеты» (Каталог) · 我的计划 «мой план» ·
+ *  导师 «наставник» (the mentor panel).
+ * Legacy tabs (Europe / AI) and the account screens have no kicker and keep a lucide icon.
  */
 const HANZI: Partial<Record<Tab, string>> = {
   home: "首页",
   find: "大学",
   plan: "我的计划",
+  mentor: "导师",
 }
 
 /** Icon per tab id – used where there is no Han kicker. */
@@ -39,6 +44,10 @@ const ICONS: Record<Tab, IconType> = {
   find: Search,
   plan: ClipboardList,
   policy: ClipboardList,
+  signin: LogIn,
+  profile: UserRound,
+  mentor: UserRound,
+  delete: Trash2,
   p_saved: Bookmark,
   p_priority: Bookmark,
   essay: PenLine,
@@ -87,15 +96,27 @@ const SOCIALS = [
   },
 ]
 
+/** The account state the menu reflects (cabinet spec §3–5). Absent – the cabinet is off. */
+export interface SidebarAccount {
+  signed: boolean
+  /** The signed-in user is a member of an organization → the «Наставник» tab. */
+  member: boolean
+  /** Nick or e-mail – the label of the profile entry. */
+  label: string
+  onSignIn: () => void
+  onProfile: () => void
+}
+
 export interface SidebarProps {
   tab: Tab
   setTab: (t: Tab) => void
-  /** Opens the settings dialog (menu entry «Настройки» on desktop and mobile). */
+  /** Opens the settings dialog (menu entry «Настройки» – guests). */
   onSettings: () => void
-  /** Header brand: name / logo / tagline come from the partner config (spec §2). */
+  /** Header brand: name / logo / tagline come from the partner config (spec §2) or the student's organization (§6). */
   partner: Partner
   /** Slide-in entrance right after onboarding (mirrors the legacy animation). */
   animateIn?: boolean
+  account?: SidebarAccount
 }
 
 /** Brand block – partner logo when present, else the name in Playfair with the red full stop. */
@@ -125,8 +146,12 @@ function Brand({ partner, size = "base" }: { partner: Partner; size?: "base" | "
 /** Uppercase, tracked menu label – the same treatment as the Han kicker's Russian half. */
 const LABEL = "text-[13px] font-semibold tracking-[0.14em] uppercase"
 
-function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
-  const items = mainTabs()
+function navContext(account?: SidebarAccount): NavContext {
+  return { signed: account?.signed ?? false, member: account?.member ?? false }
+}
+
+function NavContent({ tab, setTab, onSettings, partner, account }: SidebarProps) {
+  const items = mainTabs(FEATURES, navContext(account))
   const [progExpanded, setProgExpanded] = useState(isProgramsTab(tab))
   const showSocials = FEATURES.market === "europe"
 
@@ -225,26 +250,59 @@ function NavContent({ tab, setTab, onSettings, partner }: SidebarProps) {
         </div>
       )}
 
-      {/* settings */}
-      <button
-        className="mx-3 mb-4 flex items-center gap-3 rounded-lg border border-border bg-card p-3 text-left transition-colors duration-200 outline-none hover:border-border-strong focus-visible:ring-2 focus-visible:ring-accent/60"
-        onClick={onSettings}
-      >
-        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent-text">
-          <Settings className="size-4" />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-semibold">Настройки</span>
-          <span className="block text-xs text-fg-muted">Тема, данные, сброс</span>
-        </span>
-      </button>
+      {/* account: «Войти» for a guest; the profile entry replaces «Настройки» once signed in */}
+      {account && !account.signed && (
+        <button
+          className={cn(
+            "mx-3 mb-2 flex items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+            tab === "signin" ? "bg-accent-soft text-fg" : "text-fg-muted hover:bg-fg/5 hover:text-fg",
+          )}
+          aria-current={tab === "signin" ? "page" : undefined}
+          onClick={account.onSignIn}
+        >
+          <LogIn className="size-4.5 shrink-0" />
+          <span className={cn("min-w-0 flex-1 truncate", LABEL)}>Войти</span>
+        </button>
+      )}
+      {account?.signed ? (
+        <button
+          className={cn(
+            "mx-3 mb-4 flex items-center gap-3 rounded-lg border bg-card p-3 text-left transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+            tab === "profile" ? "border-accent" : "border-border hover:border-border-strong",
+          )}
+          aria-current={tab === "profile" ? "page" : undefined}
+          onClick={account.onProfile}
+        >
+          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent-text">
+            <UserRound className="size-4" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-semibold">Профиль</span>
+            <span className="block truncate text-xs text-fg-muted">{account.label}</span>
+          </span>
+        </button>
+      ) : (
+        <button
+          className="mx-3 mb-4 flex items-center gap-3 rounded-lg border border-border bg-card p-3 text-left transition-colors duration-200 outline-none hover:border-border-strong focus-visible:ring-2 focus-visible:ring-accent/60"
+          onClick={onSettings}
+        >
+          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent-text">
+            <Settings className="size-4" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-semibold">Настройки</span>
+            <span className="block text-xs text-fg-muted">Тема, данные, сброс</span>
+          </span>
+        </button>
+      )}
     </div>
   )
 }
 
 export function Sidebar(props: SidebarProps) {
-  const { tab, setTab, onSettings, partner, animateIn } = props
-  const mobileTabs = mainTabs().filter((it) => it.id !== "p_priority")
+  const { tab, setTab, onSettings, partner, animateIn, account } = props
+  const mobileTabs = mainTabs(FEATURES, navContext(account)).filter((it) => it.id !== "p_priority")
+  const signed = account?.signed ?? false
 
   return (
     <>
@@ -261,13 +319,35 @@ export function Sidebar(props: SidebarProps) {
       {/* Mobile top bar: brand · settings, a thin red rule beneath */}
       <header className="sticky top-0 z-40 flex h-14 items-center gap-2 border-b border-accent bg-surface/90 px-4 backdrop-blur-xl lg:hidden">
         <Brand partner={partner} />
-        <button
-          className="ml-auto grid size-9 shrink-0 place-items-center rounded-lg text-fg-muted outline-none hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-accent/60"
-          aria-label="Настройки"
-          onClick={onSettings}
-        >
-          <Settings className="size-5" />
-        </button>
+        {account && !signed && (
+          <button
+            className="ml-auto grid size-9 shrink-0 place-items-center rounded-lg text-fg-muted outline-none hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-accent/60"
+            aria-label="Войти"
+            onClick={account.onSignIn}
+          >
+            <LogIn className="size-5" />
+          </button>
+        )}
+        {signed ? (
+          <button
+            className="ml-auto grid size-9 shrink-0 place-items-center rounded-lg text-fg-muted outline-none hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-accent/60"
+            aria-label="Профиль"
+            onClick={account?.onProfile}
+          >
+            <UserRound className="size-5" />
+          </button>
+        ) : (
+          <button
+            className={cn(
+              "grid size-9 shrink-0 place-items-center rounded-lg text-fg-muted outline-none hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-accent/60",
+              !account && "ml-auto",
+            )}
+            aria-label="Настройки"
+            onClick={onSettings}
+          >
+            <Settings className="size-5" />
+          </button>
+        )}
       </header>
 
       {/* Mobile bottom tab bar – replaces the sidebar below lg. The Han kicker
@@ -312,15 +392,34 @@ export function Sidebar(props: SidebarProps) {
               </button>
             )
           })}
-          <button
-            onClick={onSettings}
-            className="flex min-w-0 flex-1 flex-col items-center gap-1.5 px-1 pt-2.5 pb-2 text-fg-muted outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
-          >
-            <span className="flex h-5 items-center">
-              <Settings className="size-5" />
-            </span>
-            <span className="truncate text-xs leading-none font-medium tracking-[0.08em] uppercase">Настройки</span>
-          </button>
+          {signed ? (
+            <button
+              onClick={account?.onProfile}
+              aria-current={tab === "profile" ? "page" : undefined}
+              className={cn(
+                "relative flex min-w-0 flex-1 flex-col items-center gap-1.5 px-1 pt-2.5 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+                tab === "profile" ? "text-accent-text" : "text-fg-muted",
+              )}
+            >
+              {tab === "profile" && <span aria-hidden className="absolute inset-x-4 top-0 h-0.5 rounded-b-full bg-accent" />}
+              <span className="flex h-5 items-center">
+                <UserRound className="size-5" />
+              </span>
+              <span className={cn("truncate text-xs leading-none tracking-[0.08em] uppercase", tab === "profile" ? "font-semibold" : "font-medium")}>
+                Профиль
+              </span>
+            </button>
+          ) : (
+            <button
+              onClick={onSettings}
+              className="flex min-w-0 flex-1 flex-col items-center gap-1.5 px-1 pt-2.5 pb-2 text-fg-muted outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            >
+              <span className="flex h-5 items-center">
+                <Settings className="size-5" />
+              </span>
+              <span className="truncate text-xs leading-none font-medium tracking-[0.08em] uppercase">Настройки</span>
+            </button>
+          )}
         </div>
       </nav>
     </>

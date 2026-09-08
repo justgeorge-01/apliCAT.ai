@@ -88,7 +88,15 @@ export default function Detail(props: DetailProps) {
       </Suspense>
     )
   }
-  return <ChinaDetail id={item.id} initial={isChinaUniversity(item) ? item : null} onBack={onBack} />
+  return (
+    <ChinaDetail
+      id={item.id}
+      initial={isChinaUniversity(item) ? item : null}
+      onBack={onBack}
+      inPlanProp={props.toggleSave ? props.saved : undefined}
+      onTogglePlanProp={props.toggleSave}
+    />
+  )
 }
 
 /* ---------- «Китай» ---------- */
@@ -139,10 +147,19 @@ function ChinaDetail({
   id,
   initial,
   onBack,
+  inPlanProp,
+  onTogglePlanProp,
 }: {
   id: string
   initial: ChinaUniversity | null
   onBack: () => void
+  /**
+   * The shell owns the plan (local or the account, via lib/planStore) and
+   * passes the state and the toggle; without them the card reads and writes
+   * `admitica.cn.plan` itself (standalone use).
+   */
+  inPlanProp?: boolean
+  onTogglePlanProp?: (id: string) => void
 }) {
   const toast = useToast()
   const partner = getPartner()
@@ -192,11 +209,15 @@ function ChinaDetail({
     )
   }
 
-  const inPlan = isInPlan(plan, u.id)
+  const inPlan = onTogglePlanProp ? Boolean(inPlanProp) : isInPlan(plan, u.id)
   const onTogglePlan = () => {
-    const next = togglePlan(plan, u.id)
-    setPlan(next)
-    savePlan(next)
+    if (onTogglePlanProp) {
+      onTogglePlanProp(u.id)
+    } else {
+      const next = togglePlan(plan, u.id)
+      setPlan(next)
+      savePlan(next)
+    }
     toast(inPlan ? "Убрали из плана" : "Добавили в мой план")
   }
 

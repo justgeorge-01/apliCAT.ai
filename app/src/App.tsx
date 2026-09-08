@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { FlaskConical, Loader2 } from "lucide-react"
 
 import { Sidebar } from "@/components/Sidebar"
@@ -9,36 +9,58 @@ import { useLeadTrigger } from "@/components/partner/useLeadTrigger"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ToastProvider } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { getBackend } from "@/auth/backend"
+import DeleteAccount from "@/auth/DeleteAccount"
+import SignIn from "@/auth/SignIn"
+import { cleanAuthUrl, parseAuthUrl, PENDING_JOIN_KEY } from "@/auth/url"
+import { CabinetCtx, useStudentCabinet } from "@/auth/useCabinet"
+import { useSession } from "@/auth/useSession"
 import { findUniversity, loadCatalog } from "@/data/china"
 import type { Catalog, University } from "@/data/china.types"
+import { errorMessageRu } from "@/lib/cabinet"
 import { FEATURES } from "@/lib/features"
 import { PROFILE_KEY, type ChinaProfile } from "@/lib/match"
 import { tabEnabled, type Tab } from "@/lib/nav"
 import { getPartner, hasLead } from "@/lib/partner"
-import { usePersist } from "@/lib/persist"
-import { isInPlan, loadPlan, savePlan, togglePlan, type Plan } from "@/lib/plan"
+import { readPersist, usePersist } from "@/lib/persist"
+import { isInPlan, loadPlan, togglePlan, type Plan } from "@/lib/plan"
 import type { AnyProgram, RoadmapEntry } from "@/legacy"
+import MentorPanel from "@/mentor/MentorPanel"
 import Onboarding from "@/pages/Onboarding"
 import Home from "@/pages/Home"
 import Find from "@/pages/Find"
 import Detail from "@/pages/Detail"
 import PlanPage from "@/pages/Plan"
 import Policy from "@/pages/Policy"
+import Profile from "@/pages/Profile"
 import Programs from "@/pages/Programs"
 import Essay from "@/pages/Essay"
 import Resume from "@/pages/Resume"
 
 /**
- * App shell (spec §3.6): tab routing, detail overlay, settings dialog, the
- * onboarding gate and the one-time lead popup.
+ * App shell (spec §3.6, cabinet spec §3–6): tab routing, detail overlay,
+ * settings dialog, the onboarding gate, the one-time lead popup, and – when
+ * the build has Supabase keys – the session, the cabinet and the mentor panel.
  *
  * Storage: the legacy `admitica.*` keys are read/written exactly as before
  * (they still feed the European screens behind their flags and the settings
  * dialog); everything new lives under `admitica.cn.*` – the profile
- * (`cn.profile`), the plan (`cn.plan`) and the popup lifecycle (`cn.lead.*`).
+ * (`cn.profile`), the plan (`cn.plan`), tasks (`cn.tasks`), the popup
+ * lifecycle (`cn.lead.*`), the session (`cn.auth`) and a pending invitation
+ * (`cn.join`). Signed in, the plan / tasks / answers live in the account and
+ * the local keys are only a cache.
  */
 export default function App() {
-  const partner = getPartner()
+  return (
+    <ToastProvider>
+      <Shell />
+    </ToastProvider>
+  )
+}
+
+function Shell() {
+  const toast = useToast()
   const isEurope = FEATURES.market === "europe"
 
   // Theme lives in admitica.theme – unchanged key. Paper (light) is the default;
@@ -56,7 +78,8 @@ export default function App() {
   const [priorities, setPriorities] = usePersist<string[]>("priorities", ["u1", "u2", "g1"])
   const [roadmaps, setRoadmaps] = usePersist<RoadmapEntry[]>("roadmaps", [{ id: "rm1", itemId: "u1", step: 2 }])
 
-  // «Китай»: profile from the five questions (admitica.cn.profile).
+  // «Китай»: profile from the five questions (admitica.cn.profile). Signed in,
+  // the account's answers are mirrored here and every change is written back.
   const [profile, setProfile] = usePersist<ChinaProfile | null>(PROFILE_KEY, null)
   const hasProfile = profile !== null
 
@@ -74,11 +97,30 @@ export default function App() {
     }
   }, [])
 
-  // The plan (admitica.cn.plan). Detail and the plan page persist their own
-  // changes with `savePlan`; the shell re-reads storage on every navigation so
-  // «В мой план» states stay in sync across screens.
+  /* ---------- session and cabinet ---------- */
+
+  const backend = useMemo(() => getBackend(), [])
+  const session = useSession(backend)
+  const signed = session.status === "signed"
+
+  // The plan (admitica.cn.plan or the account). The shell owns the state; the
+  // cabinet's store persists it. For the local store the shell re-reads
+  // storage on every navigation so «В мой план» states stay in sync.
   const [cnPlan, setCnPlan] = useState<Plan>(() => loadPlan())
-  const refreshPlan = () => setCnPlan(loadPlan())
+
+  const cabinet = useStudentCabinet({
+    backend,
+    session,
+    toast,
+    onPlanLoaded: setCnPlan,
+    onOnboardingLoaded: setProfile,
+  })
+  const store = cabinet.planStore
+  const refreshPlan = () => {
+    if (store.kind === "local") setCnPlan(loadPlan())
+  }
+
+  const partner = getPartner()
 
   const [tab, setTabState] = useState<Tab>("home")
   const [detailId, setDetailId] = useState<string | null>(null)
@@ -86,24 +128,87 @@ export default function App() {
   const [wizardOpen, setWizardOpen] = useState(false)
   const [justOnboarded, setJustOnboarded] = useState(false)
 
+  const navCtx = { signed, member: cabinet.isMember }
+
+  const setTab = (t: Tab) => {
+    setTabState(tabEnabled(t, FEATURES, navCtx) ? t : "home")
+    setDetailId(null)
+    refreshPlan()
+    window.scrollTo(0, 0)
+  }
+
+  /* ---------- the address bar: magic link, ?join=, ?confirm=delete ---------- */
+
+  const [urlState] = useState(() => parseAuthUrl(location.search, location.hash))
+  // An invitation waits in admitica.cn.join until the sign-in completes.
+  const [pendingJoin, setPendingJoin] = useState<string | null>(() => urlState.join ?? readPersist<string | null>(PENDING_JOIN_KEY, null))
+  const [confirmDelete, setConfirmDelete] = useState(urlState.confirmDelete)
+  const joinRunning = useRef(false)
+
+  useEffect(() => {
+    try {
+      if (pendingJoin) localStorage.setItem("admitica." + PENDING_JOIN_KEY, JSON.stringify(pendingJoin))
+      else localStorage.removeItem("admitica." + PENDING_JOIN_KEY)
+    } catch {
+      /* private mode */
+    }
+  }, [pendingJoin])
+
+  useEffect(() => {
+    if (urlState.error) toast(`Ссылка не сработала: ${urlState.error}`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, on mount
+  }, [])
+
+  // Once the session is known, strip the tokens / params from the URL.
+  useEffect(() => {
+    if (session.status === "loading") return
+    const clean = cleanAuthUrl(location.href)
+    if (clean !== location.href) history.replaceState(null, "", clean)
+  }, [session.status])
+
+  // A guest with an invitation is taken to the sign-in screen once.
+  const [joinPromptedFor, setJoinPromptedFor] = useState<string | null>(null)
+  if (backend && session.status === "guest" && pendingJoin && joinPromptedFor !== pendingJoin) {
+    setJoinPromptedFor(pendingJoin)
+    setTabState("signin")
+  }
+
+  // A signed-in user with an invitation is joined.
+  useEffect(() => {
+    if (!backend || !pendingJoin || session.status !== "signed" || joinRunning.current) return
+    joinRunning.current = true
+    void cabinet.joinOrg(pendingJoin).then((org) => {
+      joinRunning.current = false
+      setPendingJoin(null)
+      if (org) {
+        toast(`Ты подключён к ${org.name}`)
+        setTabState("plan")
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- runs on session / code changes only
+  }, [backend, session.status, pendingJoin])
+
+  // The account-deletion e-mail returns here signed in – once.
+  const [deletePrompted, setDeletePrompted] = useState(false)
+  if (confirmDelete && session.status === "signed" && !deletePrompted) {
+    setDeletePrompted(true)
+    setTabState("delete")
+  }
+
+  // Sign-out on an account screen → home.
+  if (session.status === "guest" && (tab === "profile" || tab === "mentor" || tab === "delete")) setTabState("home")
+
   // Onboarding gate: Europe keeps the legacy «no name yet» gate; «Китай» shows
   // the landing first and opens the five questions from its CTA.
   const showOnboarding = isEurope ? !name : wizardOpen
 
   // Lead popup (spec §3.7): counts unique screens AFTER onboarding, mounted
-  // only when the partner has a lead link. Called before any early return so
-  // the Rules of Hooks hold.
+  // only when the partner has a lead link and the student has no mentor yet.
+  // Called before any early return so the Rules of Hooks hold.
   const lead = useLeadTrigger({
     screen: detailId ? "detail" : tab,
-    enabled: hasLead(partner) && hasProfile && !showOnboarding,
+    enabled: hasLead(partner) && hasProfile && !showOnboarding && !cabinet.org,
   })
-
-  const setTab = (t: Tab) => {
-    setTabState(tabEnabled(t) ? t : "home")
-    setDetailId(null)
-    refreshPlan()
-    window.scrollTo(0, 0)
-  }
 
   /** Open a university card by id – Find/Home/Plan pass any object with an `id`. */
   const openDetail = (item: { id: string }) => {
@@ -118,10 +223,11 @@ export default function App() {
   }
 
   const toggleInPlan = (id: string) => {
-    // Always start from storage: another screen may have changed the plan.
-    const next = togglePlan(loadPlan(), id)
-    savePlan(next)
+    // Local store: always start from storage – another screen may have changed the plan.
+    const base = store.kind === "local" ? loadPlan() : cnPlan
+    const next = togglePlan(base, id)
     setCnPlan(next)
+    store.save(next).catch((e: unknown) => toast(errorMessageRu(e)))
   }
 
   const onPlanChange = (next: Plan) => setCnPlan(next)
@@ -129,6 +235,11 @@ export default function App() {
   const startOnboarding = () => {
     setWizardOpen(true)
     window.scrollTo(0, 0)
+  }
+
+  const saveOnboarding = (p: ChinaProfile) => {
+    setProfile(p)
+    if (signed) void cabinet.updateProfile({ onboarding: p })
   }
 
   /* ---------- legacy (European market) handlers – unchanged ---------- */
@@ -161,33 +272,48 @@ export default function App() {
 
   if (showOnboarding) {
     return (
-      <ToastProvider>
-        <Onboarding
-          initial={profile}
-          onCancel={hasProfile ? () => setWizardOpen(false) : undefined}
-          onDone={(r) => {
-            setJustOnboarded(true)
-            if (r.market === "europe") {
-              setName(r.name)
-              return
-            }
-            setProfile(r.profile)
-            setWizardOpen(false)
-            setTabState("find")
-            setDetailId(null)
-            window.scrollTo(0, 0)
-          }}
-        />
-      </ToastProvider>
+      <Onboarding
+        initial={profile}
+        onCancel={hasProfile ? () => setWizardOpen(false) : undefined}
+        onDone={(r) => {
+          setJustOnboarded(true)
+          if (r.market === "europe") {
+            setName(r.name)
+            return
+          }
+          saveOnboarding(r.profile)
+          setWizardOpen(false)
+          setTabState(tab === "profile" ? "profile" : "find")
+          setDetailId(null)
+          window.scrollTo(0, 0)
+        }}
+      />
     )
   }
 
   const detail: University | null = detailId && catalog ? (findUniversity(catalog, detailId) ?? null) : null
 
+  const account = backend
+    ? {
+        signed,
+        member: cabinet.isMember,
+        label: cabinet.profile?.nick || cabinet.user?.email || "",
+        onSignIn: () => setTab("signin"),
+        onProfile: () => setTab("profile"),
+      }
+    : undefined
+
   return (
-    <ToastProvider>
+    <CabinetCtx.Provider value={cabinet}>
       <div className="min-h-screen">
-        <Sidebar tab={tab} setTab={setTab} onSettings={() => setSettingsOpen(true)} partner={partner} animateIn={justOnboarded} />
+        <Sidebar
+          tab={tab}
+          setTab={setTab}
+          onSettings={() => setSettingsOpen(true)}
+          partner={partner}
+          animateIn={justOnboarded}
+          account={account}
+        />
         {/* isolate: page-level z-indexes stay under the fixed chrome bars */}
         <main className="isolate lg:pl-64">
           {/* bottom padding below lg clears the fixed tab bar */}
@@ -265,13 +391,50 @@ export default function App() {
                       catalog={catalog}
                       plan={cnPlan}
                       onPlanChange={onPlanChange}
+                      store={store}
                       onOpenUniversity={(id) => openDetail({ id })}
                       onOpenCatalog={() => setTab("find")}
+                      onSignIn={backend && !signed ? () => setTab("signin") : undefined}
                     />
                   ) : (
                     <CatalogLoading />
                   ))}
                 {tab === "policy" && <Policy onBack={() => setTab("home")} />}
+                {tab === "signin" && backend && !signed && (
+                  <SignIn backend={backend} pendingJoin={pendingJoin} onBack={() => setTab("home")} />
+                )}
+                {tab === "signin" && signed && <AccountLoading />}
+                {tab === "profile" && signed && (
+                  <Profile
+                    onboarding={profile}
+                    onEditOnboarding={startOnboarding}
+                    plan={cnPlan}
+                    theme={theme}
+                    onToggleTheme={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  />
+                )}
+                {tab === "mentor" &&
+                  signed &&
+                  (catalog ? <MentorPanel catalog={catalog} onOpenUniversity={(id) => openDetail({ id })} /> : <CatalogLoading />)}
+                {tab === "delete" && signed && (
+                  <DeleteAccount
+                    email={cabinet.user?.email ?? null}
+                    onConfirm={async () => {
+                      const ok = await cabinet.deleteAccount()
+                      if (ok) {
+                        setConfirmDelete(false)
+                        toast("Аккаунт удалён")
+                        // reload as a guest with a clean address
+                        location.replace(cleanAuthUrl(location.href))
+                      }
+                      return ok
+                    }}
+                    onCancel={() => {
+                      setConfirmDelete(false)
+                      setTab("profile")
+                    }}
+                  />
+                )}
                 {isEurope && (tab === "p_saved" || tab === "p_priority") && (
                   <Programs
                     subTab={tab}
@@ -334,7 +497,7 @@ export default function App() {
           </LeadPopup>
         )}
       </div>
-    </ToastProvider>
+    </CabinetCtx.Provider>
   )
 }
 
@@ -349,6 +512,15 @@ function CatalogLoading() {
     >
       <Loader2 className="size-6 animate-spin text-accent-text" />
       <span className="text-sm text-fg-muted">Загружаем каталог</span>
+    </div>
+  )
+}
+
+function AccountLoading() {
+  return (
+    <div role="status" aria-live="polite" className="flex min-h-64 flex-col items-center justify-center gap-3 rounded-lg border border-border bg-card p-8 text-center">
+      <Loader2 className="size-6 animate-spin text-accent-text" />
+      <span className="text-sm text-fg-muted">Входим</span>
     </div>
   )
 }
