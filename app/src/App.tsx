@@ -180,10 +180,7 @@ function Shell() {
     void cabinet.joinOrg(pendingJoin).then((org) => {
       joinRunning.current = false
       setPendingJoin(null)
-      if (org) {
-        toast(`Ты подключён к ${org.name}`)
-        setTabState("plan")
-      }
+      if (org) setTabState("plan")
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps -- runs on session / code changes only
   }, [backend, session.status, pendingJoin])

@@ -305,13 +305,14 @@ export function useStudentCabinet({ backend, session, toast, onPlanLoaded, onOnb
         const org = await api.joinOrg(code)
         setOrgPartner(orgToPartner(org))
         await load()
+        toast(`Ты подключён к ${org.name}`)
         return org
       } catch (e) {
         fail(e)
         return null
       }
     },
-    [api, load, fail],
+    [api, load, fail, toast],
   )
 
   const updateProfile = useCallback(

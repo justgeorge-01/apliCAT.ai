@@ -303,6 +303,8 @@ export function Sidebar(props: SidebarProps) {
   const { tab, setTab, onSettings, partner, animateIn, account } = props
   const mobileTabs = mainTabs(FEATURES, navContext(account)).filter((it) => it.id !== "p_priority")
   const signed = account?.signed ?? false
+  // five slots at 375px (the mentor tab adds one): a smaller Han kicker so «我的计划» stays on one line
+  const dense = mobileTabs.length + 1 >= 5
 
   return (
     <>
@@ -374,7 +376,11 @@ export function Sidebar(props: SidebarProps) {
                 {active && <span aria-hidden className="absolute inset-x-4 top-0 h-0.5 rounded-b-full bg-accent" />}
                 <span className="flex h-5 items-center">
                   {hanzi ? (
-                    <span lang="zh-Hans" translate="no" className="font-cjk text-[17px] leading-none font-semibold">
+                    <span
+                      lang="zh-Hans"
+                      translate="no"
+                      className={cn("font-cjk leading-none font-semibold whitespace-nowrap", dense ? "text-[14px]" : "text-[17px]")}
+                    >
                       {hanzi}
                     </span>
                   ) : (
@@ -383,7 +389,8 @@ export function Sidebar(props: SidebarProps) {
                 </span>
                 <span
                   className={cn(
-                    "truncate text-xs leading-none tracking-[0.08em] uppercase",
+                    "truncate leading-none uppercase",
+                    dense ? "text-[10px] tracking-[0.04em]" : "text-xs tracking-[0.08em]",
                     active ? "font-semibold" : "font-medium",
                   )}
                 >
@@ -405,7 +412,13 @@ export function Sidebar(props: SidebarProps) {
               <span className="flex h-5 items-center">
                 <UserRound className="size-5" />
               </span>
-              <span className={cn("truncate text-xs leading-none tracking-[0.08em] uppercase", tab === "profile" ? "font-semibold" : "font-medium")}>
+              <span
+                className={cn(
+                  "truncate leading-none uppercase",
+                  dense ? "text-[10px] tracking-[0.04em]" : "text-xs tracking-[0.08em]",
+                  tab === "profile" ? "font-semibold" : "font-medium",
+                )}
+              >
                 Профиль
               </span>
             </button>
