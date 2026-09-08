@@ -15,6 +15,7 @@ import {
   factOf,
   factsOf,
   findUniversity,
+  formatCheckedAt,
   isCriticalKey,
   isoDate,
 } from "@/data/china"
@@ -39,6 +40,8 @@ export interface PlanEntry {
   status: PlanStatus
   /** docId (see `docChecklist`) → done. */
   docs: Record<string, boolean>
+  /** The student's own note on this university (cabinet, spec §1 `plan_items.note`). */
+  note?: string
 }
 
 export interface Plan {
@@ -58,6 +61,9 @@ export function emptyPlan(): Plan {
 type Rec = Record<string, unknown>
 const isRec = (x: unknown): x is Rec => typeof x === "object" && x !== null && !Array.isArray(x)
 
+/** `plan_items.note` is capped at 2000 characters in the database. */
+export const NOTE_MAX = 2000
+
 function normalizeEntry(raw: unknown): PlanEntry | null {
   if (!isRec(raw) || typeof raw.id !== "string" || !raw.id.trim()) return null
   const status = (PLAN_STATUSES as readonly string[]).includes(raw.status as string)
@@ -67,7 +73,8 @@ function normalizeEntry(raw: unknown): PlanEntry | null {
   if (isRec(raw.docs)) {
     for (const [k, v] of Object.entries(raw.docs)) if (typeof v === "boolean") docs[k] = v
   }
-  return { id: raw.id, status, docs }
+  const note = typeof raw.note === "string" && raw.note.trim() ? raw.note.slice(0, NOTE_MAX) : undefined
+  return note === undefined ? { id: raw.id, status, docs } : { id: raw.id, status, docs, note }
 }
 
 /** Validate an untrusted plan object (storage, import). Null when it is not a plan. */
@@ -141,6 +148,20 @@ export function setDoc(plan: Plan, id: string, docId: string, done: boolean): Pl
   return updateEntry(plan, id, (e) =>
     e.docs[docId] === done ? e : { ...e, docs: { ...e.docs, [docId]: done } },
   )
+}
+
+/** Sets the student's note; an empty note removes the field. */
+export function setNote(plan: Plan, id: string, note: string): Plan {
+  const clean = note.trim().slice(0, NOTE_MAX)
+  return updateEntry(plan, id, (e) => {
+    if ((e.note ?? "") === clean) return e
+    if (!clean) {
+      const { note: _drop, ...rest } = e
+      void _drop
+      return rest
+    }
+    return { ...e, note: clean }
+  })
 }
 
 /* ---------- documents ---------- */
@@ -272,15 +293,15 @@ export const FIXED_DATES: readonly FixedDate[] = [
 
 /* ---------- deadline feed ---------- */
 
-export type DeadlineKind = "university" | "common"
+export type DeadlineKind = "university" | "common" | "task"
 
 export interface DeadlineItem {
   id: string
   kind: DeadlineKind
   universityId: string | null
-  /** University name (kind=university) or the common date's label. */
+  /** University name (kind=university), the common date's label or the task title. */
   title: string
-  /** Fact label (kind=university) or null. */
+  /** Fact label (kind=university), «от <организация>» / university name (kind=task) or null. */
   subtitle: string | null
   /** ISO date used for ordering. */
   date: string
@@ -294,8 +315,11 @@ export interface DeadlineItem {
   critical: boolean
   /** «общие, по csca.cn/CSC» for common dates, null otherwise. */
   note: string | null
-  source_url: string
-  verified_at: string
+  /** Provenance of a fact / common date; null for tasks (they are the user's own data). */
+  source_url: string | null
+  verified_at: string | null
+  /** kind=task: the task id, so the feed can mark it done. */
+  taskId?: string
 }
 
 const DEADLINE_KEYS: readonly FactKey[] = ["deadline.fall.application_non_eu", "deadline.scholarship"]
@@ -356,9 +380,48 @@ function itemFromFixed(d: FixedDate, now: Date): DeadlineItem | null {
   }
 }
 
+/** The slice of a task the feed needs (see lib/tasks.ts for the full type). */
+export interface FeedTask {
+  id: string
+  title: string
+  dueOn: string | null
+  doneAt: string | null
+  universityId: string | null
+  orgId: string | null
+}
+
 export interface DeadlineFeedOptions {
   /** Keep items whose date has passed (default false). */
   includePast?: boolean
+  /** Open tasks with a due date join the timeline (cabinet, spec §4). */
+  tasks?: readonly FeedTask[]
+  /** Name of the student's organization – the subtitle of a mentor's task. */
+  orgName?: string | null
+}
+
+function itemFromTask(t: FeedTask, catalog: Catalog, orgName: string | null | undefined, now: Date): DeadlineItem | null {
+  if (!t.dueOn || t.doneAt) return null
+  const daysLeft = daysUntil(t.dueOn, now)
+  if (daysLeft === null) return null
+  const u = t.universityId ? findUniversity(catalog, t.universityId) : undefined
+  const who = t.orgId ? `от ${orgName ?? "наставника"}` : "моя задача"
+  return {
+    id: `task:${t.id}`,
+    kind: "task",
+    universityId: t.universityId,
+    title: t.title,
+    subtitle: u ? `${who} · ${u.name_ru ?? u.name}` : who,
+    date: t.dueOn,
+    precision: "day",
+    display: formatCheckedAt(t.dueOn),
+    daysLeft,
+    passed: daysLeft < 0,
+    critical: false,
+    note: null,
+    source_url: null,
+    verified_at: null,
+    taskId: t.id,
+  }
 }
 
 /**
@@ -388,13 +451,25 @@ export function deadlineFeed(
     const it = itemFromFixed(d, now)
     if (it) items.push(it)
   }
+  for (const t of opts.tasks ?? []) {
+    const it = itemFromTask(t, catalog, opts.orgName, now)
+    if (it) items.push(it)
+  }
   const kept = opts.includePast ? items : items.filter((i) => !i.passed)
   return kept.sort(
     (a, b) =>
       a.date.localeCompare(b.date) ||
-      (a.kind === b.kind ? 0 : a.kind === "university" ? -1 : 1) ||
+      KIND_ORDER[a.kind] - KIND_ORDER[b.kind] ||
       a.title.localeCompare(b.title, "ru"),
   )
+}
+
+/** Same day: a task first (it is actionable), then the university fact, then the common date. */
+const KIND_ORDER: Record<DeadlineKind, number> = { task: 0, university: 1, common: 2 }
+
+/** Items due within the next `days` days (inclusive), passed ones excluded – the «ближайшие 7 дней» list. */
+export function upcomingWithin(items: readonly DeadlineItem[], days: number): DeadlineItem[] {
+  return items.filter((i) => !i.passed && i.daysLeft <= days)
 }
 
 /* ---------- countdown label ---------- */
@@ -447,7 +522,12 @@ export function planSummary(plan: Plan, catalog: Catalog, now: Date, opts: Summa
   if (feed.length) {
     lines.push("Ближайшие дедлайны:")
     for (const it of feed) {
-      const who = it.kind === "university" ? `${it.title}, ${it.subtitle ?? "дедлайн"}` : it.title
+      const who =
+        it.kind === "university"
+          ? `${it.title}, ${it.subtitle ?? "дедлайн"}`
+          : it.kind === "task"
+            ? `задача «${it.title}»${it.subtitle ? `, ${it.subtitle}` : ""}`
+            : it.title
       lines.push(`- ${who}: ${it.display} (${daysLeftLabel(it)})`)
     }
   }

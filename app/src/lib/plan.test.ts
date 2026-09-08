@@ -15,9 +15,11 @@ import {
   removeFromPlan,
   serializePlan,
   setDoc,
+  setNote,
   setStatus,
   shareUrl,
   togglePlan,
+  upcomingWithin,
   type FixedDate,
   type Plan,
 } from "./plan"
@@ -258,5 +260,53 @@ describe("planSummary / share / export", () => {
     expect(parsePlan(JSON.stringify(plan))).toEqual(plan)
     expect(parsePlan("not json")).toBeNull()
     expect(parsePlan('{"hello":1}')).toBeNull()
+  })
+})
+
+describe("deadline feed with tasks (cabinet)", () => {
+  const task = (over: Partial<import("./plan").FeedTask> & { id: string; title: string }) => ({
+    dueOn: null,
+    doneAt: null,
+    universityId: null,
+    orgId: null,
+    ...over,
+  })
+
+  it("open dated tasks join the timeline; done / undated ones do not; a task sorts before a fact on the same day", () => {
+    const plan = addToPlan(emptyPlan(), "a")
+    const items = deadlineFeed(plan, CATALOG, [], NOW, {
+      tasks: [
+        task({ id: "t1", title: "Прислать письмо", dueOn: "2026-02-28", orgId: "org", universityId: "a" }),
+        task({ id: "t2", title: "Сделано", dueOn: "2026-02-10", doneAt: "2026-02-01T00:00:00Z" }),
+        task({ id: "t3", title: "Без даты" }),
+        task({ id: "t4", title: "Моя", dueOn: "2026-02-03" }),
+      ],
+      orgName: "Zhuiqiu",
+    })
+    // the scholarship deadline (20.01) has passed at NOW and is not in the feed
+    expect(items.map((i) => i.id)).toEqual(["task:t4", "task:t1", "a:deadline.fall.application_non_eu"])
+    const t1 = items.find((i) => i.id === "task:t1")!
+    expect(t1.kind).toBe("task")
+    expect(t1.subtitle).toBe("от Zhuiqiu · Вуз А")
+    expect(t1.display).toBe("28 февраля 2026")
+    expect(t1.source_url).toBeNull()
+    expect(t1.taskId).toBe("t1")
+    expect(items.find((i) => i.id === "task:t4")!.subtitle).toBe("моя задача")
+  })
+
+  it("upcomingWithin keeps the next N days only", () => {
+    const plan = addToPlan(emptyPlan(), "a")
+    const items = deadlineFeed(plan, CATALOG, [], NOW, { tasks: [task({ id: "t", title: "x", dueOn: "2026-02-05" })] })
+    expect(upcomingWithin(items, 7).map((i) => i.id)).toEqual(["task:t"])
+    expect(upcomingWithin(items, 30).map((i) => i.id)).toEqual(["task:t", "a:deadline.fall.application_non_eu"])
+  })
+
+  it("setNote / normalizePlan keep the student's note", () => {
+    const p = setNote(addToPlan(emptyPlan(), "a"), "a", "  заметка  ")
+    expect(p.universities[0].note).toBe("заметка")
+    expect(setNote(p, "a", "заметка")).toBe(p)
+    expect(setNote(p, "a", " ").universities[0]).toEqual({ id: "a", status: "considering", docs: {} })
+    expect(normalizePlan({ universities: [{ id: "a", note: "n" }] })!.universities[0].note).toBe("n")
+    expect(normalizePlan({ universities: [{ id: "a", note: 5 }] })!.universities[0].note).toBeUndefined()
   })
 })

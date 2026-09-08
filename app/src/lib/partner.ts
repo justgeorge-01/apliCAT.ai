@@ -4,8 +4,10 @@
  * lead popup copy all read from the resolved `Partner`.
  *
  * Resolution order: `?partner=<slug>` in the URL → `VITE_PARTNER` at build time
+ * → the signed-in student's organization (cabinet spec §6, `setOrgPartner`)
  * → `abitura` (the public build). An unknown slug falls back to the default, so
- * a partner's brand is never shown by accident.
+ * a partner's brand is never shown by accident; partners.ts stays the fallback
+ * for guests and demos.
  */
 import { DEFAULT_PARTNER_SLUG, PARTNERS } from "./partners"
 
@@ -70,9 +72,10 @@ export function partnerBySlug(slug: string): Partner {
 }
 
 let resolved: Partner | null = null
+let orgPartner: Partner | null = null
 
-/** The partner for this page load (memoized). Safe without `window` (tests). */
-export function getPartner(): Partner {
+/** The partner from the URL / build (memoized). Safe without `window` (tests). */
+function basePartner(): Partner {
   if (resolved) return resolved
   const search = typeof location !== "undefined" ? location.search : ""
   const env = import.meta.env.VITE_PARTNER as string | undefined
@@ -80,9 +83,30 @@ export function getPartner(): Partner {
   return resolved
 }
 
+/**
+ * The partner for this page: an explicit `?partner=` / `VITE_PARTNER` wins;
+ * otherwise the student's organization (when the shell has set one); otherwise
+ * the default brand.
+ */
+export function getPartner(): Partner {
+  const base = basePartner()
+  if (base.slug !== DEFAULT_PARTNER_SLUG) return base
+  return orgPartner ?? base
+}
+
+/**
+ * The brand of the signed-in student's organization (`orgToPartner` in
+ * lib/cabinet.ts), or null on sign-out. The shell calls this before it
+ * re-renders, so every `getPartner()` call in the tree sees the same brand.
+ */
+export function setOrgPartner(p: Partner | null): void {
+  orgPartner = p
+}
+
 /** Drop the memoized partner – tests only. */
 export function resetPartnerCache(): void {
   resolved = null
+  orgPartner = null
 }
 
 /** Type guard: partner has a lead link, so lead buttons / popup may render. */
