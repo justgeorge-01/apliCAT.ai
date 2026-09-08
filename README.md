@@ -309,3 +309,47 @@ REVIEW (Sheet → потом админ-панель) → человек одо�
 - Изменения — инкрементально, после значимого шага показывать результат и **сверяться с git**.
 - **Remote Control** (`/remote-control` / `/rc`) — управлять активной сессией с телефона. **Dispatch** — слать задачи с телефона (создаёт новую сессию на ПК).
 ```
+
+---
+
+## 13. Кабинет ученика и панель наставника (ветка `china`, блок C)
+
+Спека – [`SPEC-cabinet.md`](SPEC-cabinet.md). Реализовано 08.09.2026; витрина без ключей работает как раньше.
+
+### Что где лежит
+- **База:** `app/supabase/migrations/0001_cabinet.sql` – таблицы, триггеры, функции (`join_org`, `org_remove_student`,
+  `delete_own_account`, `org_invite_code`, `org_reissue_invite`, `org_members_list`, `org_add_member_by_email`), RLS и гранты.
+  Единственный охранник – RLS; `anon` не читает ничего; `invite_code` вне select-гранта (только через функцию для членов).
+- **RLS-тесты:** `app/rls/rls.test.ts` – против реальной базы через `pg`, как из PostgREST (`request.jwt.claims` + `set local role`).
+  Без `SUPABASE_DB_URL` пропускаются с сообщением. Запуск: `npm run test:rls --prefix app`.
+- **Бэкенд в приложении:** `app/src/auth/` – `api.ts` (интерфейс), `supabaseBackend.ts`, `fakeBackend.ts` (dev/тесты),
+  `backend.ts` (выбор), `useSession.ts`, `useCabinet.ts` (сторы, задачи, организация, перенос плана), `url.ts`
+  (`?join=`, `?confirm=delete`, очистка URL), `SignIn.tsx`, `DeleteAccount.tsx`, `transfer.ts`.
+- **План и задачи:** `lib/planStore.ts` (local / remote, диф плана), `lib/tasks.ts` (права как в RLS, оба стора),
+  `lib/cabinet.ts` (типы, таблица учеников, экспорт JSON, бренд из организации).
+- **Экраны:** `components/TasksPanel.tsx`, `MentorCard.tsx`, `PlanUniversities.tsx` (блоки плана с `readOnly`),
+  `pages/Profile.tsx`, `mentor/*` (ученики, карточка, приглашение, организация).
+- **Скриншоты:** `docs/screens/cabinet/`.
+
+### Переменные (`app/.env.local`, в git не попадает; шаблон – `app/.env.example`)
+`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` – в сборку (кабинет включается их наличием: `FEATURES.accounts`);
+`SUPABASE_DB_URL` – только миграции и RLS-тесты; `DEPLOY_REPO`, `DEPLOY_BRANCH` – второй Pages-сайт.
+
+### Скрипты (`app/package.json`)
+| Команда | Что делает |
+|---|---|
+| `npm run db:migrate` | применяет `supabase/migrations/*.sql` (учёт в `app_private.schema_migrations`) |
+| `npm run db:org -- --slug zhuiqiu --name Zhuiqiu --telegram zhuiqiu_yu --admin <email>` | организация, инвайт-код, участники по email |
+| `npm run test:rls` | RLS-тесты против базы |
+| `npm run deploy:china` | `vite build` без `VITE_PARTNER` → пуш `dist/` в `gh-pages` репозитория `DEPLOY_REPO` |
+
+### Dev без ключей
+`app/.env.development.local` с `VITE_CABINET_FAKE=1` включает in-memory бэкенд (только `vite dev`, в сборку не попадает):
+вход без письма, организация «Zhuiqiu» с кодом `ZHUIQIU-7F3K`, наставник `mentor@demo.abitura`, ученик с данными
+`student@demo.abitura`. Если в `.env.local` есть ключи Supabase – они имеют приоритет.
+
+### Порядок запуска у владельца (§0 спеки)
+1. Ключи в `app/.env.local`; в Supabase Auth: Site URL = адрес второго Pages, Redirect URLs = `http://localhost:5190/**` и `<pages-url>/**`.
+2. `npm run db:migrate --prefix app` → `npm run test:rls --prefix app` (должны быть зелёные).
+3. Войти на локальном сервере своим email (появится `auth.users`), затем `npm run db:org -- --slug zhuiqiu --name Zhuiqiu --telegram zhuiqiu_yu --admin <свой email>`.
+4. Пустой репозиторий `abitura-china` → `npm run deploy:china --prefix app` → Settings → Pages → branch `gh-pages`.
