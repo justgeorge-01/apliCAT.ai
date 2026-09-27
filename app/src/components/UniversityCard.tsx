@@ -88,9 +88,12 @@ function FactRow({
 
 /* ---------- match block: words only ---------- */
 
+/* Black and white: the tone is the SHAPE of the mark and the rule – a filled
+   square «подходит», a hollow square «не хватает», a grey one «не проверено»;
+   the words say the same, so nothing depends on seeing a colour. */
 const TONE = {
-  ok: { mark: "bg-positive", text: "text-positive", rule: "border-positive" },
-  gaps: { mark: "bg-warning", text: "text-warning", rule: "border-warning" },
+  ok: { mark: "bg-fg", text: "text-fg", rule: "border-fg" },
+  gaps: { mark: "border-[1.5px] border-fg bg-transparent", text: "text-fg", rule: "border-dashed border-fg" },
   unknown: { mark: "bg-fg-faint", text: "text-fg-muted", rule: "border-border-strong" },
 } as const
 
@@ -164,7 +167,7 @@ export interface UniversityCardProps {
 }
 
 /**
- * University card of the catalog (spec §3.2) in the «Азия / красный» system:
+ * University card of the catalog (spec §3.2) in the black-and-white system:
  * a white card on paper with a thin rim · Playfair title, muted city · fact
  * rows separated by hairlines, each provenance line stamped with a seal ·
  * CSCA label · the coverage scale as the footer's rule · red «В мой план».

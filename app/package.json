@@ -15,6 +15,7 @@
     "deploy:china": "node scripts/deploy-china.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/onest": "^5.3.1",
     "@supabase/supabase-js": "^2.116.0",
     "@tailwindcss/vite": "^4.3.0",
     "class-variance-authority": "^0.7.1",

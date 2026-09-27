@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react"
+import { MotionConfig } from "framer-motion"
 import { FlaskConical, Loader2 } from "lucide-react"
 
 import { Sidebar } from "@/components/Sidebar"
@@ -52,10 +53,15 @@ import Resume from "@/pages/Resume"
  * the local keys are only a cache.
  */
 export default function App() {
+  // Black-and-white calm: screens appear without sliding. `reducedMotion`
+  // drops every transform animation app-wide (the per-screen fade-up presets
+  // become a plain fade) without touching each page.
   return (
-    <ToastProvider>
-      <Shell />
-    </ToastProvider>
+    <MotionConfig reducedMotion="always">
+      <ToastProvider>
+        <Shell />
+      </ToastProvider>
+    </MotionConfig>
   )
 }
 

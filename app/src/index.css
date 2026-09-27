@@ -2,41 +2,39 @@
 @import "tw-animate-css";
 
 /* ============================================================
-   Abitura design tokens – «Азия / красный».
-   Light «paper» theme is the default (:root); the dark «ink» theme
-   is activated with [data-theme="dark"] on <html>.
+   Abitura design tokens – «Чёрное и белое».
+   Light theme is the default (:root); the dark theme is activated with
+   [data-theme="dark"] on <html>. See DESIGN.md.
 
-   Palette (see DESIGN.md):
-   - red  #8E1812 – the accent: headings, CTA, badges, thin rules, kickers.
-     Never a page fill.
-   - paper #F7F4E9 / cream – page and band backgrounds;
-   - gold  #EDE2C3 – accent TEXT on red and on ink, never on paper;
-   - ink   #1D1D1B / graphite #2B2D33 – text and dark blocks.
+   One idea: text on white, a hairline between things, black for the one
+   thing to press. No second hue except red for errors and deletion.
 
-   Color usage rules:
-   - red TEXT/icons on paper            → --color-accent-text
-   - red FILLS (buttons, active pills)  → --color-accent,
-     with --color-accent-fg (cream) for the text on top (semibold)
-   - gold                               → --color-gold, only on
-     --color-accent / --color-ink surfaces
-   - --color-accent-glow is kept for legacy classes only: it is a faint
-     wash, not a glow – the system has no glows.
+   Token names are kept from the previous system so every existing class
+   (`bg-accent`, `text-accent-text`, `text-gold`…) keeps working:
+   - accent        → the ink of the theme: black on light, white on dark
+                     (buttons, active segments, checkboxes);
+   - accent-text   → emphasised text, the same ink;
+   - ink / paper   → constant black / white for inverted bands and overlays;
+   - gold          → constant white: text on an ink band;
+   - positive / warning → the ink as well: meaning is carried by an icon
+                     and a word, never by a hue;
+   - danger        → the only colour: errors and destructive actions.
    ============================================================ */
 
 @theme {
-  /* Type */
-  --font-display: "Playfair Display", "Playfair Display Fallback", Georgia, "Times New Roman", serif;
-  --font-body: "Noto Sans", "Noto Sans Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Type – one self-hosted grotesque (Onest, Cyrillic-first), no webfont
+     request to a third party. `font-display` is the same face set bolder. */
+  --font-display: "Onest Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Onest Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   /* CJK glyphs fall back to the system fonts – no heavy CJK download */
-  --font-cjk: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans", sans-serif;
-  /* `font-sans` keeps working and means the body face */
-  --font-sans: "Noto Sans", "Noto Sans Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cjk: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-sans: "Onest Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* Radii: moderate – the product default is rounded-lg */
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.625rem;
-  --radius-2xl: 0.75rem;
-  --radius-3xl: 1rem;
+  /* Radii: small and quiet */
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.625rem;
+  --radius-3xl: 0.75rem;
 
   /* Motion: ease-out, 200–300ms */
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
@@ -44,71 +42,64 @@
   --duration-base: 250ms;
   --duration-slow: 300ms;
 
-  /* Constants – the same in both themes (for red / ink bands) */
-  --color-ink: #1d1d1b;
-  --color-paper: #f7f4e9;
-  --color-gold: #ede2c3;
+  /* Constants – the same in both themes (inverted bands, overlays) */
+  --color-ink: #0a0a0a;
+  --color-paper: #ffffff;
+  --color-gold: #ffffff;
+  --color-gold-soft: rgba(255, 255, 255, 0.14);
 
-  /* Paper surface scale (default, light theme) */
-  --color-bg: #f7f4e9;
-  --color-surface: #fdfbf5;
+  /* Surfaces – light (default) */
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
   --color-card: #ffffff;
-  --color-card-2: #f3eedf;
-  --color-border: rgba(29, 29, 27, 0.12);
-  --color-border-strong: rgba(29, 29, 27, 0.24);
+  --color-card-2: #f5f5f5;
+  --color-border: rgba(10, 10, 10, 0.1);
+  --color-border-strong: rgba(10, 10, 10, 0.22);
 
-  /* Text scale – ink on paper */
-  --color-fg: #1d1d1b;
-  --color-fg-muted: #5a5750;
-  --color-fg-faint: #6f6a60;
+  /* Text */
+  --color-fg: #0a0a0a;
+  --color-fg-muted: #525252;
+  --color-fg-faint: #6b6b6b;
 
-  /* Red accent – deep, on paper */
-  --color-accent: #8e1812;
-  --color-accent-soft: rgba(142, 24, 18, 0.08);
-  --color-accent-fg: #f7f4e9;
-  --color-accent-text: #8e1812;
-  --color-accent-glow: rgba(142, 24, 18, 0.1);
-
-  /* Gold wash – a soft fill on red / ink, e.g. quote bands */
-  --color-gold-soft: rgba(237, 226, 195, 0.16);
+  /* The ink – black on white */
+  --color-accent: #0a0a0a;
+  --color-accent-soft: rgba(10, 10, 10, 0.05);
+  --color-accent-fg: #ffffff;
+  --color-accent-text: #0a0a0a;
+  --color-accent-glow: transparent;
 
   /* Semantic */
-  --color-positive: #1b6f34;
-  --color-warning: #874a00;
-  /* text on a warning fill – dark amber in the paper theme takes cream text */
-  --color-warning-fg: #f7f4e9;
-  --color-danger: #b3261e;
-  --color-danger-fg: #f7f4e9;
+  --color-positive: #0a0a0a;
+  --color-warning: #0a0a0a;
+  --color-warning-fg: #ffffff;
+  --color-danger: #c81e1e;
+  --color-danger-fg: #ffffff;
 }
 
-/* ---- Dark «ink» theme: lighter red for contrast, gold as accent text ---- */
+/* ---- Dark theme: white on black ---- */
 [data-theme="dark"] {
-  --color-bg: #141312;
-  --color-surface: #1d1d1b;
-  --color-card: #2b2d33;
-  --color-card-2: #34363d;
-  --color-border: rgba(247, 244, 233, 0.1);
-  --color-border-strong: rgba(247, 244, 233, 0.2);
+  --color-bg: #0a0a0a;
+  --color-surface: #0a0a0a;
+  --color-card: #111111;
+  --color-card-2: #1a1a1a;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-strong: rgba(255, 255, 255, 0.26);
 
-  --color-fg: #f3efe4;
-  --color-fg-muted: #b5afa2;
-  --color-fg-faint: #a69f92;
+  --color-fg: #f5f5f5;
+  --color-fg-muted: #a3a3a3;
+  --color-fg-faint: #8f8f8f;
 
-  --color-accent: #b3261e;
-  --color-accent-soft: rgba(179, 38, 30, 0.18);
-  --color-accent-fg: #f7f4e9;
-  --color-accent-text: #ede2c3;
-  --color-accent-glow: rgba(179, 38, 30, 0.16);
+  --color-accent: #f5f5f5;
+  --color-accent-soft: rgba(255, 255, 255, 0.07);
+  --color-accent-fg: #0a0a0a;
+  --color-accent-text: #f5f5f5;
+  --color-accent-glow: transparent;
 
-  --color-gold-soft: rgba(237, 226, 195, 0.1);
-
-  --color-positive: #7fc98a;
-  --color-warning: #e4b04a;
-  /* dark warning is a light amber, so cream text on it fails contrast */
-  --color-warning-fg: #2a1c00;
-  --color-danger: #f28b82;
-  /* text on a danger fill – dark danger is a light red, so cream text fails contrast */
-  --color-danger-fg: #2a0a0a;
+  --color-positive: #f5f5f5;
+  --color-warning: #f5f5f5;
+  --color-warning-fg: #0a0a0a;
+  --color-danger: #f87171;
+  --color-danger-fg: #0a0a0a;
 }
 
 /* ---- Base ---- */
@@ -136,11 +127,11 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Headings are Playfair Display; screens may override the weight/tracking */
+/* Headings: the same grotesque, heavier and tighter; screens may override */
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.005em;
+  font-weight: 650;
+  letter-spacing: -0.02em;
 }
 
 /* Han characters inside Russian text («北京大学 «Бейда»») – system CJK face */
@@ -150,29 +141,24 @@ h1, h2, h3 {
 
 ::selection { background: var(--color-accent); color: var(--color-accent-fg); }
 
-/* Display capitals with tracking – the reference's «КАПИТЕЛЬ С РАЗРЯДКОЙ» */
+/* Small capitals with tracking – for short labels only, never for headings */
 @utility caps {
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
 }
 
-/* Thin red rule – a hairline under a heading or between bands */
+/* Hairline rule – under a heading or between sections */
 @utility rule-accent {
-  border-top: 1px solid var(--color-accent);
+  border-top: 1px solid var(--color-border-strong);
 }
 
-/* Legacy hero wash: no glow in this system, only a faint red tint at the top */
+/* Legacy hero wash: nothing in this system */
 .hero-glow {
-  background: radial-gradient(640px 300px at 18% 0%, var(--color-accent-glow), transparent 70%);
+  background: none;
 }
 
-/* White cards on paper need a soft ink shadow to keep depth; ink theme uses borders only */
+/* Cards are a hairline, not a shadow */
 [data-slot="card"] {
-  box-shadow:
-    0 1px 2px rgba(29, 29, 27, 0.04),
-    0 10px 28px -20px rgba(29, 29, 27, 0.2);
-}
-[data-theme="dark"] [data-slot="card"] {
   box-shadow: none;
 }
 
@@ -201,7 +187,7 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 9999px;
   border: 2px solid var(--color-accent-fg);
   background: var(--color-accent);
-  box-shadow: 0 1px 3px rgba(29, 29, 27, 0.25);
+  box-shadow: 0 0 0 1px var(--color-accent);
   cursor: grab;
 }
 input[type="range"]::-moz-range-thumb {
@@ -210,7 +196,7 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 9999px;
   border: 2px solid var(--color-accent-fg);
   background: var(--color-accent);
-  box-shadow: 0 1px 3px rgba(29, 29, 27, 0.25);
+  box-shadow: 0 0 0 1px var(--color-accent);
   cursor: grab;
 }
 input[type="range"]:focus-visible {

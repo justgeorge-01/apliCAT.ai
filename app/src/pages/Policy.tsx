@@ -109,8 +109,8 @@ function policySections(): Section[] {
       title: "Внешние ссылки и ресурсы",
       paragraphs: [
         FEATURES.accounts
-          ? "Внешние ссылки на сайте – официальные страницы вузов и Телеграм наставника, если он подключён. Шрифты Playfair Display и Noto Sans загружаются с Google Fonts; аккаунт обслуживает Supabase. Других сторонних ресурсов сайт не использует."
-          : "Внешние ссылки на сайте – официальные страницы вузов и Телеграм наставника, если он подключён. Шрифты Playfair Display и Noto Sans загружаются с Google Fonts – это единственный сторонний ресурс, который использует сайт.",
+          ? "Внешние ссылки на сайте – официальные страницы вузов и Телеграм наставника, если он подключён. Шрифт встроен в сайт и ни с каких сторонних серверов не загружается; аккаунт обслуживает Supabase. Других сторонних ресурсов сайт не использует."
+          : "Внешние ссылки на сайте – официальные страницы вузов и Телеграм наставника, если он подключён. Шрифт встроен в сайт, сторонних ресурсов сайт не загружает.",
       ],
     },
     {
@@ -169,8 +169,8 @@ export default function Policy({ onBack }: PolicyProps) {
         <Kicker accent className="mt-4">
           Abitura
         </Kicker>
-        <h1 className="mt-2 text-2xl leading-[1.15] text-balance text-accent-text sm:text-4xl">
-          <span className="caps font-extrabold">Политика и дисклеймер</span>
+        <h1 className="mt-2 text-3xl leading-[1.1] text-balance text-fg sm:text-4xl">
+          <span className="font-semibold tracking-[-0.03em]">Политика и дисклеймер</span>
         </h1>
         <p className="mt-2 text-sm text-fg-muted">Обновлено {POLICY_UPDATED_AT}</p>
       </motion.div>

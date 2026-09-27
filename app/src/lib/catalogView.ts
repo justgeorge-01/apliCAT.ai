@@ -355,15 +355,15 @@ export function cscaEmptyText(u: University): string {
 
 /**
  * How the three CSCA states are painted – the single source of truth for the
- * landing, the catalog card and the university card, so «CSCA требуется» is
- * never amber in one place and red in another. Printed-label look, no icons:
- * «требуется» is a red label with a thin red rim, «не требуется» an ink
- * contour, «не опубликовано» a dashed contour – told apart by colour AND by
- * the words. Informational only – never a verdict about the applicant.
+ * landing, the catalog card and the university card, so a state never looks
+ * one way here and another way there. Black and white, no icons: «требуется»
+ * is a tinted label with a solid rim, «не требуется» a plain contour, «не
+ * опубликовано» a dashed contour – told apart by the edge AND by the words.
+ * Informational only – never a verdict about the applicant.
  */
 export const CSCA_BADGE: Record<CscaStatus, { variant: "default" | "outline"; className: string }> = {
-  required: { variant: "default", className: "border-accent/40 font-semibold" },
-  not_required: { variant: "outline", className: "border-fg/40 text-fg" },
+  required: { variant: "default", className: "border-fg/50 font-semibold" },
+  not_required: { variant: "outline", className: "border-fg/30 text-fg" },
   unknown: { variant: "outline", className: "border-dashed text-fg-muted" },
 }
 
