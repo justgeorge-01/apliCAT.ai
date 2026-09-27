@@ -915,7 +915,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             <Kicker>Мотивация</Kicker>
             <Heading>Зачем тебе учёба за рубежом, {displayName}?</Heading>
             <Subtext>Можно выбрать несколько</Subtext>
-            <motion.div variants={stagger} initial="hidden" animate="show" className="mt-5 flex flex-col gap-2.5">
+            <motion.div variants={stagger} initial={false} animate="show" className="mt-5 flex flex-col gap-2.5">
               {MOTIVATION_OPTS.map((o) => {
                 const sel = profile.motivation?.includes(o.val) ?? false
                 return (
@@ -943,7 +943,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             <Kicker>Сомнения</Kicker>
             <Heading>Что беспокоит тебя больше всего?</Heading>
             <Subtext>Можно выбрать несколько</Subtext>
-            <motion.div variants={stagger} initial="hidden" animate="show" className="mt-5 flex flex-col gap-2.5">
+            <motion.div variants={stagger} initial={false} animate="show" className="mt-5 flex flex-col gap-2.5">
               {CONCERN_OPTS.map((o) => {
                 const sel = profile.concern?.includes(o.val) ?? false
                 return (
@@ -973,7 +973,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             <Subtext>Можно выбрать несколько</Subtext>
             <motion.div
               variants={stagger}
-              initial="hidden"
+              initial={false}
               animate="show"
               className={cn("mt-5 flex flex-col gap-2.5 transition-opacity duration-300", levelUnknown && "pointer-events-none opacity-30")}
             >
@@ -1018,7 +1018,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
           <div>
             <Kicker>Сроки</Kicker>
             <Heading>Когда ты заканчиваешь учёбу?</Heading>
-            <motion.div variants={stagger} initial="hidden" animate="show" className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            <motion.div variants={stagger} initial={false} animate="show" className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {YEAR_OPTS.map((o) => (
                 <OptionCard
                   key={o.val}
@@ -1105,7 +1105,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             <Kicker>ЯЗЫКИ</Kicker>
             <Heading>Какой у тебя уровень английского?</Heading>
             <Subtext>Выбери свой уровень</Subtext>
-            <motion.div variants={stagger} initial="hidden" animate="show" className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            <motion.div variants={stagger} initial={false} animate="show" className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {ENGLISH_OPTS.map((o) => (
                 <OptionCard
                   key={o.val}
@@ -1249,7 +1249,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             <Kicker>Направление</Kicker>
             <Heading>Что хочешь изучать?</Heading>
             <Subtext>Можно выбрать несколько</Subtext>
-            <motion.div variants={stagger} initial="hidden" animate="show" className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            <motion.div variants={stagger} initial={false} animate="show" className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {FIELD_OPTS.map((o) => {
                 const sel = profile.fields?.includes(o.val) ?? false
                 return (
@@ -1287,7 +1287,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             <Subtext>Можно выбрать несколько</Subtext>
             <motion.div
               variants={stagger}
-              initial="hidden"
+              initial={false}
               animate="show"
               className={cn(
                 "mt-5 grid grid-cols-2 gap-2.5 transition-opacity duration-300 sm:grid-cols-3",
@@ -1346,7 +1346,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             <Subtext>Выбери до 3 стран</Subtext>
             <motion.div
               variants={stagger}
-              initial="hidden"
+              initial={false}
               animate="show"
               className={cn(
                 "mt-5 grid grid-cols-1 gap-2.5 transition-opacity duration-300 sm:grid-cols-2",
@@ -1520,7 +1520,7 @@ function LegacyOnboarding({ onDone }: LegacyOnboardingProps) {
             {/* Десктоп: сетка */}
             <motion.div
               variants={stagger}
-              initial="hidden"
+              initial={false}
               animate="show"
               className="mt-7 hidden gap-4 lg:grid lg:grid-cols-3"
             >

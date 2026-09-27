@@ -160,7 +160,7 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
   const totalLabel = `${total} ${pluralRu(total, "вуз", "вуза", "вузов")}`
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       {/* hero – straight on the paper, no card */}
       <motion.section variants={fadeUp} className="pt-2 sm:pt-4">
         <HanziKicker hanzi="留学中国">Поступление в Китай</HanziKicker>
@@ -233,7 +233,7 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
 
       {/* catalog preview – mounts after the catalog loads, so it animates on its own */}
       {preview.length > 0 && (
-        <motion.section variants={fadeUp} initial="hidden" animate="show" className="mt-8 sm:mt-10">
+        <motion.section variants={fadeUp} initial={false} animate="show" className="mt-8 sm:mt-10">
           <Card className="gap-0 p-4 sm:p-5">
             <div className="mb-3 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 px-2">
               <div>

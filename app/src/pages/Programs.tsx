@@ -89,7 +89,7 @@ function Saved({
           text="Нажмите на сердечко на карточке программы, и она появится здесь"
         />
       ) : (
-        <motion.div variants={stagger} initial="hidden" animate="show" className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <motion.div variants={stagger} initial={false} animate="show" className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {items.map((u) => (
             <ProgramCard
               key={u.id}
@@ -568,7 +568,7 @@ export default function Programs({
   const view: ProgramsView = subTab === "p_saved" ? "p_saved" : "p_priority"
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">Мои программы</h1>
         <p className="mt-2 text-sm text-fg-muted">
@@ -587,7 +587,7 @@ export default function Programs({
         />
       </motion.div>
 
-      <motion.div key={view} variants={stagger} initial="hidden" animate="show">
+      <motion.div key={view} variants={stagger} initial={false} animate="show">
         {view === "p_saved" ? (
           <Saved
             savedIds={savedIds}

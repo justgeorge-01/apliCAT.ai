@@ -358,7 +358,7 @@ function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTog
   }
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       {/* page head: the section kicker and a plain heading */}
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
         <HanziKicker hanzi="大学" className="mb-2">
@@ -428,7 +428,7 @@ function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTog
         ) : (
           <motion.div
             variants={cardStagger}
-            initial="hidden"
+            initial={false}
             animate="show"
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           >
@@ -650,7 +650,7 @@ function FindEurope({ saved = [], priorities = [], toggleSave = noop, togglePrio
   }
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">Подобрать программу</h1>
         <p className="mt-2 text-sm text-fg-muted">35 университетов · 35 грантов · 35 стажировок в Европе</p>
@@ -702,7 +702,7 @@ function FindEurope({ saved = [], priorities = [], toggleSave = noop, togglePrio
         <motion.div
           key={kind}
           variants={cardStagger}
-          initial="hidden"
+          initial={false}
           animate="show"
           className="grid grid-cols-1 gap-4 md:grid-cols-2"
         >

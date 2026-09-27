@@ -101,7 +101,7 @@ function AchievementForm({
       : form.skills
 
   return (
-    <motion.div variants={fadeUp} initial="hidden" animate="show">
+    <motion.div variants={fadeUp} initial={false} animate="show">
       <Card className="gap-0 border-accent/40 bg-accent-soft p-5">
         <div className="mb-4 flex items-center justify-between">
           <strong className="text-sm font-semibold">{initial?.id ? "Редактировать" : "Новое достижение"}</strong>
@@ -406,7 +406,7 @@ ${newMsgs.map((m) => `${m.from}: ${m.txt}`).join("\n")}`,
   }
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       {/* page head */}
       <motion.div variants={fadeUp} className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
         <div>
@@ -533,7 +533,7 @@ ${newMsgs.map((m) => `${m.from}: ${m.txt}`).join("\n")}`,
           {editing && <AchievementForm initial={editing} onSave={saveManual} onCancel={() => setEditing(null)} />}
 
           {/* achievements list */}
-          <motion.div variants={stagger} initial="hidden" animate="show" className="flex flex-col gap-3">
+          <motion.div variants={stagger} initial={false} animate="show" className="flex flex-col gap-3">
             {achievements.length === 0 && !editing && (
               <Card className="p-10 text-center text-sm text-fg-muted">
                 Пока пусто. Расскажите о достижении в чате слева или добавьте вручную.

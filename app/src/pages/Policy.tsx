@@ -161,7 +161,7 @@ export interface PolicyProps {
 /** «Политика и дисклеймер» – the page behind the footer link (spec §3.8). */
 export default function Policy({ onBack }: PolicyProps) {
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show" className="mx-auto max-w-3xl">
+    <motion.div variants={stagger} initial={false} animate="show" className="mx-auto max-w-3xl">
       <motion.div variants={fadeUp}>
         <Button variant="outline" size="sm" onClick={onBack}>
           Назад
