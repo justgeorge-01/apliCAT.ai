@@ -1899,7 +1899,7 @@ function LangDropdown({
    which persists it under `admitica.cn.profile` (PROFILE_KEY in lib/match.ts).
    The legacy 13-screen wizard above stays behind FEATURES.market === "europe".
 
-   Look («Азия / красный»): five screens on paper, the step name as a plain
+   Look (black and white): five screens on white, the step name as a plain
    kicker («СТЕПЕНЬ И ГОД»), a red Playfair heading, option cards in
    an ink frame with a square red mark, red «Дальше», contour «Назад».
    ============================================================ */

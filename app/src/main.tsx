@@ -1,5 +1,8 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
+// Self-hosted type (Onest, Cyrillic + Latin): no request to a font CDN, no
+// render-blocking stylesheet from a third party.
+import "@fontsource-variable/onest"
 import "./index.css"
 
 // Shared legacy modules – data and non-UI logic of the European market. They

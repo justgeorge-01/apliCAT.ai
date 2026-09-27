@@ -94,7 +94,7 @@ const BADGE_LEGEND: {
   {
     kind: "manual",
     label: (d) => `проверено вручную · ${d}`,
-    text: "Внесён оператором с официальной страницы – с той же ссылкой и датой. Бейдж красный, но контурный.",
+    text: "Внесён оператором с официальной страницы – с той же ссылкой и датой. Бейдж в тонкой рамке.",
   },
   {
     kind: "wayback",
@@ -164,12 +164,12 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
       {/* hero – straight on the paper, no card */}
       <motion.section variants={fadeUp} className="pt-2 sm:pt-4">
         <HanziKicker hanzi="留学中国">Поступление в Китай</HanziKicker>
-        {/* `caps` / weight sit on the inner span: index.css styles h1–h3 outside
-            a cascade layer, so utilities on the heading itself are overridden. */}
-        <h1 className="mt-4 max-w-4xl text-3xl leading-[1.12] text-balance text-accent-text sm:text-4xl lg:text-5xl">
-          <span className="caps font-extrabold">Вузы Китая без домыслов</span>
+        {/* the weight sits on the inner span: index.css styles h1–h3 outside a
+            cascade layer, so utilities on the heading itself are overridden. */}
+        <h1 className="mt-4 max-w-4xl text-4xl leading-[1.05] text-balance text-fg sm:text-5xl lg:text-6xl">
+          <span className="font-semibold tracking-[-0.035em]">Вузы Китая без домыслов</span>
         </h1>
-        <p className="mt-4 max-w-2xl font-display text-xl leading-snug font-bold text-fg sm:text-2xl">
+        <p className="mt-5 max-w-2xl text-lg leading-snug text-fg-muted sm:text-xl">
           Факты с официальных страниц вузов – с источником и датой проверки.
         </p>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-fg-muted sm:text-base">
@@ -203,8 +203,11 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
         </p>
       </motion.section>
 
-      {/* red band – the three promises in gold */}
-      <motion.section variants={fadeUp} className="mt-8 rounded-lg bg-accent px-6 py-7 text-accent-fg sm:mt-10 sm:px-8 sm:py-9">
+      {/* ink band – the three promises, white on black in both themes */}
+      <motion.section
+        variants={fadeUp}
+        className="mt-8 rounded-lg border border-border bg-ink px-6 py-7 text-paper sm:mt-10 sm:px-8 sm:py-9"
+      >
         <HanziKicker tone="inverse" hanzi="事实">
           Факты
         </HanziKicker>
@@ -291,9 +294,9 @@ export default function Home({ catalog, hasProfile, onStart, onEditProfile, setT
           <HanziKicker hanzi="来源">Источники</HanziKicker>
           <h2 className="mt-1.5 text-xl font-bold">Как читать бейджи</h2>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-fg-muted">
-            У каждого факта в карточке стоит бейдж с датой проверки. Красный – факт проверен по официальной
-            странице (сплошной – конвейером, контурный – оператором); жёлтый – взят из архивной копии; серый –
-            встроенный пример.
+            У каждого факта в карточке стоит бейдж с датой проверки. Бейдж с подложкой – факт проверен
+            конвейером по официальной странице, в тонкой рамке – внесён оператором, в пунктирной рамке – взят
+            из архивной копии, серый – встроенный пример.
           </p>
 
           <dl className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">

@@ -359,13 +359,13 @@ function FindChina({ openUniversity, profile: profileProp, plan: planProp, onTog
 
   return (
     <motion.div variants={stagger} initial="hidden" animate="show">
-      {/* page head: the section kicker, a red Playfair heading in tracked capitals */}
+      {/* page head: the section kicker and a plain heading */}
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
         <HanziKicker hanzi="大学" className="mb-2">
           Каталог
         </HanziKicker>
-        <h1 className="font-display text-3xl font-bold text-balance text-accent-text sm:text-4xl">
-          <span className="caps">Вузы Китая</span>
+        <h1 className="font-display text-3xl font-semibold tracking-[-0.03em] text-balance text-fg sm:text-4xl">
+          Вузы Китая
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-fg-muted">
           {catalog

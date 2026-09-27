@@ -4,21 +4,22 @@ import { cva } from "class-variance-authority"
  * Button class variants. Kept apart from `button.tsx` so that file exports only
  * a component (react-refresh/only-export-components).
  *
- * «Азия / красный»: the primary is a red fill with cream semibold text, the
- * secondary an ink outline. Moderate radius, no glow, no arrows.
+ * Black and white: the primary is an ink fill (black on the light theme, white
+ * on the dark one), the secondary a thin ink outline. Small radius, no shadow,
+ * no arrows.
  *
- * Disabled is a state of its own, not a faded fill: a half-transparent red
- * button still reads as a red button (and cream on 50% red is 1.7:1), so a
- * disabled button drops the fill and becomes a muted contour instead.
+ * Disabled is a state of its own, not a faded fill: a half-transparent ink
+ * button still reads as a live button, so a disabled button drops the fill and
+ * becomes a muted contour instead.
  */
 export const buttonVariants = cva(
   "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:border disabled:border-border-strong disabled:bg-card-2 disabled:font-medium disabled:text-fg-faint disabled:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-accent font-semibold text-accent-fg hover:brightness-110 active:brightness-95",
-        destructive: "bg-danger font-semibold text-danger-fg hover:brightness-110",
-        outline: "border border-fg/50 bg-transparent font-semibold text-fg hover:border-fg hover:bg-fg/5",
+        default: "bg-accent font-medium text-accent-fg hover:bg-accent/85 active:bg-accent/95",
+        destructive: "bg-danger font-medium text-danger-fg hover:bg-danger/90",
+        outline: "border border-fg/25 bg-transparent font-medium text-fg hover:border-fg/60 hover:bg-fg/[0.03]",
         secondary: "border border-border bg-card-2 text-fg hover:bg-fg/5",
         ghost: "text-fg-muted hover:bg-fg/5 hover:text-fg",
         link: "text-accent-text underline-offset-4 hover:underline",
