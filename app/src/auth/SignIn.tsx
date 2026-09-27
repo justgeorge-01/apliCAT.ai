@@ -61,7 +61,7 @@ export default function SignIn({ backend, pendingJoin, onBack }: SignInProps) {
   }
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show" className="mx-auto max-w-md">
+    <motion.div variants={stagger} initial={false} animate="show" className="mx-auto max-w-md">
       <motion.div variants={fadeUp}>
         <Button variant="outline" size="sm" onClick={onBack}>
           Назад

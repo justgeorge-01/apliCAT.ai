@@ -664,7 +664,7 @@ export default function Detail({
           ]
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       {/* back */}
       <motion.div variants={fadeUp} className="mb-5">
         <Button variant="ghost" size="sm" className="-ml-2" onClick={onBack}>

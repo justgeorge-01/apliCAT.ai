@@ -107,7 +107,7 @@ export default function MentorPanel({ catalog, onOpenUniversity }: MentorPanelPr
   ]
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
         <HanziKicker hanzi="导师">Наставник</HanziKicker>
         <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance text-accent-text sm:text-4xl">{org?.name ?? "Панель наставника"}</h1>

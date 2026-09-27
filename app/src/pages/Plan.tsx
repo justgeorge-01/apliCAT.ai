@@ -192,7 +192,7 @@ export default function PlanPage({ catalog, onOpenUniversity, onOpenCatalog, pla
   ) : null
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       <motion.div variants={fadeUp} className="mb-6 sm:mb-8">
         <HanziKicker hanzi="我的计划">Мой план</HanziKicker>
         <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance text-accent-text sm:text-4xl">

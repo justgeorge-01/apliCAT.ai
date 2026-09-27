@@ -32,7 +32,7 @@ export default function DeleteAccount({ email, onConfirm, onCancel }: DeleteAcco
     if (!ok) setBusy(false)
   }
   return (
-    <motion.div variants={fadeUp} initial="hidden" animate="show" className="mx-auto max-w-md">
+    <motion.div variants={fadeUp} initial={false} animate="show" className="mx-auto max-w-md">
       <Kicker accent>Аккаунт</Kicker>
       <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance text-accent-text">Удалить аккаунт и все данные?</h1>
       <Card className="mt-6 gap-0 p-6">

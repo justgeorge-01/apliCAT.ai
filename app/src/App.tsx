@@ -53,9 +53,11 @@ import Resume from "@/pages/Resume"
  * the local keys are only a cache.
  */
 export default function App() {
-  // Black-and-white calm: screens appear without sliding. `reducedMotion`
-  // drops every transform animation app-wide (the per-screen fade-up presets
-  // become a plain fade) without touching each page.
+  // Black-and-white calm. Screens render in their final state (every page root
+  // uses `initial={false}`, so there is no entrance animation to wait for and a
+  // page never sits invisible when the browser skips frames – a background tab,
+  // a link preview). `reducedMotion` also drops the transform part of the few
+  // animations that remain (wizard steps, toasts).
   return (
     <MotionConfig reducedMotion="always">
       <ToastProvider>

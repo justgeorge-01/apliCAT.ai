@@ -95,7 +95,7 @@ export default function SettingsDialog({
 
         <motion.div
           variants={stagger}
-          initial="hidden"
+          initial={false}
           animate="show"
           className="flex flex-col px-6 py-5"
         >

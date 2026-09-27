@@ -107,7 +107,7 @@ export default function Profile({ onboarding, onEditOnboarding, plan, theme, onT
   const tg = telegramUrl(cabinet.org?.telegram)
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show" className="mx-auto max-w-2xl">
+    <motion.div variants={stagger} initial={false} animate="show" className="mx-auto max-w-2xl">
       <motion.div variants={fadeUp}>
         <Kicker accent>Аккаунт</Kicker>
         <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance text-accent-text sm:text-4xl">Профиль</h1>

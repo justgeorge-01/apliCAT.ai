@@ -191,7 +191,7 @@ ${text}`,
   const showBankList = mode === "bank" && !editing
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       {/* head */}
       <motion.div variants={fadeUp} className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
         <div>
@@ -229,7 +229,7 @@ ${text}`,
       <motion.div
         key={showBankList ? "bank" : "editor"}
         variants={fadeUp}
-        initial="hidden"
+        initial={false}
         animate="show"
       >
         {showBankList ? (
@@ -250,7 +250,7 @@ ${text}`,
               </div>
               <motion.div
                 variants={stagger}
-                initial="hidden"
+                initial={false}
                 animate="show"
                 className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
               >

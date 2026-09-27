@@ -229,7 +229,7 @@ function ChinaDetail({
   const subtitle = [u.name_ru ? u.name : null, u.city, country].filter(Boolean).join(" · ")
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       {/* back */}
       <motion.div variants={fadeUp} className="mb-5">
         <BackButton onBack={onBack} />

@@ -205,7 +205,7 @@ export function MentorStudent({ api, catalog, org, viewerId, bundle, now, onBack
   const answers = student.onboarding
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show">
+    <motion.div variants={stagger} initial={false} animate="show">
       <motion.div variants={fadeUp} className="mb-5">
         <Button variant="ghost" size="sm" className="-ml-2" onClick={onBack}>
           <ChevronLeft /> К ученикам
