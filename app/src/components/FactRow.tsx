@@ -2,15 +2,18 @@ import type { ReactNode } from "react"
 import { AlertTriangle } from "lucide-react"
 
 import { ProvenanceBadge } from "@/components/ProvenanceBadge"
-import { factCoordinates, formatCheckedAt } from "@/data/china"
+import { cycleNote, factCoordinates, formatCheckedAt } from "@/data/china"
 import type { Fact } from "@/data/china.types"
+import { useNow } from "@/lib/useNow"
 import { cn } from "@/lib/utils"
 
-/** «вуз не публикует · проверено 31 августа 2026» / «… · проверка не проводилась». */
+/**
+ * «вуз не публикует · проверено 31 августа 2026». Without a check date nothing
+ * was read off the university's pages yet, so the row says exactly that rather
+ * than claiming the university does not publish the value.
+ */
 function emptyFactText(lastCheckedAt: string | null, label: string = "вуз не публикует"): string {
-  return lastCheckedAt
-    ? `${label} · проверено ${formatCheckedAt(lastCheckedAt)}`
-    : `${label} · проверка не проводилась`
+  return lastCheckedAt ? `${label} · проверено ${formatCheckedAt(lastCheckedAt)}` : "данные ещё не собраны"
 }
 
 const CRITICAL_FIELD_LABEL = "критичное поле: сверьтесь с сайтом вуза перед подачей"
@@ -48,6 +51,8 @@ export interface FactItemProps {
  * end. The badge's quote panel is full-width and wraps under the line.
  */
 export function FactItem({ fact, sublabel }: FactItemProps) {
+  const now = useNow(3_600_000)
+  const cycle = cycleNote(fact, now)
   return (
     <div className="flex flex-wrap items-start gap-x-4 gap-y-2">
       <div className="min-w-0 flex-1 basis-48">
@@ -57,6 +62,11 @@ export function FactItem({ fact, sublabel }: FactItemProps) {
           {fact.display}
         </div>
         {factCoordinates(fact) && <div className="mt-0.5 text-xs text-fg-muted">{factCoordinates(fact)}</div>}
+        {cycle && (
+          <div className="mt-1 text-xs text-fg-muted">
+            {cycle}: даты следующего набора вуз ещё не опубликовал
+          </div>
+        )}
       </div>
       <ProvenanceBadge fact={fact} className="mt-0.5 sm:mt-1" />
     </div>
@@ -66,7 +76,7 @@ export function FactItem({ fact, sublabel }: FactItemProps) {
 export interface FactRowProps {
   /** Row label, e.g. «Дедлайн подачи». */
   label: string
-  /** Facts to print, in order. Empty → «вуз не публикует · проверено …» (the row is never skipped). */
+  /** Facts to print, in order. Empty → «вуз не публикует · проверено …» or «данные ещё не собраны» (the row is never skipped). */
   facts: Fact[]
   /** `University.last_checked_at` – printed in the empty state. */
   lastCheckedAt: string | null

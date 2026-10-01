@@ -11,7 +11,12 @@ import {
   demoCatalog,
   formatCheckedAt,
   hasProvenance,
+  currentIntakeYear,
+  cycleNote,
+  intakeYearOf,
   isDeadlinePassed,
+  isPastCycle,
+  lastChecked,
   normalizeCatalog,
   yearInChinaEstimate, arrangeFacts, factCoordinates } from "@/data/china"
 import { CARD_EXPECTED, FIXTURE_CATALOG } from "@/data/china.fixture"
@@ -62,6 +67,97 @@ describe("fixture catalog", () => {
     expect(c.universities.flatMap((u) => u.facts)).toHaveLength(
       FIXTURE_CATALOG.universities.flatMap((u) => u.facts).length,
     )
+  })
+})
+
+describe("Russian names and cities", () => {
+  const raw = (over: Record<string, unknown> = {}) => ({
+    generated_at: "2026-09-05T16:25:00Z",
+    prompt_version: 13,
+    universities: [{ id: "tsinghua-university", name: "Tsinghua University", name_ru: null, facts: [], ...over }],
+  })
+
+  it("fills name_ru and city the export does not carry yet", () => {
+    const [u] = normalizeCatalog(raw()).universities
+    expect(u.name_ru).toBe("Университет Цинхуа")
+    expect(u.city).toBe("Пекин")
+  })
+
+  it("never overrides what the export does carry", () => {
+    const [u] = normalizeCatalog(raw({ name_ru: "Цинхуа", city: "Beijing" })).universities
+    expect(u.name_ru).toBe("Цинхуа")
+    expect(u.city).toBe("Beijing")
+  })
+
+  it("an unknown id keeps null / empty instead of guessing", () => {
+    const [u] = normalizeCatalog(raw({ id: "constructor", name: "X" })).universities
+    expect(u.name_ru).toBeNull()
+    expect(u.city).toBe("")
+  })
+})
+
+describe("admission cycles", () => {
+  it("a date from September on belongs to the next year's intake", () => {
+    expect(intakeYearOf("2026-06-01")).toBe(2026)
+    expect(intakeYearOf("2025-11-20")).toBe(2026)
+    expect(intakeYearOf("2026-09-01")).toBe(2027)
+    expect(intakeYearOf("bad")).toBeNull()
+  })
+
+  it("the current intake turns over on 1 September", () => {
+    expect(currentIntakeYear(new Date(2026, 7, 31, 12))).toBe(2026)
+    expect(currentIntakeYear(new Date(2026, 8, 1, 12))).toBe(2027)
+  })
+
+  it("on 1 October 2026 every 2026 deadline is a past cycle, a 2027 one is not", () => {
+    const now = new Date(2026, 9, 1, 12)
+    expect(isPastCycle("2026-06-01", now)).toBe(true)
+    expect(isPastCycle("2025-11-20", now)).toBe(true)
+    expect(isPastCycle("2027-03-31", now)).toBe(false)
+    expect(isPastCycle("2026-12-15", now)).toBe(false)
+  })
+
+  it("cycleNote marks only deadlines of a finished intake", () => {
+    const now = new Date(2026, 9, 1, 12)
+    const base = {
+      label_ru: "x",
+      academic_year: null,
+      quote: null,
+      source_url: "https://example.edu.cn/",
+      verified_at: "2026-09-05",
+      origin: "auto" as const,
+      certainty: "verified" as const,
+      snapshot: null,
+    }
+    const old: Fact = { ...base, key: "deadline.fall.application_non_eu", value: { date: "2026-06-01" }, display: "1 июня 2026" }
+    const next: Fact = { ...old, value: { date: "2027-04-30" }, display: "30 апреля 2027" }
+    const fee: Fact = { ...base, key: "fees.tuition_year_non_eu", value: { amount_minor: 1, currency: "CNY" }, display: "¥0" }
+    expect(cycleNote(old, now)).toBe("прошлый цикл, набор 2026")
+    expect(cycleNote(next, now)).toBeNull()
+    expect(cycleNote(fee, now)).toBeNull()
+  })
+})
+
+describe("lastChecked", () => {
+  const u = (facts: Fact[]): University => ({
+    id: "x",
+    name: "X",
+    name_ru: null,
+    city: "",
+    country: "CN",
+    website: "",
+    last_checked_at: "2026-09-05T12:00:00Z",
+    facts,
+    coverage: { published: facts.length, expected: 11 },
+  })
+
+  it("a university with no published fact has no check date to show", () => {
+    expect(lastChecked(u([]))).toBeNull()
+  })
+
+  it("with facts it is the export's last_checked_at", () => {
+    const f = FIXTURE_CATALOG.universities.find((x) => x.facts.length > 0)!.facts[0]
+    expect(lastChecked(u([f]))).toBe("2026-09-05T12:00:00Z")
   })
 })
 

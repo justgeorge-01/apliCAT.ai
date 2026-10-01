@@ -9,9 +9,11 @@ import {
   amountMinorOf,
   currencyOf,
   cscaStatus,
+  currentIntakeYear,
   deadlineDateOf,
   factOf,
   isDeadlinePassed,
+  isPastCycle,
   scoreOf,
 } from "@/data/china"
 
@@ -143,6 +145,8 @@ export function matchUniversity(profile: ChinaProfile, u: University, now: Date)
   } else {
     const date = deadlineDateOf(deadline.value)
     if (!date) unknown.push(`дедлайн: ${deadline.display}, не проверено`)
+    else if (isPastCycle(date, now))
+      unknown.push(`дедлайн набора ${currentIntakeYear(now)} не опубликован, в прошлом цикле – ${deadline.display}`)
     else if (isDeadlinePassed(date, now)) gaps.push(`дедлайн прошёл: ${deadline.display}`)
     else ok.push(`дедлайн не прошёл: ${deadline.display}`)
   }

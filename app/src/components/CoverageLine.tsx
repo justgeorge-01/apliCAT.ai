@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils"
  * date of the last check, straight from the export (`coverage`,
  * `last_checked_at`). Drawn as a thin scale: a hairline track across the card
  * with a red fill for the published share, the words beneath it. A university
- * without facts has an empty track and reads «данные не опубликованы ·
- * проверка не проводилась».
+ * without facts has an empty track and reads «данные ещё не собраны ·
+ * смотрите сайт вуза».
  *
  * The scale is decorative (aria-hidden) – the sentence carries the numbers.
  */
