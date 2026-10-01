@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { BookmarkCheck, BookmarkPlus, ChevronLeft, ExternalLink, MessageCircle } from "lucide-react"
 
 import { CscaBlock } from "@/components/CscaBlock"
+import { ExperienceSection } from "@/components/ExperienceSection"
 import { CriticalMark, FactRow } from "@/components/FactRow"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -343,6 +344,11 @@ function ChinaDetail({
             подачей. Мы показываем только опубликованные условия и не оцениваем шансы.
           </span>
         </p>
+      </motion.div>
+
+      {/* the second layer: what students say – opinions, set apart from the facts */}
+      <motion.div variants={fadeUp} className="mt-8">
+        <ExperienceSection universityId={u.id} />
       </motion.div>
     </motion.div>
   )
