@@ -108,9 +108,10 @@ describe("FactRow", () => {
     expect(out).toContain("вуз не публикует · проверено 31 августа 2026")
   })
 
-  it("empty fact without a check: «проверка не проводилась»", () => {
+  it("empty fact without a check: «данные ещё не собраны», never «вуз не публикует»", () => {
     const out = html(<FactRow label="Общежитие в месяц" facts={[]} lastCheckedAt={null} />)
-    expect(out).toContain("вуз не публикует · проверка не проводилась")
+    expect(out).toContain("данные ещё не собраны")
+    expect(out).not.toContain("вуз не публикует")
   })
 
   it("emptyLabel replaces «вуз не публикует»", () => {
@@ -162,10 +163,17 @@ describe("CscaBlock", () => {
     expect(out).toContain("CSCA не требуется")
   })
 
-  it("unknown: «CSCA не опубликовано» + «вуз не публикует · проверено <дата>»", () => {
-    const out = html(<CscaBlock u={uni([])} />)
+  it("unknown on a university with facts: «CSCA не опубликовано» + «вуз не публикует · проверено <дата>»", () => {
+    const out = html(<CscaBlock u={uni([fact()])} />)
     expect(out).toContain("CSCA не опубликовано")
     expect(out).toContain("вуз не публикует · проверено 31 августа 2026")
+  })
+
+  it("a university with no fact at all: «данные ещё не собраны», no check date", () => {
+    const out = html(<CscaBlock u={uni([])} />)
+    expect(out).toContain("CSCA не опубликовано")
+    expect(out).toContain("данные ещё не собраны")
+    expect(out).not.toContain("вуз не публикует · проверено")
   })
 
   it("modules are listed even when the requirement itself is not stated", () => {

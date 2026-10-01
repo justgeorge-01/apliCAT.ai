@@ -19,6 +19,7 @@ import type {
   MoneyValue,
   University, DegreeScope } from "./china.types"
 import { FIXTURE_CATALOG } from "./china.fixture"
+import { UNIVERSITY_NAMES_RU } from "./china.names"
 
 /* ---------- card layout constants ---------- */
 
@@ -195,11 +196,13 @@ function normalizeUniversity(raw: unknown): University | null {
     ? raw.facts.map((f) => normalizeFact(f, id)).filter((f): f is Fact => f !== null)
     : []
   const cov = isRec(raw.coverage) ? raw.coverage : null
+  // the export wins; the table only fills what the pipeline does not carry yet
+  const names = Object.hasOwn(UNIVERSITY_NAMES_RU, id) ? UNIVERSITY_NAMES_RU[id] : undefined
   return {
     id,
     name,
-    name_ru: str(raw.name_ru),
-    city: str(raw.city) ?? "",
+    name_ru: str(raw.name_ru) ?? names?.name_ru ?? null,
+    city: str(raw.city) ?? names?.city ?? "",
     country: str(raw.country) ?? "CN",
     website: str(raw.website) ?? "",
     last_checked_at: str(raw.last_checked_at),
@@ -299,9 +302,15 @@ export function factCoordinates(f: Fact): string {
   return parts.join(" · ")
 }
 
-/** ISO timestamp of the last successful check, or null (→ «не опубликовано»). */
+/**
+ * ISO timestamp of the last check a reader can rely on, or null (→ «данные ещё
+ * не собраны»). A university with no published fact at all has nothing such a
+ * date could vouch for: its page was fetched, but no value came out of it, so
+ * «вуз не публикует · проверено 5 сентября» would claim a reading that never
+ * happened.
+ */
 export function lastChecked(u: University): string | null {
-  return u.last_checked_at
+  return u.facts.length > 0 ? u.last_checked_at : null
 }
 
 export function findUniversity(catalog: Catalog, id: string): University | undefined {
@@ -372,6 +381,45 @@ export function daysUntil(iso: string, now: Date): number | null {
 export function isDeadlinePassed(iso: string, now: Date): boolean {
   const d = daysUntil(iso, now)
   return d !== null && d < 0
+}
+
+/*
+ * Admission cycles. The storefront is about the autumn intake: applications
+ * for a September start open in the autumn before it and close by summer. A
+ * date from September on belongs to the NEXT year's intake, anything earlier
+ * to that same year's – so «1 June 2026» is the 2026 intake and «20 November
+ * 2025» is the 2026 intake too.
+ */
+
+/** Autumn intake a deadline belongs to; null for a malformed date. */
+export function intakeYearOf(iso: string): number | null {
+  const m = /^(\d{4})-(\d{2})-\d{2}/.exec(iso)
+  if (!m) return null
+  const year = Number(m[1])
+  return Number(m[2]) >= 9 ? year + 1 : year
+}
+
+/** The intake an applicant is choosing for right now. */
+export function currentIntakeYear(now: Date): number {
+  return now.getMonth() + 1 >= 9 ? now.getFullYear() + 1 : now.getFullYear()
+}
+
+/**
+ * The date belongs to an intake that is already over. Such a deadline is not
+ * «прошёл» for the reader – the university simply has not published the next
+ * cycle's yet, and the old date is only a guide to when it might be.
+ */
+export function isPastCycle(iso: string, now: Date): boolean {
+  const intake = intakeYearOf(iso)
+  return intake !== null && intake < currentIntakeYear(now)
+}
+
+/** «прошлый цикл, набор 2026» under a deadline of a finished intake, else null. */
+export function cycleNote(f: Fact, now: Date): string | null {
+  if (!f.key.startsWith("deadline.")) return null
+  const date = deadlineDateOf(f.value)
+  if (!date || !isPastCycle(date, now)) return null
+  return `прошлый цикл, набор ${intakeYearOf(date)}`
 }
 
 const RU_MONTHS_GEN = [

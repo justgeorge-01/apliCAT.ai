@@ -227,14 +227,18 @@ describe("matchSummary", () => {
 })
 
 describe("coverage / provenance text", () => {
-  it("empty university: «данные не опубликованы · проверка не проводилась»", () => {
+  it("empty university: «данные ещё не собраны · смотрите сайт вуза», even with a fetch date", () => {
     expect(coverageText(empty)).toEqual({
       published: 0,
-      facts: "данные не опубликованы",
-      checked: "проверка не проводилась",
+      facts: "данные ещё не собраны",
+      checked: "смотрите сайт вуза",
     })
-    expect(emptyFactText(empty)).toBe("не опубликовано · проверка не проводилась")
-    expect(cscaEmptyText(empty)).toBe("вуз не заявил · проверка не проводилась")
+    expect(emptyFactText(empty)).toBe("ещё не собрано")
+    expect(cscaEmptyText(empty)).toBe("ещё не собрано")
+    // fetched, but nothing came out: the date must not vouch for a reading that never happened
+    const fetchedOnly = { ...empty, last_checked_at: "2026-09-05T12:00:00Z" }
+    expect(coverageText(fetchedOnly).checked).toBe("смотрите сайт вуза")
+    expect(emptyFactText(fetchedOnly)).toBe("ещё не собрано")
     expect(cscaEmptyText(zhUni)).toBe("вуз не заявил · проверено 31 августа 2026")
   })
 

@@ -93,6 +93,13 @@ describe("matchUniversity", () => {
     expect(matchUniversity(fit, FULL, onTheDay).gaps).toEqual([])
   })
 
+  it("a deadline of a finished intake is not a gap: the next one is simply not out yet", () => {
+    const october = new Date(2026, 9, 1, 12) // 1 Oct 2026 – choosing for the 2027 intake
+    const r = matchUniversity(fit, FULL, october)
+    expect(r.gaps).toEqual([])
+    expect(r.unknown).toContain("дедлайн набора 2027 не опубликован, в прошлом цикле – до 28 февраля 2026")
+  })
+
   it("language mismatch is a gap; 'any' accepts whatever is published", () => {
     const en = matchUniversity({ ...fit, language: "en" }, FULL, BEFORE)
     expect(en.gaps).toContain("обучение на китайском, а не на английском")

@@ -251,7 +251,7 @@ function ChinaDetail({
               {u.coverage.published} из {u.coverage.expected} фактов проверено
             </span>
             <span aria-hidden="true">·</span>
-            <span>{checkedAt ? `последняя проверка ${formatCheckedAt(checkedAt)}` : "проверка не проводилась"}</span>
+            <span>{checkedAt ? `последняя проверка ${formatCheckedAt(checkedAt)}` : "данные ещё не собраны"}</span>
             {u.website && (
               <>
                 <span aria-hidden="true">·</span>

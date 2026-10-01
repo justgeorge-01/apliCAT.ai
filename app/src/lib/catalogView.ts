@@ -20,6 +20,7 @@ import {
   factsOf,
   formatCheckedAt,
   isDeadlinePassed,
+  isPastCycle,
   lastChecked,
   scoreOf,
 } from "@/data/china"
@@ -128,7 +129,8 @@ function deadlineVerdict(u: University, on: boolean, now: Date): Verdict {
   const f = factOf(u, "deadline.fall.application_non_eu")
   if (!f) return "unknown"
   const date = deadlineDateOf(f.value)
-  if (!date) return "unknown"
+  // a finished intake's date says nothing about this one: the new date is not out yet
+  if (!date || isPastCycle(date, now)) return "unknown"
   return isDeadlinePassed(date, now) ? "fail" : "pass"
 }
 
@@ -306,9 +308,9 @@ export function matchSummary(r: MatchResult): MatchSummary {
 
 export interface CoverageText {
   published: number
-  /** «7 из 8 фактов проверено» or «данные не опубликованы». */
+  /** «7 из 8 фактов проверено», «данные не опубликованы» or «данные ещё не собраны». */
   facts: string
-  /** «проверено 31 августа 2026» / «проверка не проводилась» / «дата проверки не указана». */
+  /** «проверено 31 августа 2026» / «смотрите сайт вуза» / «дата проверки не указана». */
   checked: string
 }
 
@@ -318,8 +320,8 @@ export function coverageText(u: University): CoverageText {
   if (published <= 0) {
     return {
       published: 0,
-      facts: "данные не опубликованы",
-      checked: lc ? `проверено ${formatCheckedAt(lc)}` : "проверка не проводилась",
+      facts: lc ? "данные не опубликованы" : "данные ещё не собраны",
+      checked: lc ? `проверено ${formatCheckedAt(lc)}` : "смотрите сайт вуза",
     }
   }
   return {
@@ -342,13 +344,13 @@ export function provenanceText(f: Fact): string {
 /** Text of an empty card row – never a skipped row (spec §3.3). */
 export function emptyFactText(u: University): string {
   const lc = lastChecked(u)
-  return lc ? `не опубликовано · проверено ${formatCheckedAt(lc)}` : "не опубликовано · проверка не проводилась"
+  return lc ? `не опубликовано · проверено ${formatCheckedAt(lc)}` : "ещё не собрано"
 }
 
 /** The CSCA row without a `csca_required` fact: «вуз не заявил, проверено <дата>» (spec §3.3). */
 export function cscaEmptyText(u: University): string {
   const lc = lastChecked(u)
-  return lc ? `вуз не заявил · проверено ${formatCheckedAt(lc)}` : "вуз не заявил · проверка не проводилась"
+  return lc ? `вуз не заявил · проверено ${formatCheckedAt(lc)}` : "ещё не собрано"
 }
 
 /* ---------- CSCA status: one colour system on every screen ---------- */
