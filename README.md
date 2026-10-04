@@ -353,3 +353,18 @@ REVIEW (Sheet → потом админ-панель) → человек одо�
 2. `npm run db:migrate --prefix app` → `npm run test:rls --prefix app` (должны быть зелёные).
 3. Войти на локальном сервере своим email (появится `auth.users`), затем `npm run db:org -- --slug demo --name Демо-агентство --telegram example_handle --admin <свой email>`.
 4. Пустой репозиторий `abitura-china` → `npm run deploy:china --prefix app` → Settings → Pages → branch `gh-pages`.
+
+## 14. Публичная витрина – путеводитель (ветка `china`, с 04.10.2026)
+
+Сборка по умолчанию – путеводитель (`FEATURES.edition = "guide"`, `app/src/guide/`): шапка «Вузы · О проекте»,
+каталог карточек, страница вуза `#/u/<id>`. Ни аккаунтов, ни плана, ни анкеты, ни партнёра; о посетителях
+ничего не собирается. Оболочка с планом и кабинетом (§13) – `VITE_EDITION=app`.
+
+- **Данные:** `app/public/data/china.json` (официальные условия, из конвейера) и `app/public/data/guide.json`
+  (описание и ссылки по вузам, формат – `app/src/data/guide.ts`).
+- **Ссылки:** подборки по вузам (`<id>.json`) сливаются командой `npm run guide:import -- <папка> --check`.
+  Заголовок переводится на русский, пересказ – своими словами в одно предложение, без имён и ников. Страницы
+  площадок, чей robots.txt запрещает роботов (Xiaohongshu, Zhihu, Tieba, WeChat), не скачиваются: только
+  ссылка и пересказ по описанию в поиске.
+- **Обсуждение:** `telegram_channel` и `discussion` («канал/номер поста») в `guide.json` включают виджет
+  комментариев Telegram на странице вуза. Сообщения хранит Telegram, сайт – нет.
