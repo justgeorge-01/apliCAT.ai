@@ -368,3 +368,13 @@ REVIEW (Sheet → потом админ-панель) → человек одо�
   ссылка и пересказ по описанию в поиске.
 - **Обсуждение:** `telegram_channel` и `discussion` («канал/номер поста») в `guide.json` включают виджет
   комментариев Telegram на странице вуза. Сообщения хранит Telegram, сайт – нет.
+- **Форум:** `app/supabase/migrations/0002_forum.sql` – анонимные ники, без регистрации и персональных данных
+  (хэш ключа браузера, хэш IP на сутки, контакты вычёркиваются сервером). Тесты базы – `app/rls/forum.sql.test.ts`
+  на PGlite, без сети. Включается, когда в сборке есть `VITE_SUPABASE_URL` и `VITE_SUPABASE_ANON_KEY`
+  (локально – `app/.env.local`, на GitHub – переменные репозитория для `deploy.yml`); в dev без базы –
+  `VITE_FORUM_FAKE=1`. Применить миграцию: `npm run db:migrate`.
+- **Модерация форума** (SQL Editor в Supabase):
+  - очередь со ссылками: `select id, university_id, body, created_at from forum_posts where status = 'pending' order by created_at;`
+  - опубликовать: `update forum_posts set status = 'published' where id = …;`
+  - скрыть: `update forum_posts set status = 'hidden' where id = …;`
+  - скрытые жалобами: `select id, body, reports from forum_posts where status = 'hidden' order by created_at desc;`

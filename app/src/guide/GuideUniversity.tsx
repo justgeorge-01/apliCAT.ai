@@ -21,7 +21,10 @@ import {
   type GuideUniversity,
   type LangFilter,
 } from "@/data/guide"
+import { getForum } from "@/data/forum"
 import { CSCA_BADGE, CSCA_LABEL } from "@/lib/catalogView"
+
+import { ForumBlock } from "./ForumBlock"
 
 /** The few official rows the guide keeps: what decides «can I go there at all». */
 const FACT_ROWS: readonly { label: string; keys: readonly FactKey[]; critical?: boolean }[] = [
@@ -222,6 +225,8 @@ export function GuideUniversityPage({ id, catalog, guide }: { id: string; catalo
   }
   const g = guide ? guideOf(guide, u.id) : null
   const description = g?.description
+  // the site's own anonymous forum when the build has a database; Telegram otherwise
+  const forum = getForum()
 
   return (
     <article className="flex flex-col gap-12">
@@ -280,7 +285,11 @@ export function GuideUniversityPage({ id, catalog, guide }: { id: string; catalo
       </div>
 
       <LinksBlock g={g} />
-      <DiscussionBlock g={g} channel={guide?.telegram_channel ?? null} />
+      {forum ? (
+        <ForumBlock forum={forum} universityId={u.id} />
+      ) : (
+        <DiscussionBlock g={g} channel={guide?.telegram_channel ?? null} />
+      )}
       <FactsBlock u={u} />
     </article>
   )
