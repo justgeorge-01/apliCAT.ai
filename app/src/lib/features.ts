@@ -12,8 +12,13 @@
  *                 in-memory backend (sign-in without an email, a demo organization)
  *                 so the cabinet can be exercised and screenshotted without keys.
  *                 Never true in a production build (`import.meta.env.DEV`).
+ *  - `edition`  – which site this build is. `guide` (default) is the public
+ *                 guide: catalog, university pages with links, «О проекте» – no
+ *                 accounts, no plan, no questionnaire. `VITE_EDITION=app` brings
+ *                 back the application shell with the plan and the cabinet.
  */
 export type Market = "china" | "europe"
+export type Edition = "guide" | "app"
 
 function resolveMarket(raw: unknown): Market {
   return raw === "europe" ? "europe" : "china"
@@ -28,6 +33,7 @@ export const FEATURES = {
   market: resolveMarket(import.meta.env.VITE_MARKET ?? "china"),
   accounts: Boolean((SUPABASE_URL && SUPABASE_ANON_KEY) || cabinetFake),
   cabinetFake,
+  edition: (import.meta.env.VITE_EDITION === "app" ? "app" : "guide") as Edition,
 } as const
 
 export type Features = typeof FEATURES

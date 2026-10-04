@@ -14,7 +14,7 @@ import "../../src/roadmapData.js"
 import "../../src/essayReqs.js"
 
 import { FEATURES } from "./lib/features"
-import App from "./App"
+import Root from "./Root"
 
 // The AI client (`window.ai`, external endpoints + key) and the document
 // export helpers (`download*`, CDN libs) serve only the AI screens. They are
@@ -31,6 +31,6 @@ if (FEATURES.ai && import.meta.env.VITE_MARKET === "europe") {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <Root />
   </StrictMode>,
 )
