@@ -1,5 +1,2559 @@
 {
   "generated_at": "2026-10-04",
   "telegram_channel": null,
-  "universities": {}
+  "universities": {
+    "beijing-institute-of-technology": {
+      "name_zh": "北京理工大学",
+      "description": {
+        "text_ru": "Пекинский политехнический институт ведёт историю с 1940 года, когда в Яньани была основана Яньаньская академия естественных наук. Сейчас главный кампус Чжунгуаньцунь находится в пекинском районе Хайдянь, бакалавры в основном учатся в кампусе Лянсян; есть также площадки в Циньхуандао и Чжухае. Вуз известен инженерными направлениями: электроникой, автоматикой, оптикой, машиностроением и информатикой.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Beijing_Institute_of_Technology",
+          "https://english.bit.edu.cn/"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://habr.com/ru/companies/yoomoney/articles/864132/",
+          "title_orig": "Как я поехала учиться в Китай на месяц",
+          "title_ru": "Как я поехала учиться в Китай на месяц",
+          "summary_ru": "Рассказ участницы летней школы ППИ по ИИ и электронике: общежитие на большом кампусе, лекции, лабораторные проекты и контрасты Пекина.",
+          "lang": "ru",
+          "platform": "blog",
+          "topic": "study",
+          "published": "2024-12"
+        },
+        {
+          "url": "https://www.bit.edu.cn/xww/zhxw/jxky1/bdc1975b6e4e418681004e8b8deaf982.htm",
+          "title_orig": "北京理工大学2024年国际学生迎新工作圆满完成",
+          "title_ru": "ППИ успешно провёл приём иностранных первокурсников 2024 года",
+          "summary_ru": "Почти тысяча новых иностранных студентов из ста стран: встреча, заселение, вводные лекции о жизни в Пекине; от первокурсников выступала студентка из России.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "life",
+          "published": "2024-09"
+        },
+        {
+          "url": "https://isc.bit.edu.cn/eventsnotices/de2e00211b3c4673a6bc0e1a65aaf244.htm",
+          "title_orig": "四海学子汇聚北理，携手启程领略中国 ——2025年“留学北理”国际小学期京珠两地精彩启航",
+          "title_ru": "Студенты со всего мира собрались в ППИ: стартовал международный летний семестр 2025 года в Пекине и Чжухае",
+          "summary_ru": "Четырёхнедельная летняя программа для студентов партнёрских вузов, включая МГТУ им. Баумана: профильные курсы, лаборатории, кунг-фу и экскурсии.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "study",
+          "published": "2025-07"
+        },
+        {
+          "url": "https://english.bit.edu.cn/2023-12/04/c_934822.htm",
+          "title_orig": "Apartment Regulations",
+          "title_ru": "Правила проживания в общежитии",
+          "summary_ru": "Правила общежития для иностранцев: общие кухни на этажах, бесплатный лимит электричества, время закрытия дверей и оплата проживания заранее.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": "2023-12"
+        },
+        {
+          "url": "https://english.bit.edu.cn/2023-10/25/c_933597.htm",
+          "title_orig": "Canteens on Liangxiang Campus",
+          "title_ru": "Столовые кампуса Лянсян",
+          "summary_ru": "Описание трёх столовых кампуса Лянсян, включая мусульманскую, с примерным уровнем цен на обычные и фирменные блюда.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": "2023-10"
+        },
+        {
+          "url": "https://english.bit.edu.cn/2023-10/25/c_933618.htm",
+          "title_orig": "School bus",
+          "title_ru": "Университетский автобус",
+          "summary_ru": "Расписание и правила автобуса между кампусами Лянсян и Чжунгуаньцунь: дорога туда и обратно около часа, оплата картой студента.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "campus",
+          "published": "2023-10"
+        },
+        {
+          "url": "https://english.bit.edu.cn/2026-04/10/c_1215954.htm",
+          "title_orig": "[BIT Global] Beijing Institute of Technology provides students with a fully immersive cultural and social life",
+          "title_ru": "ППИ предлагает студентам насыщенную культурную и общественную жизнь",
+          "summary_ru": "Обзор культурных программ для иностранцев: курсы китайского с каллиграфией и кунг-фу, летние школы, международный фестиваль и поездки по Пекину.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": "2026-04"
+        },
+        {
+          "url": "https://english.bit.edu.cn/2026-04/29/c_1215957.htm",
+          "title_orig": "[BIT Global] Competitions and cultural exchange: how international students enrich university life",
+          "title_ru": "Конкурсы и культурный обмен: как иностранные студенты обогащают жизнь университета",
+          "summary_ru": "Иностранные студенты участвуют в конкурсах по китайскому языку, ушу, каллиграфии и выступлениях; в вузе учатся тысячи иностранцев из многих стран.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": "2026-04"
+        },
+        {
+          "url": "https://english.bit.edu.cn/2026-09/16/c_1213772.htm",
+          "title_orig": "International students from 90 countries begin their study journey at BIT",
+          "title_ru": "Иностранные студенты из 90 стран начинают учёбу в ППИ",
+          "summary_ru": "Как встречают новых иностранцев: пункты единого обслуживания, студенты-волонтёры, тест по языку, экскурсии по кампусу, помощь с визой и медосмотром.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": "2026-09"
+        },
+        {
+          "url": "https://isc.bit.edu.cn/campuslife/handbook/index.htm",
+          "title_orig": "Handbook_北京理工大学留学生中心",
+          "title_ru": "Справочник иностранного студента — Центр иностранных студентов ППИ",
+          "summary_ru": "Страница с официальными справочниками для иностранных бакалавров и магистрантов, а также материалами об инфраструктуре вокруг кампуса и достопримечательностях Пекина.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://mp.weixin.qq.com/s/pUy-jMPqrJsEZSNjS_nU6A",
+          "title_orig": "北京理工大学成功举办2024年秋季国际文化节",
+          "title_ru": "В ППИ прошёл осенний международный культурный фестиваль 2024 года",
+          "summary_ru": "Публикация в WeChat о международном культурном фестивале осенью 2024 года; известна только по заголовку на сайте центра иностранных студентов.",
+          "lang": "zh",
+          "platform": "wechat",
+          "topic": "life",
+          "published": null
+        }
+      ]
+    },
+    "beijing-normal-university": {
+      "name_zh": "北京师范大学",
+      "description": {
+        "text_ru": "Пекинский педагогический университет ведёт историю с 1902 года, когда открылось педагогическое отделение Императорского столичного университета, — первое в Китае учебное заведение для подготовки учителей. Главный кампус находится в районе Хайдянь в Пекине, есть также кампусы в Чанпине, Сичэне и Чжухае. Университет известен педагогикой, науками об образовании, а также фундаментальными гуманитарными и естественными дисциплинами.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Beijing_Normal_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://english.bnu.edu.cn/lifeatbnu/housingdining/index.htm",
+          "title_orig": "Housing & Dining-Beijing Normal University",
+          "title_ru": "Проживание и питание — Пекинский педагогический университет",
+          "summary_ru": "Официальная страница: общежития для иностранцев на кампусе с бронированием заранее, правила регистрации при съёме жилья и столовые с оплатой картой студента.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://iso.bnu.edu.cn/en/pages?cid=485&pid=184",
+          "title_orig": "Insurance & Medical Care",
+          "title_ru": "Страховка и медицинская помощь",
+          "summary_ru": "Отдел по работе с иностранными студентами объясняет обязательную медстраховку и где лечиться: университетская больница и крупные клиники поблизости.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://iso.bnu.edu.cn/en/activity?cid=173&pid=3",
+          "title_orig": "Campus Activities",
+          "title_ru": "Студенческие мероприятия",
+          "summary_ru": "Раздел о внеучебной жизни иностранцев: вечер иностранных студентов Пекина, фестиваль культуры и искусства, ежемесячные экскурсии и землячества разных стран.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://iso.bnu.edu.cn/en/pages?cid=440&pid=184",
+          "title_orig": "International Student Volunteer Group",
+          "title_ru": "Волонтёрская группа иностранных студентов",
+          "summary_ru": "Рассказ о волонтёрском объединении из более чем ста иностранных студентов, которое встречает новичков и помогает не чувствовать себя одиноко.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://iso.bnu.edu.cn/en/videos?cid=353&pid=352",
+          "title_orig": "Our Stories @ BNU",
+          "title_ru": "Наши истории в БНУ",
+          "summary_ru": "Подборка коротких видеоисторий иностранных студентов из разных стран, а также ролики о университете и Колледже китайского языка.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://english.bnu.edu.cn/campuslife/index.htm",
+          "title_orig": "Campus Life-Beijing Normal University",
+          "title_ru": "Жизнь кампуса — Пекинский педагогический университет",
+          "summary_ru": "Лента университета о студенческой жизни: серия рассказов иностранных студентов «Мой дневник в БНУ», вечера иностранных студентов, спортивные праздники.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://english.bnu.edu.cn/lifeatbnu/mapscampuses/campuses/index.htm",
+          "title_orig": "Campuses-Beijing Normal University",
+          "title_ru": "Кампусы — Пекинский педагогический университет",
+          "summary_ru": "Официальный обзор четырёх кампусов: Хайдянь, Чанпин, Сичэн в Пекине и Чжухай на юге Китая.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://iso.bnu.edu.cn/en/pages?cid=488&pid=1",
+          "title_orig": "About Beijing",
+          "title_ru": "О Пекине",
+          "summary_ru": "Вводная страница отдела иностранных студентов о Пекине: история столицы, объекты наследия ЮНЕСКО, хутуны и сочетание старого и нового города.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "city",
+          "published": null
+        },
+        {
+          "url": "https://admission-is.bnu.edu.cn/english/faq/0/index.html",
+          "title_orig": "часто задаваемые вопросы",
+          "title_ru": "Часто задаваемые вопросы",
+          "summary_ru": "Русскоязычный раздел частых вопросов на сайте приёма иностранных студентов; содержимое проверить не удалось, известна только ссылка с главной страницы.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "admission",
+          "published": null
+        }
+      ]
+    },
+    "fudan-university": {
+      "name_zh": "复旦大学",
+      "description": {
+        "text_ru": "Университет Фудань находится в Шанхае; главный кампус Ханьдань расположен в районе Янпу. Вуз основан в 1905 году как Публичная школа Фудань и входит в Лигу C9. После слияния в 2000 году с Шанхайским медицинским университетом Фудань стал многопрофильным вузом с сильной медициной; у него четыре кампуса: Ханьдань, Фэнлинь, Чжанцзян и Цзянвань.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Fudan_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://weproject.media/articles/detail/strogaya-distsiplina-i-bolshie-vozmozhnosti-fudan-university-glazami-studentov-iz-tsentralnoy-azii/",
+          "title_orig": "Строгая дисциплина и большие возможности: Fudan University глазами студентов из Центральной Азии",
+          "title_ru": "Строгая дисциплина и большие возможности: Фудань глазами студентов из Центральной Азии",
+          "summary_ru": "Студенты из Казахстана о поступлении, занятиях на китайском и английском, жёстком контроле посещаемости и клубной жизни в Фудане.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "russians",
+          "published": "2022-05"
+        },
+        {
+          "url": "https://spb.hse.ru/news/954018079.html",
+          "title_orig": "«Тяни билет»: Марина Беляева об учебе по обмену в Китае",
+          "title_ru": "«Тяни билет»: об учёбе по обмену в Китае",
+          "summary_ru": "Студентка ВШЭ о годе в Фудане: интенсивный китайский, экономические курсы на китайском, скромное общежитие, прохладная зима и кофейни Шанхая.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "russians",
+          "published": "2024-08"
+        },
+        {
+          "url": "https://www.hse.ru/ba/epa/news/1155999120.html",
+          "title_orig": "Интервью со студенткой 3 курса - Горожанкиной Юлией",
+          "title_ru": "Интервью со студенткой третьего курса",
+          "summary_ru": "Российская студентка о Фудане: пары до обеда, занятия на китайском, удобные платежи, доброжелательные люди и лёгкая адаптация в Шанхае.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "russians",
+          "published": "2026-05"
+        },
+        {
+          "url": "https://spb.hse.ru/soc/news/716074430.html",
+          "title_orig": "«Мобильность исполнила сразу две мои мечты»",
+          "title_ru": "«Мобильность исполнила сразу две мои мечты»",
+          "summary_ru": "Студент-востоковед об онлайн-обучении в Фудане: языковые курсы продвинутого уровня, записи лекций, бизнес-дисциплины и стобалльная система оценок.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "study",
+          "published": "2022-08"
+        },
+        {
+          "url": "https://www.fudan.edu.cn/en/Dorm/list.htm",
+          "title_orig": "Dorm",
+          "title_ru": "Общежитие",
+          "summary_ru": "Официальная страница об общежитиях для иностранцев в кампусах Ханьдань и Фэнлинь: комнаты с санузлом и кондиционером, прачечная, зоны для учёбы.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://iso.fudan.edu.cn/isoenglish/ff/ac/c16215a786348/page.htm",
+          "title_orig": "Autumn 2026 Online Room Reservation for International Student Dormitory on Handan Campus",
+          "title_ru": "Онлайн-бронирование комнат в общежитии для иностранных студентов кампуса Ханьдань на осень 2026 года",
+          "summary_ru": "Официальное объявление о порядке бронирования мест в общежитии для иностранцев на осенний семестр.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://iso.fudan.edu.cn/8b/c5/c16868a166853/page.htm",
+          "title_orig": "公寓简介",
+          "title_ru": "О студенческих апартаментах",
+          "summary_ru": "Официальное описание общежития для иностранцев, включая Азиатский молодёжный центр, где иностранные и китайские студенты живут в общих блоках.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.lse.ac.uk/study-at-lse/study-abroad/go-lse/outbound/destinations/fudan-university",
+          "title_orig": "Study Abroad in China | Top Exchange Programmes & Opportunities - LSE",
+          "title_ru": "Учёба по обмену в Китае: Фудань — программы обмена LSE",
+          "summary_ru": "Описание годового обмена: часть курсов только на китайском, место в общежитии не гарантировано, есть клубы и языковые занятия.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1oq9TBUEAD/",
+          "title_orig": "外国人在中国都变的松弛了？ 留学生采访",
+          "title_ru": "Иностранцы в Китае становятся спокойнее? Интервью с иностранными студентами",
+          "summary_ru": "Интервью с иностранными студентами в кампусе Фуданя о том, как меняется их образ жизни в Китае.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2026-04"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=zxX3rapAzGA",
+          "title_orig": "Inside China’s “Harvard” as a International Student: Fudan Campus Tour 2026",
+          "title_ru": "«Китайский Гарвард» глазами иностранного студента: экскурсия по кампусу Фуданя 2026",
+          "summary_ru": "Подробная видеоэкскурсия по кампусу Фуданя, снятая иностранным студентом.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=lLOMAYNywa4",
+          "title_orig": "Fudan University: International Student Dorm",
+          "title_ru": "Университет Фудань: общежитие для иностранных студентов",
+          "summary_ru": "Видеообзор общежития для иностранных студентов Фуданя.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=bw5QuEVQGKo",
+          "title_orig": "My Typical Day at Fudan University: International Student's Vlog",
+          "title_ru": "Мой обычный день в Фудане: влог иностранного студента",
+          "summary_ru": "Иностранный студент показывает, как проходит его типичный учебный день в Фудане.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=NMG7GCVfgeU",
+          "title_orig": "How I Survived China's Top University as the Only American",
+          "title_ru": "Как я выжил в ведущем вузе Китая, будучи единственным американцем",
+          "summary_ru": "Американский студент рассказывает о своём опыте учёбы в Фудане.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=Mh0NauyXS-U",
+          "title_orig": "moving to china!! // fudan university, apartment tour, shanghai club life 🇨🇳📚✨",
+          "title_ru": "Переезд в Китай: Фудань, обзор жилья и клубная жизнь Шанхая",
+          "summary_ru": "Влог о начале семестра по обмену в Фудане: переезд, обзор жилья и развлечения в Шанхае.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.zhihu.com/question/34320718",
+          "title_orig": "复旦大学的宿舍条件如何? - 知乎",
+          "title_ru": "Какие условия в общежитиях Фуданя?",
+          "summary_ru": "Студенты обсуждают на «Чжиху» условия в общежитиях Фуданя.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.study-abroad.org/ru/blog/cn-best-student-cities/",
+          "title_orig": "Лучшие студенческие города Китая 2026",
+          "title_ru": "Лучшие студенческие города Китая 2026",
+          "summary_ru": "Сравнение студенческих городов Китая; Шанхай представлен как центр международной карьеры с самой высокой в стране стоимостью жизни.",
+          "lang": "ru",
+          "platform": "blog",
+          "topic": "city",
+          "published": "2026-03"
+        }
+      ]
+    },
+    "harbin-institute-of-technology": {
+      "name_zh": "哈尔滨工业大学",
+      "description": {
+        "text_ru": "Харбинский политехнический университет основан в 1920 году как русско-китайское промышленное училище для подготовки железнодорожных инженеров. Главный кампус находится в Харбине (провинция Хэйлунцзян), ещё два — в Вэйхае и Шэньчжэне. Университет известен инженерными и аэрокосмическими исследованиями, в том числе участием в программе пилотируемых кораблей «Шэньчжоу».",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Harbin_Institute_of_Technology"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://www.eastrussia.ru/material/aspirantura-v-kitae-lichnyy-opyt/",
+          "title_orig": "Аспирантура в Китае: личный опыт",
+          "title_ru": "Аспирантура в Китае: личный опыт",
+          "summary_ru": "Российский аспирант ХПУ рассказывает о грантах для иностранцев, требовании HSK, общежитии, плотном расписании, выборе курсов и привыкании к местной еде.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "russians",
+          "published": "2024-11"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=XkhZhvlnrt4",
+          "title_orig": "25; Жизнь и учёба в Китае Цены Харбин ХПИ HIT Студент Харбинского политехнического университета",
+          "title_ru": "Жизнь и учёба в Китае, цены, Харбин: студент Харбинского политехнического университета",
+          "summary_ru": "Русскоязычный влог: ещё один день из жизни студента ХПУ в Харбине — учёба, быт и повседневные расходы.",
+          "lang": "ru",
+          "platform": "youtube",
+          "topic": "russians",
+          "published": "2023-06"
+        },
+        {
+          "url": "https://cetacademicprograms.com/first-days-harbin/",
+          "title_orig": "First days in Harbin – A Rollercoaster of Emotion",
+          "title_ru": "Первые дни в Харбине: эмоциональные американские горки",
+          "summary_ru": "Участник летней языковой программы на базе ХПУ описывает комнату в общежитии с китайским соседом, столовые кампуса и первые впечатления от города.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "life",
+          "published": "2018-07"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=j4twCLn2x8c",
+          "title_orig": "Harbin Institute of Technology Dorm Room Tour",
+          "title_ru": "Обзор комнаты в общежитии Харбинского политехнического университета",
+          "summary_ru": "Короткий видеообзор комнаты в общежитии, где жил участник языковой программы CET в Харбине; запись 2014 года, условия могли измениться.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "dorm",
+          "published": "2014-07"
+        },
+        {
+          "url": "https://www.studyabroad101.com/programs/cet-academic-programs-harbin-intensive-chinese-language/reviews/12823",
+          "title_orig": "Harbin: Great for Chinese Language Skills but Not For The Faint Of Heart",
+          "title_ru": "Харбин: отлично для китайского языка, но не для слабонервных",
+          "summary_ru": "Отзыв участника языковой программы CET в Харбине: сильная языковая практика, но непростые бытовые и климатические условия.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.studyabroad101.com/programs/cet-academic-programs-harbin-intensive-chinese-language/reviews/23429",
+          "title_orig": "Winter -and- Language Wonderland!",
+          "title_ru": "Зимняя и языковая страна чудес!",
+          "summary_ru": "Восторженный отзыв о семестре языковой программы CET в Харбине: холодная зима и интенсивное погружение в китайский.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=pWNpKSmUyXE",
+          "title_orig": "What It’s Really Like to Study at HITSZ as an International Student?",
+          "title_ru": "Каково на самом деле учиться в шэньчжэньском кампусе ХПУ иностранцу?",
+          "summary_ru": "Интервью с иностранными студентами бакалавриата об учёбе в шэньчжэньском филиале ХПУ; полезно для сравнения с главным кампусом в Харбине.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "study",
+          "published": "2025-12"
+        },
+        {
+          "url": "https://cie.hit.edu.cn/2025/0424/c18246a367199/page.htm",
+          "title_orig": "【Hi-Topic】国际教育学院开展首期“校友面对面”活动",
+          "title_ru": "Колледж международного образования провёл первую встречу «Выпускники лицом к лицу»",
+          "summary_ru": "Новость о встрече, на которой иностранные студенты и выпускники ХПУ делились опытом учёбы, изучения языка и адаптации.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "life",
+          "published": "2025-04"
+        },
+        {
+          "url": "https://studyathit.hit.edu.cn/Orientation/list.htm",
+          "title_orig": "Orientation",
+          "title_ru": "Ориентация для новых иностранных студентов",
+          "summary_ru": "Официальный раздел о вводных занятиях: знакомство с Харбином и университетом, правила, проживание, визы, страховка и бытовые советы.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://studyathit.hit.edu.cn/2024/0118/c18336a338015/page.htm",
+          "title_orig": "Safety Tips for Winter Vacation",
+          "title_ru": "Советы по безопасности на зимние каникулы",
+          "summary_ru": "Официальная памятка международного колледжа для иностранных студентов о безопасности во время зимних каникул.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": "2024-01"
+        },
+        {
+          "url": "https://ru.hit.edu.cn/2025/0808/c12152a238999/page.htm",
+          "title_orig": "Программа обучения китайскому языку",
+          "title_ru": "Программа обучения китайскому языку",
+          "summary_ru": "Официальная русскоязычная страница о языковой программе китайского для иностранцев старше 18 лет.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "study",
+          "published": "2025-08"
+        },
+        {
+          "url": "https://cie.hit.edu.cn/2023/1113/c18691a334687/page.htm",
+          "title_orig": "Подготовительные программы - 国际教育学院",
+          "title_ru": "Подготовительные программы — Колледж международного образования",
+          "summary_ru": "Русскоязычная страница о подготовительных программах от четырёх месяцев до года для иностранцев перед поступлением на степень.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "study",
+          "published": "2023-11"
+        },
+        {
+          "url": "https://ru.hit.edu.cn/2025/0906/c12145a239269/page.htm",
+          "title_orig": "Инновационный центр подготовки аспирантов «Китай-ШОС», возглавляемый ХПУ, открылся! Международный кампус ХПУ официально введён в эксплуатацию!",
+          "title_ru": "Открылся центр подготовки аспирантов «Китай-ШОС» во главе с ХПУ; международный кампус ХПУ введён в эксплуатацию",
+          "summary_ru": "Новость об открытии международного кампуса ХПУ, где начала учиться первая группа аспирантов из стран ШОС, включая Россию.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "campus",
+          "published": "2025-09"
+        },
+        {
+          "url": "https://www.zhihu.com/question/27197207",
+          "title_orig": "如何评价哈尔滨工业大学新建留学生宿舍问题？ - 知乎",
+          "title_ru": "Как вы оцениваете вопрос о новом общежитии для иностранных студентов ХПУ?",
+          "summary_ru": "Обсуждение на Чжиху о строительстве нового общежития для иностранцев в ХПУ; отражает взгляд китайских пользователей.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.zhihu.com/question/24394743",
+          "title_orig": "在哈尔滨工业大学（哈尔滨校区）就读是怎么样的体验？ - 知乎",
+          "title_ru": "Каково учиться в Харбинском политехническом университете (кампус в Харбине)?",
+          "summary_ru": "Вопрос на Чжиху, где студенты делятся впечатлениями об учёбе, кампусе и жизни в Харбине; мнения субъективны.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "life",
+          "published": null
+        }
+      ]
+    },
+    "hohai-university": {
+      "name_zh": "河海大学",
+      "description": {
+        "text_ru": "Университет Хохай основан в 1915 году в Нанкине как инженерно-строительная школа Хохай, а нынешнее название носит с 1985 года. Вуз специализируется на гидрологии, водных ресурсах, гидротехническом, береговом и морском строительстве. Главный кампус находится в Нанкине на улице Сикан, второй — в районе Цзяннин, третий — в городе Чанчжоу.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Hohai_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://studychina.chinadaily.com.cn/s/202211/03/WS63a95cae498ea274927ac544/hohai-university.html",
+          "title_orig": "Hohai University",
+          "title_ru": "Университет Хохай — профиль на портале Study in China",
+          "summary_ru": "Карточка вуза на портале China Daily для иностранцев: адрес в Нанкине и перечень программ бакалавриата, магистратуры, докторантуры и краткосрочных курсов.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://hhuxxq.hhu.edu.cn/xxqgk/list.htm",
+          "title_orig": "河海大学常州新校区概况",
+          "title_ru": "Обзор нового кампуса Университета Хохай в Чанчжоу",
+          "summary_ru": "Официальная страница с общими сведениями о новом кампусе университета в городе Чанчжоу.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "campus",
+          "published": null
+        }
+      ]
+    },
+    "huazhong-university-of-science-and-technology": {
+      "name_zh": "华中科技大学",
+      "description": {
+        "text_ru": "Хуачжунский университет науки и технологии — государственный университет в Ухане (провинция Хубэй), образованный в 2000 году слиянием Хуачжунского технологического института (основан в начале 1950-х), Медицинского университета Тунцзи и Уханьского университета городского строительства. Вуз известен инженерными и медицинскими направлениями, а созданная при нём лаборатория оптоэлектроники дала начало технологической зоне «Оптическая долина Китая».",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Huazhong_University_of_Science_and_Technology"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://iso.hust.edu.cn/Administration_Services/Campus_Facilities/Housing___Dining.htm",
+          "title_orig": "International Student Office Huazhong University of Science and Technology",
+          "title_ru": "Офис по делам иностранных студентов Хуачжунского университета науки и технологии",
+          "summary_ru": "Раздел о жилье и питании: для иностранцев выделено несколько корпусов, включая апартаменты «Дружба», везде есть горячая вода и кондиционеры.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://iso.hust.edu.cn/Campus_Life/Dining.htm",
+          "title_orig": "International Student Office Huazhong University of Science and Technology",
+          "title_ru": "Офис по делам иностранных студентов Хуачжунского университета науки и технологии",
+          "summary_ru": "Официальная страница о питании: перечень многочисленных студенческих столовых в восточной и западной частях кампуса.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://english.hust.edu.cn/ADMISSION/International_Education.htm",
+          "title_orig": "International Education",
+          "title_ru": "Международное образование",
+          "summary_ru": "Раздел англоязычного сайта университета о программах и обучении иностранных студентов.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://iso.hust.edu.cn/info/1069/4365.htm",
+          "title_orig": "hust.edu.cn",
+          "title_ru": "Новость офиса по делам иностранных студентов",
+          "summary_ru": "Новость о приезде весной 2023 года группы иностранных студентов, среди которых были студенты по обмену из Удмуртского госуниверситета.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "russians",
+          "published": null
+        },
+        {
+          "url": "https://www.ox.ac.uk/careers/what-we-offer/news/insights-from-a-visit-to-huazhong-university-of-science-and-technology-hust-in",
+          "title_orig": "Insights from a visit to Huazhong University of Science and Technology (HUST) in China",
+          "title_ru": "Впечатления от визита в Хуачжунский университет науки и технологии (Китай)",
+          "summary_ru": "Заметки карьерного центра Оксфорда о визите в университет и увиденном там.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.my.qmul.ac.uk/international/global-opportunities/outgoing-students/exchange-programmes/where-can-i-go/destinations-beyond-europe-iep/huazhong-university-of-science-and-technology/",
+          "title_orig": "Huazhong University of Science and Technology",
+          "title_ru": "Хуачжунский университет науки и технологии",
+          "summary_ru": "Страница британского вуза-партнёра с информацией для студентов, которые едут сюда по обмену.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://ghanaiantimes.com.gh/the-life-of-african-students-in-wuhan-amid-coronavirus-epidemic",
+          "title_orig": "The life of African students in Wuhan amid coronavirus epidemic",
+          "title_ru": "Жизнь африканских студентов в Ухане во время эпидемии коронавируса",
+          "summary_ru": "Африканские студенты нескольких уханьских вузов, включая этот, рассказывают о карантине в общежитиях и поддержке университетов в начале 2020 года.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "life",
+          "published": "2020-02"
+        },
+        {
+          "url": "https://iso.hust.edu.cn/info/1194/4438.htm",
+          "title_orig": "2024 Application Guide for International Undergraduate Students",
+          "title_ru": "Руководство по поступлению на бакалавриат для иностранных студентов, 2024",
+          "summary_ru": "Официальное руководство для иностранцев, подающих заявку на бакалавриат университета (набор 2024 года).",
+          "lang": "en",
+          "platform": "official",
+          "topic": "admission",
+          "published": null
+        }
+      ]
+    },
+    "nanjing-university": {
+      "name_zh": "南京大学",
+      "description": {
+        "text_ru": "Нанкинский университет — государственный исследовательский университет в Нанкине (провинция Цзянсу); современный вуз ведёт историю от педагогической школы Саньцзян, основанной в 1902 году. Основные кампусы — Сяньлинь, Гулоу и Пукоу, есть также кампус в Сучжоу. Университет входит в Лигу C9 и даёт образование по гуманитарным, естественным, инженерным и профессиональным направлениям.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Nanjing_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://njunju.nju.edu.cn/EN/7b/e4/c5070a162788/page.htm",
+          "title_orig": "Housing",
+          "title_ru": "Проживание",
+          "summary_ru": "Официальная страница о жилье: иностранные студенты селятся в общежитиях для иностранцев в кампусе Гулоу или в кампусе Сяньлинь.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://njunju.nju.edu.cn/EN/5070/list.htm",
+          "title_orig": "Dining & Housing",
+          "title_ru": "Питание и проживание",
+          "summary_ru": "Официальный раздел о питании и жилье: в кампусе Сяньлинь заметно больше столовых, чем в Гулоу, есть и рестораны.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://hwxy.nju.edu.cn/",
+          "title_orig": "南京大学海外教育学院",
+          "title_ru": "Институт зарубежного образования Нанкинского университета",
+          "summary_ru": "Сайт подразделения университета, которое работает с иностранными студентами, включая программы китайского языка и новости для иностранцев.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://spb.hse.ru/news/1094951059.html",
+          "title_orig": "«Каждый день был вызовом»: как студентка Питерской Вышки покорила китайскую Лигу плюща",
+          "title_ru": "«Каждый день был вызовом»: как студентка Питерской Вышки покорила китайскую Лигу плюща",
+          "summary_ru": "Студентка ВШЭ рассказывает о годе в Нанкинском университете: расписание, предметы на китайском, спорт в кампусе и недорогая еда.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "russians",
+          "published": "2025-10"
+        },
+        {
+          "url": "https://vk.ru/@ccnsu-karina-nanjing",
+          "title_orig": "Моя жизнь в Китае — высокоскоростной поезд!",
+          "title_ru": "Моя жизнь в Китае — высокоскоростной поезд!",
+          "summary_ru": "Рассказ о стажировке по программе «Новое китаеведение»: кампусы Гулоу и Сяньлинь, двухместная комната в общежитии, одинаковые с китайцами условия.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "russians",
+          "published": "2019-09"
+        },
+        {
+          "url": "https://www.sixthtone.com/news/1009375",
+          "title_orig": "What Life Is Like for One of China’s Stranded International Students",
+          "title_ru": "Как живёт иностранная студентка, которая не может попасть в Китай",
+          "summary_ru": "Студентка из Малайзии рассказывает, как три семестра училась в Нанкинском университете онлайн из-за пандемийного запрета на въезд.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "study",
+          "published": "2022-01"
+        },
+        {
+          "url": "https://www.oxy.edu/admission-aid/student-voices/spring-nanjing",
+          "title_orig": "A Spring in Nanjing",
+          "title_ru": "Весна в Нанкине",
+          "summary_ru": "Студент американского колледжа о языковом семестре в Нанкинском университете: интенсивные занятия, сосед-китаец по комнате, экскурсии и поездки по Китаю.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "life",
+          "published": "2019-07"
+        },
+        {
+          "url": "https://humanitieshonours.sites.uu.nl/2025/11/20/studying-abroad-alongside-humanities-honours/",
+          "title_orig": "Studying Abroad Alongside Humanities Honours",
+          "title_ru": "Учёба за рубежом параллельно с программой Humanities Honours",
+          "summary_ru": "Студентка-историк из Нидерландов о семестре в Нанкинском университете: погружение в китайский язык и бытовые культурные различия.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "study",
+          "published": "2025-11"
+        },
+        {
+          "url": "https://www.iagora.com/studies/uni/Nanjing_University/reviews",
+          "title_orig": "Nanjing University",
+          "title_ru": "Нанкинский университет",
+          "summary_ru": "Отзывы иностранных студентов: отзывчивые преподаватели и ухоженные общежития, но мало общения с китайцами и холодные комнаты зимой.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://sais.jhu.edu/student-experience/living-nanjing-china",
+          "title_orig": "living nanjing china",
+          "title_ru": "Жизнь в Нанкине, Китай",
+          "summary_ru": "Центр Хопкинса–Нанкин при университете: двухместные комнаты с собственным санузлом, обычно иностранец живёт с китайцем; можно снимать жильё вне кампуса.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1PQqrBJE5h/",
+          "title_orig": "巴西妹子晒中国南京大学午餐：花了10块钱，在中国上大学太幸福了！",
+          "title_ru": "Бразильская студентка показывает обед в Нанкинском университете: всего 10 юаней — учиться в Китае так здорово!",
+          "summary_ru": "Студентка из Бразилии показывает обед в университетской столовой за 10 юаней и радуется низким ценам.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2025-12"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1k34y1M7tc/",
+          "title_orig": "韩国留学生自己去中国医院会有什么事呢｜中国保险｜南京大学",
+          "title_ru": "Что будет, если корейский студент сам пойдёт в китайскую больницу | Страховка в Китае | Нанкинский университет",
+          "summary_ru": "Студент из Кореи, обучающийся в Нанкинском университете, показывает самостоятельный поход в китайскую больницу и разбирается со страховкой.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2023-10"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV15F411Q7FK/",
+          "title_orig": "韩国学生的中国留学日记｜ZARA hot girl衣服｜南京大学留学生｜",
+          "title_ru": "Дневник корейской студентки в Китае | Одежда ZARA | Иностранная студентка Нанкинского университета",
+          "summary_ru": "Влог о буднях студентки из Кореи в Нанкинском университете: кампус, покупки и повседневные заботы.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2023-07"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1BF411e7NQ/",
+          "title_orig": "[南京大学]南京大学英文宣传视频/留学生宣传视频",
+          "title_ru": "[Нанкинский университет] Англоязычный промо-ролик для иностранных студентов",
+          "summary_ru": "Англоязычный рекламный ролик университета для иностранных абитуриентов: история вуза и виды кампусов.",
+          "lang": "en",
+          "platform": "bilibili",
+          "topic": "campus",
+          "published": "2021-10"
+        },
+        {
+          "url": "https://www.zhihu.com/question/57015163",
+          "title_orig": "南京大学仙林校区的宿舍条件怎么样？",
+          "title_ru": "Какие условия в общежитиях кампуса Сяньлинь Нанкинского университета?",
+          "summary_ru": "Вопрос на форуме, где студенты описывают общежития кампуса Сяньлинь: планировку, санузлы и бытовые условия.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "campus",
+          "published": null
+        }
+      ]
+    },
+    "peking-university": {
+      "name_zh": "北京大学",
+      "description": {
+        "text_ru": "Пекинский университет (Бэйда) расположен в районе Хайдянь в Пекине. Он основан в 1898 году как Императорский столичный университет и считается одним из старейших вузов материкового Китая. Университет силён в гуманитарных, социальных и естественных науках, а главный кампус Яньюань с озером Вэймин занимает территорию бывших императорских садов.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Peking_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://weproject.media/articles/detail/peking-university-ob-uchebe-v-odnom-iz-luchshikh-vuzov-knr-i-konkurentsii-so-studentami-iz-kitaya/?amp=y",
+          "title_orig": "Peking University. Об учебе в одном из лучших вузов КНР и конкуренции со студентами из Китая",
+          "title_ru": "Пекинский университет: об учёбе в одном из лучших вузов КНР и конкуренции со студентами из Китая",
+          "summary_ru": "Выпускница из Казахстана о подготовительном курсе, требованиях к китайскому, огромном объёме материала и конкурентной, но доброжелательной атмосфере.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "russians",
+          "published": "2021-05"
+        },
+        {
+          "url": "https://snob.ru/society/shchue-ba-khaitszy-uchis-student-xue-ba-hai-zi-kak-ustroeno-vysshee-obrazovanie-v-kitae/",
+          "title_orig": "Щуэ ба, хайцзы! — Учись, студент! — 学吧,孩子. Как устроено высшее образование в Китае",
+          "title_ru": "«Учись, студент!» Как устроено высшее образование в Китае",
+          "summary_ru": "Обзор китайских вузов, включая Пекинский университет, глазами иностранцев: общая с китайцами программа, высокая нагрузка и строгие правила.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "study",
+          "published": "2026-02"
+        },
+        {
+          "url": "https://uceap.universityofcalifornia.edu/programs/peking-university/housing",
+          "title_orig": "Peking University - Housing | UCEAP",
+          "title_ru": "Пекинский университет — проживание (программа обмена Калифорнийского университета)",
+          "summary_ru": "Студенты по обмену живут в комплексе у восточных ворот: своя спальня, общий санузел, спортзал, бассейн и англоязычный персонал круглосуточно.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://fresh.pku.edu.cn/fresh/Doc/2026esfen.pdf",
+          "title_orig": "PEKING UNIVERSITY International Student Guide 北京大学 国际学生 留学指南",
+          "title_ru": "Пекинский университет: путеводитель для иностранных студентов",
+          "summary_ru": "Официальный справочник для новых иностранных студентов о жилье, кампусе и бытовых службах университета.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://isd.pku.edu.cn/en/detail.php?id=821",
+          "title_orig": "Notice on Online Reservation of Zhongguanyuan Global Village Apartments for Spring Semester 2026",
+          "title_ru": "Онлайн-бронирование апартаментов Чжунгуаньюань Global Village на весенний семестр 2026 года",
+          "summary_ru": "Объявление о бронировании жилья рядом с восточными воротами кампуса: мест мало, распределяются в порядке очереди.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://oldisd.pku.edu.cn/ORIENTATION/zwb/cyxx1/yysh1/zs.htm",
+          "title_orig": "住宿 - 国际合作部留学生办公室- 北京大学",
+          "title_ru": "Проживание — Офис по делам иностранных студентов Пекинского университета",
+          "summary_ru": "Официальная памятка: иностранцы живут в общежитиях Шаоюань и Чжунгуань Синьюань, а при съёме жилья вне кампуса нужна регистрация в полиции.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://oldisd.pku.edu.cn/ORIENTATION/zwb/cyxx1/yysh1/shssjfw.htm",
+          "title_orig": "生活设施及服务 - 国际合作部留学生办公室- 北京大学",
+          "title_ru": "Бытовая инфраструктура и услуги — Офис по делам иностранных студентов",
+          "summary_ru": "Перечень служб кампуса: столовые с разными кухнями, больница, почта, банк, супермаркет, прачечная и спортивные объекты.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://fundforeducationabroad.org/journal/living-at-beida/",
+          "title_orig": "Living at Beida",
+          "title_ru": "Жизнь в Бэйда",
+          "summary_ru": "Заметки студента по обмену о первой неделе: трудные уроки китайского, непривычная еда в столовой и прогулки по историческому кампусу у озера Вэймин.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "campus",
+          "published": "2016-06"
+        },
+        {
+          "url": "https://dur.ac.uk/global-durham/global-opportunities/go-study-abroad/where/peking-university/",
+          "title_orig": "peking university",
+          "title_ru": "Пекинский университет — страница программы обмена Даремского университета",
+          "summary_ru": "Описание годового обмена: интенсивный китайский в небольших группах, проживание в комплексе Global Village и примерная оценка расходов на жизнь.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.chinese-forums.com/forums/topic/8371-taking-undergrad-classes-at-beida/",
+          "title_orig": "Taking Undergrad classes at BeiDa",
+          "title_ru": "Посещение бакалаврских курсов в Бэйда",
+          "summary_ru": "Старое обсуждение 2006 года: может ли иностранец без программы степени выбирать предметы на китайском и хватит ли ему языка.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=Ufnd9pxvLyU",
+          "title_orig": "A Day in My Life at Peking University (as an Exchange Student)",
+          "title_ru": "Мой день в Пекинском университете (студент по обмену)",
+          "summary_ru": "Студент по обмену из Германии показывает обычный день: прогулка по кампусу, занятия, еда, вечером баскетбол и спортзал.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=yI0_OvzlsbU",
+          "title_orig": "My Honest Thoughts After 4 Months at Peking University",
+          "title_ru": "Честные впечатления после четырёх месяцев в Пекинском университете",
+          "summary_ru": "Иностранный студент подводит итоги первых месяцев учёбы и жизни в Пекинском университете.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=J6ismKqrKZ4",
+          "title_orig": "留学生生活 （The life of International Student) - Peking (Beijing) University",
+          "title_ru": "Жизнь иностранного студента — Пекинский университет",
+          "summary_ru": "Видео о повседневной жизни иностранного студента в Пекинском университете.",
+          "lang": "zh",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV16t411V7ms/",
+          "title_orig": "【北大清华留学生VLOG】网红们都去哪些店?亲身体验网红的一天!",
+          "title_ru": "Влог иностранных студентов Бэйда и Цинхуа: какие модные заведения посещают блогеры",
+          "summary_ru": "Иностранные студенты пекинских вузов перед отъездом обходят популярные кафе и рестораны Пекина.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "city",
+          "published": "2019-07"
+        },
+        {
+          "url": "https://www.zhihu.com/question/654742535",
+          "title_orig": "北京大学提供什么样的住宿条件？ - 知乎",
+          "title_ru": "Какие условия проживания предлагает Пекинский университет?",
+          "summary_ru": "Студенты обсуждают на «Чжиху» условия в разных общежитиях Пекинского университета.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.zhihu.com/question/28402901",
+          "title_orig": "参加清华北大的留学生考试是什么体验? - 知乎",
+          "title_ru": "Каково сдавать вступительные экзамены для иностранцев в Цинхуа и Бэйда?",
+          "summary_ru": "Иностранные абитуриенты делятся на «Чжиху» опытом вступительных испытаний в два ведущих пекинских вуза.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "admission",
+          "published": null
+        },
+        {
+          "url": "https://www.study-abroad.org/ru/blog/cn-best-student-cities/",
+          "title_orig": "Лучшие студенческие города Китая 2026",
+          "title_ru": "Лучшие студенческие города Китая 2026",
+          "summary_ru": "Сравнение студенческих городов Китая; Пекин описан как академическая столица с большим числом иностранцев и заметным минусом — загрязнённым воздухом.",
+          "lang": "ru",
+          "platform": "blog",
+          "topic": "city",
+          "published": "2026-03"
+        }
+      ]
+    },
+    "shanghai-jiao-tong-university": {
+      "name_zh": "上海交通大学",
+      "description": {
+        "text_ru": "Шанхайский университет Цзяотун основан в Шанхае в 1896 году как Публичная школа Наньян, нынешнее название носит с 1959 года. Он входит в Лигу C9 и известен прежде всего инженерными и медицинскими направлениями. Основные кампусы — исторический Сюйхуэй и крупный Миньхан.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Shanghai_Jiao_Tong_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://www.study-abroad.org/ru/blog/cn-best-student-cities/",
+          "title_orig": "Лучшие студенческие города Китая 2026",
+          "title_ru": "Лучшие студенческие города Китая 2026",
+          "summary_ru": "Сравнение студенческих городов Китая; Шанхай представлен как центр международной карьеры с самой высокой в стране стоимостью жизни.",
+          "lang": "ru",
+          "platform": "blog",
+          "topic": "city",
+          "published": "2026-03"
+        },
+        {
+          "url": "https://en.sjtu.edu.cn/study-sjtu/current/services/72",
+          "title_orig": "1.On-campus Accommodation and Booking Instructions",
+          "title_ru": "Проживание в кампусе и правила бронирования",
+          "summary_ru": "Официальная инструкция для иностранных студентов: варианты общежитий в кампусе и порядок бронирования мест.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.ji.sjtu.edu.cn/academics/ipo/study-at-ji/life-in-shanghai-at-sjtu/",
+          "title_orig": "Life in Shanghai & SJTU",
+          "title_ru": "Жизнь в Шанхае и в SJTU",
+          "summary_ru": "Страница Совместного института SJTU для иностранцев о быте: жильё у кампуса Миньхан, питание и жизнь в Шанхае.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://gk.sjtu.edu.cn/phone/view/1764",
+          "title_orig": "上海交通大学留学生校内住宿情况简介 - 学生住宿 - 上海交通大学信息公开网",
+          "title_ru": "Кратко о проживании иностранных студентов в кампусе SJTU",
+          "summary_ru": "Официальная справка на портале открытой информации университета о том, где и как живут иностранные студенты.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://gk.sjtu.edu.cn/Assets/userfiles/sys_eb538c1c-65ff-4e82-8e6a-a1ef01127fed/files/%E4%B8%8A%E6%B5%B7%E4%BA%A4%E9%80%9A%E5%A4%A7%E5%AD%A6%E5%9B%BD%E9%99%85%E5%AD%A6%E7%94%9F%E5%85%AC%E5%AF%93%E4%BD%8F%E5%AE%BF%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95.pdf",
+          "title_orig": "上海交通大学国际学生公寓住宿管理办法",
+          "title_ru": "Правила проживания в общежитиях для иностранных студентов SJTU",
+          "summary_ru": "Официальный регламент жизни в общежитиях для иностранцев: кто управляет корпусами и какие правила там действуют.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://studychina.chinaservicesinfo.com/s/202109/23/WS614c29d1498e6a12c1205fff/the-introduction-of-on-campus-accommodation-for-international-student-of-sjtu.html",
+          "title_orig": "The Introduction of On-campus Accommodation for International Student of SJTU",
+          "title_ru": "Проживание в кампусе для иностранных студентов SJTU",
+          "summary_ru": "Обзор общежитий для иностранцев в двух кампусах, онлайн-бронирования, регистрации после приезда и вариантов жилья вне кампуса.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "dorm",
+          "published": "2021-09"
+        },
+        {
+          "url": "https://ug.bm.ust.hk/me/doc/down/ExchangeOutReports/1630/20255857/Q3_R_d6kGlADdDo9qGwJ_Exchange%20Report%20-%20SJTU.pdf",
+          "title_orig": "Lost in Shanghai. Shanghai Jiao Tong University, 2017 Spring",
+          "title_ru": "Потерянный в Шанхае: отчёт об обмене в SJTU, весна 2017",
+          "summary_ru": "Студент из Гонконга о семестре: четырёхместные комнаты в Миньхане, душ по расписанию, много столовых, большинство курсов на китайском.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://wentchina.com/sjtu-student-life-2026/",
+          "title_orig": "Student Life at Shanghai Jiao Tong University: Campus and Shanghai Guide",
+          "title_ru": "Студенческая жизнь в SJTU: путеводитель по кампусу и Шанхаю",
+          "summary_ru": "Обзор общежитий, столовых, спортивных объектов кампуса Миньхан и транспорта по Шанхаю для иностранных студентов.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=0WnHPLsNrLA",
+          "title_orig": "Shanghai Jiao Tong University Q&A // dorms, classes etc. // My year abroad in China at SJTU🇨🇳📖",
+          "title_ru": "Вопросы и ответы о SJTU: общежития, занятия и год учёбы в Китае",
+          "summary_ru": "Иностранный студент отвечает на вопросы о годе учёбы в SJTU: общежития, занятия и повседневная жизнь.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=dCJ4p1iAL6Q",
+          "title_orig": "Day in the Life at SJTU",
+          "title_ru": "Один день в SJTU",
+          "summary_ru": "Иностранный студент из Малайзии показывает свой обычный день в Шанхайском университете Цзяотун.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=jLAEpTpM6gM",
+          "title_orig": "Campus life of a SJTU international student",
+          "title_ru": "Жизнь иностранного студента в кампусе SJTU",
+          "summary_ru": "Видео о том, каково учиться в SJTU иностранцу; герой ролика — студент из Норвегии.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=p4-8loa5cEo",
+          "title_orig": "Shanghai Jiao Tong University dormitory || SJTU International students Dorm || Part 2",
+          "title_ru": "Общежитие SJTU для иностранных студентов, часть 2",
+          "summary_ru": "Видеообзор комнат и обстановки в общежитии для иностранных студентов SJTU.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=5yP05WmITbU",
+          "title_orig": "A day in My life as a Shanghai Jiaotong University Student",
+          "title_ru": "Мой день студента Шанхайского университета Цзяотун",
+          "summary_ru": "Иностранная студентка бакалавриата из Болгарии показывает свой учебный день в Шанхае.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        }
+      ]
+    },
+    "shanghai-university": {
+      "name_zh": "上海大学",
+      "description": {
+        "text_ru": "Шанхайский университет в нынешнем виде создан в 1994 году слиянием нескольких шанхайских вузов, а свою историю ведёт от одноимённого университета, основанного в 1922 году. Это многопрофильный исследовательский университет с тремя основными кампусами — в районах Баошань, Цзиньань (Яньчан) и Цзядин.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Shanghai_University",
+          "https://ru.wikipedia.org/wiki/%D0%A8%D0%B0%D0%BD%D1%85%D0%B0%D0%B9%D1%81%D0%BA%D0%B8%D0%B9_%D1%83%D0%BD%D0%B8%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%82%D0%B5%D1%82"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://studychina.chinadaily.com.cn/s/202211/03/WS63a95ca0498ea274927ac53e/shanghai-university.html",
+          "title_orig": "Shanghai University",
+          "title_ru": "Шанхайский университет — профиль на портале Study in China",
+          "summary_ru": "Карточка вуза на портале China Daily для иностранцев: адрес кампуса Баошань и перечень программ бакалавриата, магистратуры, докторантуры и краткосрочных курсов.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://wenhui.whb.cn/third/jinri/202009/13/370513.html",
+          "title_orig": "1.1万余名新生身着八色新生服，开启全新大学生活！上海大学今举行2020年新生开学典礼",
+          "title_ru": "Более 11 тысяч первокурсников в форме восьми цветов начали студенческую жизнь: церемония открытия учебного года 2020",
+          "summary_ru": "Репортаж газеты «Вэньхуэй бао» о церемонии посвящения первокурсников Шанхайского университета в 2020 году.",
+          "lang": "zh",
+          "platform": "media",
+          "topic": "campus",
+          "published": "2020-09"
+        }
+      ]
+    },
+    "shenzhen-msu-bit-university": {
+      "name_zh": "深圳北理莫斯科大学",
+      "description": {
+        "text_ru": "Первый совместный российско-китайский университет: основан в 2016 году МГУ имени Ломоносова и Пекинским политехническим институтом при поддержке правительства Шэньчжэня, первых студентов принял в 2017 году. Кампус находится в районе Лунган на юге Китая, а его главный корпус построен по образцу здания МГУ. Обучение ведётся на китайском, русском и английском языках.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Shenzhen_MSU%E2%80%93BIT_University",
+          "https://en.smbu.edu.cn/About_the_University.htm"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://ru.smbu.edu.cn/info/1033/1249.htm",
+          "title_orig": "Общежития МГУ-ППИ",
+          "title_ru": "Общежития МГУ-ППИ",
+          "summary_ru": "Официальное описание общежитий на кампусе: сколько человек живёт в комнате, удобства, кухни на этажах, охрана и годовая стоимость проживания.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "dorm",
+          "published": "2022-06"
+        },
+        {
+          "url": "https://ru.smbu.edu.cn/info/1029/1112.htm",
+          "title_orig": "Российский студент в совместном китайско-российском университете на юге Китая",
+          "title_ru": "Российский студент в совместном китайско-российском университете на юге Китая",
+          "summary_ru": "Студент из России рассказывает о плотном учебном графике, привыкании к местной еде и языку и о планах на два диплома.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "russians",
+          "published": "2018-11"
+        },
+        {
+          "url": "https://ru.smbu.edu.cn/Admissions/After_admission.htm",
+          "title_orig": "После поступления",
+          "title_ru": "После поступления",
+          "summary_ru": "Памятка для зачисленных иностранцев: проживание, страховка, вид на жительство, SIM-карта, запрет на подработку и примерные расходы на питание.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "admission",
+          "published": null
+        },
+        {
+          "url": "https://bio.msu.ru/incoming/msu-bit/",
+          "title_orig": "Университет МГУ-ППИ в Шэньчжэне - Биологический факультет МГУ имени М.В.Ломоносова",
+          "title_ru": "Университет МГУ-ППИ в Шэньчжэне — страница биологического факультета МГУ",
+          "summary_ru": "Страница для российских абитуриентов: общежитие рядом с учебными корпусами, стипендии, обучение на русском и английском, лабораторная практика.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "admission",
+          "published": null
+        },
+        {
+          "url": "https://www.eyeshenzhen.com/content/2025-09/05/content_31683833.htm",
+          "title_orig": "A Russian Student's Adventure: Study, Volunteer, Explore",
+          "title_ru": "Приключения российской студентки: учёба, волонтёрство, путешествия",
+          "summary_ru": "Студентка-биолог из России рассказывает о двух дипломах, волонтёрстве на олимпиаде и о том, каким зелёным оказался Шэньчжэнь.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "russians",
+          "published": "2025-09"
+        },
+        {
+          "url": "https://www.eyeshenzhen.com/content/2026-01/23/content_31912464.htm",
+          "title_orig": "My first year in Shenzhen",
+          "title_ru": "Мой первый год в Шэньчжэне",
+          "summary_ru": "Иностранная студентка-экономист описывает первый год учёбы, привыкание к городу и сочетание мегаполиса с доступной природой.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "city",
+          "published": "2026-01"
+        },
+        {
+          "url": "https://www.news.cn/world/20260904/7221335f1c25429aa687d0e145cce00b/c.html",
+          "title_orig": "深圳北理莫斯科大学搭建中俄合作人才之桥",
+          "title_ru": "Университет МГУ-ППИ в Шэньчжэне строит мост для российско-китайских кадров",
+          "summary_ru": "Репортаж агентства Синьхуа о совместной учёбе китайских и российских студентов, двуязычных занятиях и культурных фестивалях на кампусе.",
+          "lang": "zh",
+          "platform": "media",
+          "topic": "russians",
+          "published": "2026-09"
+        },
+        {
+          "url": "https://iz.ru/1093028/tcin-iuichen/matematika-v-osoboi-zone",
+          "title_orig": "Математика в особой зоне",
+          "title_ru": "Математика в особой зоне",
+          "summary_ru": "Статья «Известий» о том, как устроено обучение в совместном вузе и как преподаватели помогают студентам преодолевать языковой барьер.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "study",
+          "published": "2020-12"
+        },
+        {
+          "url": "https://en.smbu.edu.cn/info/1018/1526.htm",
+          "title_orig": "Chinese Language Center-SHENZHEN MSU-BIT UNIVERSITY",
+          "title_ru": "Центр китайского языка Университета МГУ-ППИ",
+          "summary_ru": "Официальная страница центра, который ведёт курсы китайского для иностранцев, принимает экзамен HSK и запустил программу для русскоязычных студентов.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "study",
+          "published": "2025-06"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=MLnvHBwTP5s",
+          "title_orig": "Закончила МГУ в Китае? / мой опыт обучения в Китае,языковые курсы, бакалавриат в МГУ-ППИ",
+          "title_ru": "Закончила МГУ в Китае? Мой опыт учёбы: языковые курсы и бакалавриат в МГУ-ППИ",
+          "summary_ru": "Русскоязычная студентка делится опытом: языковые курсы в Китае и учёба в бакалавриате МГУ-ППИ; первая часть рассказа.",
+          "lang": "ru",
+          "platform": "youtube",
+          "topic": "russians",
+          "published": "2024-08"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=rQZCf7XaInE",
+          "title_orig": "VLOG Один день из жизни студента в МГУ-ППИ в Шэньчжэне",
+          "title_ru": "Влог: один день из жизни студента МГУ-ППИ в Шэньчжэне",
+          "summary_ru": "Русскоязычная студентка-первокурсница биологического направления показывает обычный учебный день и быт на кампусе в Шэньчжэне.",
+          "lang": "ru",
+          "platform": "youtube",
+          "topic": "russians",
+          "published": "2023-07"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=OrcHs41bMzY",
+          "title_orig": "Интервью со студентами МГУ в Шэнчьжэне",
+          "title_ru": "Интервью со студентами МГУ в Шэньчжэне",
+          "summary_ru": "Русскоязычный блогер, переехавший в Китай, расспрашивает студентов МГУ-ППИ об их опыте учёбы в Шэньчжэне.",
+          "lang": "ru",
+          "platform": "youtube",
+          "topic": "russians",
+          "published": "2026-04"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=twEe3LTdvOY",
+          "title_orig": "МГУ в Шэньчжэнь. Китайская подделка или гнездо российской науки в Китае?",
+          "title_ru": "МГУ в Шэньчжэне: китайская подделка или гнездо российской науки в Китае?",
+          "summary_ru": "Почти получасовой русскоязычный видеообзор совместного университета: кто его учредил и что он собой представляет на деле.",
+          "lang": "ru",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": "2025-04"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1ym421s7bG/",
+          "title_orig": "我上的奇怪大学，出租车司机都不知道在哪，却齐名北理和莫斯科大学",
+          "title_ru": "Мой странный университет: таксисты не знают, где он, а носит имена ППИ и МГУ",
+          "summary_ru": "Видео от лица студента о вузе, который мало кому известен даже среди местных таксистов, несмотря на громкие имена учредителей.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "campus",
+          "published": "2024-05"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1P64y1M7VV/",
+          "title_orig": "四分钟带你了解深北莫 | 深圳北理莫斯科大学诞生记【深北莫】【宣传片】",
+          "title_ru": "За четыре минуты об МГУ-ППИ: история создания университета (промо-ролик)",
+          "summary_ru": "Официальный ролик приёмной комиссии о том, как создавался университет и как выглядит кампус.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "campus",
+          "published": "2020-04"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1vm4y1F7WZ/",
+          "title_orig": "深圳北理莫斯科大学首届知识科学文化节回顾",
+          "title_ru": "Первый фестиваль знаний, науки и культуры в МГУ-ППИ: обзор",
+          "summary_ru": "Официальная видеохроника первого студенческого фестиваля науки и культуры, дающая представление о внеучебной жизни кампуса.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2022-10"
+        },
+        {
+          "url": "https://www.zhihu.com/question/62565509",
+          "title_orig": "就读于深圳北理莫斯科大学(MSU-BIT)是怎样的体验？",
+          "title_ru": "Каково учиться в Университете МГУ-ППИ в Шэньчжэне?",
+          "summary_ru": "Обсуждение на Чжиху, где студенты разных лет делятся впечатлениями об учёбе и жизни в университете; мнения субъективны.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.zhihu.com/question/661362662",
+          "title_orig": "深圳北理莫斯科大学宿舍? - 知乎",
+          "title_ru": "Какие общежития в Университете МГУ-ППИ?",
+          "summary_ru": "Вопрос на Чжиху об общежитиях университета с ответами пользователей о комнатах и условиях проживания.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "dorm",
+          "published": null
+        }
+      ]
+    },
+    "southern-university-of-science-and-technology": {
+      "name_zh": "南方科技大学",
+      "description": {
+        "text_ru": "Южный университет науки и технологий (SUSTech) основан в 2010 году в районе Наньшань города Шэньчжэнь провинции Гуандун. Это молодой исследовательский университет с упором на естественные науки и технологии, входящий в государственную программу «Двойной первый класс».",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Southern_University_of_Science_and_Technology"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://global.sustech.edu.cn/en/international_students",
+          "title_orig": "International Students-SUSTech Global",
+          "title_ru": "Иностранные студенты — международный портал SUSTech",
+          "summary_ru": "Первые иностранцы приехали в 2016 году; сейчас учатся студенты из десятка стран, включая Россию и Казахстан; профильный центр помогает освоиться.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.sustech.edu.cn/en/housing.html",
+          "title_orig": "Housing - SUSTech",
+          "title_ru": "Жильё — SUSTech",
+          "summary_ru": "Официальная страница университета о размещении студентов в общежитиях на кампусе.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.sustech.edu.cn/en/residential-colleges.html",
+          "title_orig": "Residential Colleges - SUSTech",
+          "title_ru": "Студенческие колледжи (шуюани) — SUSTech",
+          "summary_ru": "Система колледжей проживания: студент выбирает колледж, получает куратора из числа преподавателей и участвует во внеучебной жизни сообщества.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.sustech.edu.cn/en/campus-life.html",
+          "title_orig": "Campus Life - SUSTech",
+          "title_ru": "Жизнь в кампусе — SUSTech",
+          "summary_ru": "Больше ста студенческих клубов: спорт, наука, танцы, предпринимательство, искусство, технологии, волонтёрство и самооборона.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://global.sustech.edu.cn/en/news/detail/nid-162",
+          "title_orig": "Off-Campus Accommodations near SUSTech",
+          "title_ru": "Жильё вне кампуса рядом с SUSTech",
+          "summary_ru": "Заметка международного отдела о вариантах проживания за пределами кампуса поблизости от университета.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://global.sustech.edu.cn/en/news/detail/nid-151",
+          "title_orig": "SUSTech Welcomes International Exchange Students for New Semester",
+          "title_ru": "SUSTech встречает иностранных студентов по обмену в новом семестре",
+          "summary_ru": "Новость международного отдела о приезде иностранных студентов по обмену к началу нового семестра.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://global.rutgers.edu/program-search/details/southern-university-science-and-technology-china",
+          "title_orig": "Southern University of Science and Technology (China) | Rutgers Global",
+          "title_ru": "SUSTech — программа обмена Ратгерского университета",
+          "summary_ru": "Для студентов по обмену: четырёхместные комнаты с общими душевыми, готовить нельзя, жильё только на кампусе; курсы на китайском и английском.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://m.thepaper.cn/baijiahao_21036297",
+          "title_orig": "中国大学宿舍，你最想住哪一个？",
+          "title_ru": "Общежития китайских вузов: в каком вы хотели бы жить?",
+          "summary_ru": "Обзор опроса студентов об общежитиях: SUSTech оказался первым по удовлетворённости жильём, в том числе благодаря комнатам в стиле лофт.",
+          "lang": "zh",
+          "platform": "media",
+          "topic": "dorm",
+          "published": "2022-12"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1Wa4y1W7vd/",
+          "title_orig": "【VLOG】我与南科初相遇——在南方科技大学上学是一种怎样的体验！",
+          "title_ru": "Влог: первая встреча с SUSTech — каково здесь учиться",
+          "summary_ru": "Четырёхминутный влог первокурсника: учебный день, поездки на кампусном автобусе и впечатления от первых месяцев в университете.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2020-12"
+        },
+        {
+          "url": "https://www.bilibili.com/s/video/BV13T4y1j7JX",
+          "title_orig": "【仿vlog】南方科技大学14栋致新书院宿舍楼",
+          "title_ru": "Влог: корпус общежития №14 колледжа Чжисинь в SUSTech",
+          "summary_ru": "Прогулка по корпусу общежития: учебный центр, зоны отдыха, коридоры, санузлы, интерьер комнат и вид из окон.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "dorm",
+          "published": "2020-07"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1Yr4y1v7fC/",
+          "title_orig": "南科大博士生单人宿舍～",
+          "title_ru": "Одноместная комната аспиранта в SUSTech",
+          "summary_ru": "Короткий ролик, показывающий одноместную комнату в общежитии для аспирантов-докторантов SUSTech.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "dorm",
+          "published": "2022-01"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1Dt411r7d5/",
+          "title_orig": "【南方科技大学】致新书院-冬至家宴",
+          "title_ru": "SUSTech: праздничный ужин колледжа Чжисинь в день зимнего солнцестояния",
+          "summary_ru": "Видео о домашнем празднике в студенческом колледже, где ребята из разных уголков страны отмечают зимнее солнцестояние вместе.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2018-12"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1B64y167Hu/",
+          "title_orig": "『久のvlog』南方科技大学荔枝文化节！",
+          "title_ru": "Влог: фестиваль личи в SUSTech",
+          "summary_ru": "Короткий влог о кампусном фестивале личи, где студенты собирают плоды прямо на территории университета.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2021-06"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1So4y1f7A5/",
+          "title_orig": "在新型研究型大学读书是怎么一种体验？",
+          "title_ru": "Каково учиться в исследовательском университете нового типа?",
+          "summary_ru": "Официальное видео SUSTech о том, как устроены учёба и студенческая жизнь в молодом исследовательском университете.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "study",
+          "published": "2021-04"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1AZ421s7Up/",
+          "title_orig": "【南方科技大学】这里是南方科技大学！",
+          "title_ru": "Это Южный университет науки и технологий!",
+          "summary_ru": "Официальный ролик-знакомство с университетом, его девизом и ставкой на инновации и реформу образования.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "campus",
+          "published": "2024-05"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1Ey411e7A7/",
+          "title_orig": "参观南方科技大学，只能说太🐮🍺了",
+          "title_ru": "Экскурсия по SUSTech: просто потрясающе",
+          "summary_ru": "Популярное видео блогера, приехавшего посмотреть кампус SUSTech и поделиться восторженными впечатлениями.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "campus",
+          "published": "2024-05"
+        }
+      ]
+    },
+    "sun-yat-sen-university": {
+      "name_zh": "中山大学",
+      "description": {
+        "text_ru": "Университет Сунь Ятсена — государственный университет в Гуанчжоу (провинция Гуандун), основанный в 1924 году Сунь Ятсеном под названием Национальный Гуандунский университет. У него три кампуса в Гуанчжоу, а также кампусы в Чжухае и Шэньчжэне. Университет известен медицинской школой Чжуншань с большой сетью аффилированных больниц и бизнес-колледжем Линнань.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Sun_Yat-sen_University"
+        ]
+      },
+      "links": []
+    },
+    "tongji-university": {
+      "name_zh": "同济大学",
+      "description": {
+        "text_ru": "Университет Тунцзи — государственный университет в Шанхае, основанный в 1907 году немецкими врачами как Немецкая медицинская школа для китайцев. Главный кампус Сыпин находится в районе Янпу, есть также кампус Цзядин и другие площадки. Вуз особенно известен архитектурой и гражданским строительством и сохраняет тесные связи с Германией.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Tongji_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://studychina.chinaservicesinfo.com/s/202603/25/WS69c34336498e23165e06e535/tongji-university-launches-intl-student-community.html",
+          "title_orig": "Tongji University launches intl student community",
+          "title_ru": "Университет Тунцзи открыл жилой комплекс для иностранных студентов",
+          "summary_ru": "В районе Уцзяочан открылся комплекс из пяти корпусов почти на 760 иностранных студентов; первые жильцы заселились в марте 2026 года.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "dorm",
+          "published": "2026-03"
+        },
+        {
+          "url": "https://blogs.upm.es/sino-spanishcampus/campus-life/",
+          "title_orig": "Siping campus – Sino-Spanish Campus",
+          "title_ru": "Кампус Сыпин — Китайско-испанский кампус",
+          "summary_ru": "Практический гид по кампусу Сыпин: двухместные комнаты в общежитии для иностранцев, столовые, спортивные клубы; водопроводную воду пить нельзя.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://blogs.upm.es/sino-spanishcampus/jiading-campus/",
+          "title_orig": "Jiading Campus – Sino-Spanish Campus",
+          "title_ru": "Кампус Цзядин — Китайско-испанский кампус",
+          "summary_ru": "Гид по кампусу Цзядин: общежитие с общими кухнями на этажах, недорогая столовая, метро, шаттл до Сыпина и кампусная больница.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://utsthinkglobal.com/2024/06/11/tongji-university-china-3/",
+          "title_orig": "Tongji University, China",
+          "title_ru": "Университет Тунцзи, Китай",
+          "summary_ru": "Студент по обмену из Австралии советует заранее решить вопрос жилья, сим-карты, банковского счёта и мобильных платежей; иностранцев принимают не все квартиры.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "life",
+          "published": "2024-06"
+        },
+        {
+          "url": "https://utsthinkglobal.com/2019/04/17/tongji-university-china-2/",
+          "title_orig": "Tongji University, China",
+          "title_ru": "Университет Тунцзи, Китай",
+          "summary_ru": "Участник обмена об англоязычных курсах по бизнесу в Китае и о том, что вокруг кампуса без китайского языка трудно.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "study",
+          "published": "2019-04"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=cpmNlRd9dxg",
+          "title_orig": "A DAY IN MY LIFE AT TONGJI UNIVERSITY (SHANGHAI) - Studying abroad in China",
+          "title_ru": "Один день из моей жизни в Университете Тунцзи (Шанхай) — учёба за границей в Китае",
+          "summary_ru": "Влог иностранного студента о том, как проходит обычный учебный день в Тунцзи.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=l3PDTM2J-ow",
+          "title_orig": "Uni Vlog| first week in Tongji University, Shanghai🎧lectures, new friends, workout, exploring&more!!",
+          "title_ru": "Университетский влог | первая неделя в Тунцзи, Шанхай: лекции, новые друзья, тренировки, прогулки и не только",
+          "summary_ru": "Влог о первой неделе учёбы: лекции, знакомства, спорт и прогулки по Шанхаю.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=jFskyg01lHE",
+          "title_orig": "Have you ever wondered about life as an international student at Tongji University?",
+          "title_ru": "Хотите узнать, какова жизнь иностранного студента в Университете Тунцзи?",
+          "summary_ru": "Ролик о двух иностранных бакалаврах, среди них студент из Малайзии, изучающий международную экономику и торговлю.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=Qd1z0Igqnv8",
+          "title_orig": "Beautiful accommodation for international students of Tongji University (Zhangwu Campus Dorm 4)",
+          "title_ru": "Красивое общежитие для иностранных студентов Тунцзи (кампус Чжанъу, корпус 4)",
+          "summary_ru": "Видеообзор общежития для иностранных студентов в кампусе Чжанъу.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=wx7cbl7LlKc",
+          "title_orig": "Tongji University Official Video for International Students 2021",
+          "title_ru": "Официальный видеоролик Университета Тунцзи для иностранных студентов, 2021",
+          "summary_ru": "Официальный ролик университета, адресованный иностранным студентам и абитуриентам.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1fu4y1G7bq/",
+          "title_orig": "同济大学食堂都吃什么？打饭打菜像打仗，我最紧张的大学食堂体验",
+          "title_ru": "Что едят в столовых Тунцзи? Очередь на раздаче как битва — мой самый нервный опыт в университетской столовой",
+          "summary_ru": "Повар из Австрии, ведущий блог на китайском, пробует блюда в столовых Тунцзи и показывает, как устроена раздача.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2023-12"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1NF411k79h/",
+          "title_orig": "土木工程全国排第一的院校，学生天天吃这些？！【去你学校看看ep1-同济大学】",
+          "title_ru": "Лучший в стране вуз по гражданскому строительству — и студенты каждый день едят это?! [Заглянем в твой вуз, эп. 1 — Тунцзи]",
+          "summary_ru": "Блогеры обходят столовые Тунцзи и показывают, чем студенты питаются каждый день.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2023-08"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV11jMq6vEpz/",
+          "title_orig": "同济大学，爱给学生饭卡打钱的顶级学府",
+          "title_ru": "Университет Тунцзи — топовый вуз, который любит пополнять студентам карты на питание",
+          "summary_ru": "Ролик из серии обзоров университетских столовых о том, как вуз доплачивает студентам на карты питания.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "life",
+          "published": "2026-07"
+        },
+        {
+          "url": "https://zhuanlan.zhihu.com/p/390992673",
+          "title_orig": "同济大学宿舍条件怎么样？（学三、四、五，博士公寓，彰武三）",
+          "title_ru": "Какие условия в общежитиях Тунцзи? (корпуса Сюэ-3, 4, 5, аспирантские апартаменты, Чжанъу-3)",
+          "summary_ru": "Студенческий обзор нескольких общежитий кампуса Сыпин, включая корпус на улице Чжанъу.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://study.tongji.edu.cn/Russian.pdf",
+          "title_orig": "tongji.edu.cn",
+          "title_ru": "Правила приёма иностранцев на бакалавриат (русская версия)",
+          "summary_ru": "Официальный документ на русском языке с правилами приёма иностранцев на бакалавриат с обучением на китайском, набор 2023 года.",
+          "lang": "ru",
+          "platform": "official",
+          "topic": "admission",
+          "published": null
+        }
+      ]
+    },
+    "tsinghua-university": {
+      "name_zh": "清华大学",
+      "description": {
+        "text_ru": "Университет Цинхуа находится в районе Хайдянь на северо-западе Пекина. Он основан в 1911 году как подготовительная школа для китайских студентов, отправлявшихся учиться в США. Цинхуа известен прежде всего инженерными направлениями, входит в Лигу C9, а его кампус занимает территорию бывших императорских садов династии Цин.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Tsinghua_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://t-j.ru/tsinkhua-pekin/",
+          "title_orig": "Я учился по обмену в Школе экономики и менеджмента Университета Цинхуа в Пекине",
+          "title_ru": "Я учился по обмену в Школе экономики и менеджмента Университета Цинхуа в Пекине",
+          "summary_ru": "Российский студент об обмене в Цинхуа: курсы на английском, много домашней работы, общежитие с общей кухней и реальный бюджет поездки.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "russians",
+          "published": "2024-03"
+        },
+        {
+          "url": "https://www.spbstu.ru/pdf_news/view/politekhnik-anastasiya-voevodina-ne-boytes-vykhodit-iz-zony-komforta.pdf",
+          "title_orig": "Политехник Анастасия Воеводина: «Не бойтесь выходить из зоны комфорта»",
+          "title_ru": "Студентка Политеха: «Не бойтесь выходить из зоны комфорта»",
+          "summary_ru": "Петербургская студентка о семестре в Цинхуа: почти нет английского в быту, огромный кампус, общежитие с иностранной соседкой, упор на самостоятельную работу.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "russians",
+          "published": null
+        },
+        {
+          "url": "https://www.tsinghua.edu.cn/en/info/1326/13385.htm",
+          "title_orig": null,
+          "title_ru": "Студентка из России, Школа экономики и менеджмента — Университет Цинхуа",
+          "summary_ru": "Отзыв российской студентки на официальном сайте: кампус со спортзалами, кафе и библиотеками, друзья со всего мира, спортивные секции.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "russians",
+          "published": null
+        },
+        {
+          "url": "https://snob.ru/society/shchue-ba-khaitszy-uchis-student-xue-ba-hai-zi-kak-ustroeno-vysshee-obrazovanie-v-kitae/",
+          "title_orig": "Щуэ ба, хайцзы! — Учись, студент! — 学吧,孩子. Как устроено высшее образование в Китае",
+          "title_ru": "«Учись, студент!» Как устроено высшее образование в Китае",
+          "summary_ru": "Обзор китайских вузов, включая Цинхуа, глазами иностранцев: учёба наравне с китайцами, большая нагрузка, строгие правила и важность китайского языка.",
+          "lang": "ru",
+          "platform": "media",
+          "topic": "study",
+          "published": "2026-02"
+        },
+        {
+          "url": "https://www.timeshighereducation.com/student/blogs/international-perspective-american-student-china",
+          "title_orig": "International perspective: an American student in China",
+          "title_ru": "Взгляд со стороны: американский студент в Китае",
+          "summary_ru": "Студент из США о Цинхуа: быстрый темп и сильная конкуренция, но однокурсники охотно помогают; рассказывает о спорте и студенческих объединениях.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "study",
+          "published": "2018-08"
+        },
+        {
+          "url": "https://uceap.universityofcalifornia.edu/programs/tsinghua-university/housing",
+          "title_orig": "Tsinghua University - Housing | UCEAP",
+          "title_ru": "Университет Цинхуа — проживание (программа обмена Калифорнийского университета)",
+          "summary_ru": "Студенты по обмену живут в общежитиях Цзыцзин у северо-восточных ворот: до занятий 5–10 минут пешком или на велосипеде, в части корпусов есть кухни.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://is.tsinghua.edu.cn/dfadfgasq/Accommodationq.htm",
+          "title_orig": "Accommodation-Tsinghua International Students & Scholars Center",
+          "title_ru": "Проживание — Центр иностранных студентов и учёных Цинхуа",
+          "summary_ru": "Официальная информация о жилье для иностранцев: корпуса Цзыцзин и Азиатский молодёжный центр, одноместные, двухместные и блочные комнаты с кондиционером.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://is.tsinghua.edu.cn/Accommodationguide2026.pdf",
+          "title_orig": "International Student Apartments Accommodation Guide 国际学生公寓住宿生活指南",
+          "title_ru": "Путеводитель по проживанию в общежитиях для иностранных студентов",
+          "summary_ru": "Двуязычный официальный справочник о заселении, нужных документах, стойке обслуживания и правилах жизни в общежитиях для иностранцев.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.tsinghua.edu.cn/en/Campus/Student_Life/Housing___Dining.htm",
+          "title_orig": "Housing & Dining-Tsinghua University",
+          "title_ru": "Жильё и питание — Университет Цинхуа",
+          "summary_ru": "Официальный раздел сайта Цинхуа о проживании и питании студентов на территории кампуса.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://globalbusinessjournalism.com/life-on-campus",
+          "title_orig": "Campus Life | GBJprogram",
+          "title_ru": "Жизнь в кампусе — магистерская программа деловой журналистики Цинхуа",
+          "summary_ru": "Видео иностранных магистрантов, в том числе из России и Беларуси: обзор общежития Цзыцзин, столовые, распорядок дня и зимний кампус.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.chinese-forums.com/forums/topic/38313-tsinghua-university-zijing-dorm/",
+          "title_orig": "Tsinghua University Zijing Dorm",
+          "title_ru": "Общежитие Цзыцзин в Университете Цинхуа",
+          "summary_ru": "Форумное обсуждение 2012 года: двухместные, блочные и одноместные комнаты, чистота и советы, как заранее выбрать подходящий вариант.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1Gq4y197DF/",
+          "title_orig": "清华大学国际学生宿舍。",
+          "title_ru": "Общежитие для иностранных студентов Университета Цинхуа",
+          "summary_ru": "Короткий видеообзор общежития для иностранных студентов Цинхуа, собравший более двадцати тысяч просмотров.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "dorm",
+          "published": "2021-08"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV124411w7fc/",
+          "title_orig": "Dormitory Tour | 清华大学留学生公寓・双人间",
+          "title_ru": "Обзор комнаты: двухместный номер в общежитии для иностранцев Цинхуа",
+          "summary_ru": "Рум-тур по двухместной комнате в общежитии для иностранных студентов Цинхуа.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "dorm",
+          "published": "2019-07"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=77LsqImGS6Q",
+          "title_orig": "1 Day International Student in China🇨🇳 [UniVlog] Tsinghua University & Xiaomi Internship [ENG]",
+          "title_ru": "Один день иностранного студента в Китае: Университет Цинхуа и стажировка в Xiaomi",
+          "summary_ru": "Влог о буднях иностранного студента, который совмещает учёбу в Цинхуа со стажировкой в технологической компании.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=sAuMM8E5Yak",
+          "title_orig": "Life as a Tsinghua University student",
+          "title_ru": "Жизнь студента Университета Цинхуа",
+          "summary_ru": "Видео о жизни иностранного студента, изучающего китайский язык в Цинхуа.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.zhihu.com/question/407300355",
+          "title_orig": "如何评价清华大学双清公寓只允许留学生和男博申请？ - 知乎",
+          "title_ru": "Как оценить то, что в апартаменты Шуанцин Цинхуа могут заселяться только иностранцы и аспиранты-мужчины?",
+          "summary_ru": "Обсуждение на «Чжиху» правил заселения в жилой комплекс Цинхуа, куда принимают иностранных студентов.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.study-abroad.org/ru/blog/cn-best-student-cities/",
+          "title_orig": "Лучшие студенческие города Китая 2026",
+          "title_ru": "Лучшие студенческие города Китая 2026",
+          "summary_ru": "Сравнение студенческих городов Китая; Пекин описан как академическая столица с большим числом иностранцев и заметным минусом — загрязнённым воздухом.",
+          "lang": "ru",
+          "platform": "blog",
+          "topic": "city",
+          "published": "2026-03"
+        }
+      ]
+    },
+    "university-of-science-and-technology-of-china": {
+      "name_zh": "中国科学技术大学",
+      "description": {
+        "text_ru": "Научно-технический университет Китая (USTC) основан в 1958 году в Пекине и подчиняется Академии наук Китая; в 1970 году переехал в Хэфэй, столицу провинции Аньхой. Университет известен исследованиями в области квантовой информатики, нанонаук, наук о жизни и пожарной безопасности.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://ic.ustc.edu.cn/en/v7list.php?id=585",
+          "title_orig": "Accommodation - International College of University of Science and Technology of China",
+          "title_ru": "Проживание — Международный колледж USTC",
+          "summary_ru": "Официальная страница о жилье для иностранцев: квартиры с двумя или тремя спальнями, мебель и бытовая техника, регулярная уборка, цена зависит от площади.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://ic.ustc.edu.cn/v7info.php?Nav_x=67",
+          "title_orig": "校园生活 - 中国科学技术大学国际学院",
+          "title_ru": "Жизнь в кампусе — Международный колледж USTC",
+          "summary_ru": "Китайскоязычный обзор быта: столовые с обедом примерно за десять юаней, библиотеки, спортивные залы, автобусы между кампусами, точки мобильных операторов.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://ic.ustc.edu.cn/en/v7list.php?id=701",
+          "title_orig": "My USTC Journey: From Hanoi's Warmth to Hefei's Snow",
+          "title_ru": "Мой путь в USTC: от тёплого Ханоя к снежному Хэфэю",
+          "summary_ru": "Эссе вьетнамской магистрантки: первый снег в Хэфэе, дружба с китайскими и иностранными однокурсниками, адаптация и тоска по дому.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://ic.ustc.edu.cn/en/v7list.php?id=692",
+          "title_orig": "Wonderful events and experiences in USTC",
+          "title_ru": "Яркие события и впечатления в USTC",
+          "summary_ru": "Рассказ иностранного студента на сайте Международного колледжа о мероприятиях и впечатлениях от учёбы в университете.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://studychina.chinadaily.com.cn/s/202303/06/WS64054957498ea274927b13ad/my-life-story-in-ustc-china.html",
+          "title_orig": "My life story in USTC China",
+          "title_ru": "Моя история жизни в USTC",
+          "summary_ru": "Иностранный магистрант рассказывает о занятиях китайским, дружбе с местными студентами, культурных фестивалях и поездках, которые организует университет.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "life",
+          "published": "2023-03"
+        },
+        {
+          "url": "https://studychina.chinaservicesinfo.com/s/202109/23/WS614c5a28498e6a12c120605b/international-college-held-orientation-for-2021-international-students.html",
+          "title_orig": "International College held orientation for 2021 International Students",
+          "title_ru": "Международный колледж провёл неделю адаптации для иностранных студентов 2021 года",
+          "summary_ru": "Что входит в адаптацию новичков: учебные вопросы, курсы китайского, визовые правила, экскурсия по кампусу и вебинары о выборе курсов и научного руководителя.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "campus",
+          "published": "2021-09"
+        },
+        {
+          "url": "https://subsites.chinadaily.com.cn/hefeiht/2021-06/29/c_637130.htm",
+          "title_orig": "Myriad opportunities presented to overseas applicants",
+          "title_ru": "Множество возможностей для иностранных абитуриентов",
+          "summary_ru": "Обзор международных программ USTC: летние школы, совместные исследования и отзывы иностранных студентов о лабораториях и многонациональной среде.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "study",
+          "published": "2021-06"
+        },
+        {
+          "url": "https://chinadailyhk.com/article/169706",
+          "title_orig": "Hefei one of foreigners' favorite cities in China",
+          "title_ru": "Хэфэй — один из любимых городов иностранцев в Китае",
+          "summary_ru": "Почему иностранцы остаются в Хэфэе: истории выпускников USTC из Египта, Йемена и Южной Кореи, проживших в городе много лет.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "city",
+          "published": "2021-05"
+        },
+        {
+          "url": "https://www.hse.ru/en/news/1089330276.html",
+          "title_orig": "'It Was Interesting to See How Our Chinese Colleagues Work': HSE Researchers Take Part in Hefei Summer School",
+          "title_ru": "«Было интересно посмотреть, как работают китайские коллеги»: исследователи ВШЭ на летней школе в Хэфэе",
+          "summary_ru": "Молодые исследователи из лаборатории ВШЭ прошли летнюю научную программу в USTC: проекты по физике и знакомство с академической культурой Китая.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "russians",
+          "published": "2025-10"
+        },
+        {
+          "url": "https://et.spbstu.ru/print/events/education_ustc.pdf",
+          "title_orig": "Обучение в Научно-Техническом Университете Китая",
+          "title_ru": "Обучение в Научно-техническом университете Китая",
+          "summary_ru": "Анонс Политеха: USTC принимает иностранцев на степени, стажировки, летние и зимние школы; часть магистерских и все докторские программы доступны на английском.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.stonybrook.edu/commcms/studyabroad/outgoing/programs/current-year/academic-year/china/ustc",
+          "title_orig": "University of Science and Technology of China",
+          "title_ru": "Научно-технический университет Китая — программа обмена Университета Стоуни-Брук",
+          "summary_ru": "Страница программы обмена: студенты зачисляются напрямую в USTC, курсы читаются на английском и китайском языках.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=WI-szcsZ-lA",
+          "title_orig": "USTC students explore Hefei",
+          "title_ru": "Студенты USTC исследуют Хэфэй",
+          "summary_ru": "Иностранные студенты USTC показывают места Хэфэя, которые стоит посетить, — от природы до исторических и культурных достопримечательностей.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "city",
+          "published": "2023-12"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=19XU_Dx2XoE",
+          "title_orig": "What it's like to study at University of Science and Technology of China",
+          "title_ru": "Каково учиться в Научно-техническом университете Китая",
+          "summary_ru": "Интервью с иностранным аспирантом USTC об адаптации к учёбе, культурных различиях и возможностях; канал принадлежит консультационному сервису по поступлению.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "study",
+          "published": "2024-12"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=2tgXv5UBcVg",
+          "title_orig": "Navigating USTC East Campus: Guide to Finding the International Student's Office (ISO) – NORTH GATE",
+          "title_ru": "Восточный кампус USTC: как дойти от северных ворот до офиса иностранных студентов",
+          "summary_ru": "Видеомаршрут для новичков: путь от северных ворот Восточного кампуса до офиса по работе с иностранными студентами.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": "2023-08"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=GhHLIObgkd4",
+          "title_orig": "University apartments in China USTC Dormitory hostel Room condition",
+          "title_ru": "Общежитие USTC: в каком состоянии комнаты",
+          "summary_ru": "Видеообзор комнат в общежитии USTC от канала, рассчитанного на иностранцев, живущих в Китае.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "dorm",
+          "published": "2020-05"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=nmE66jSyquQ",
+          "title_orig": null,
+          "title_ru": "Зимняя школа USTC",
+          "summary_ru": "Участник десятидневной зимней школы USTC рассказывает о лекциях, музеях Хэфэя и знакомстве с китайской культурой.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": "2025-11"
+        }
+      ]
+    },
+    "wuhan-university": {
+      "name_zh": "武汉大学",
+      "description": {
+        "text_ru": "Уханьский университет — государственный университет в Ухане (провинция Хубэй), учреждённый в 1928 году как Национальный Уханьский университет после объединения нескольких учебных заведений в 1926 году. Кампус расположен на холме Лоцзя у Восточного озера и известен исторической архитектурой и весенним цветением сакуры. В университете есть школы гуманитарных, общественных, инженерных, информационных и медицинских наук.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Wuhan_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://admission.whu.edu.cn/FRESHMEN_RELATED/ACCOMMODATION.htm",
+          "title_orig": "ACCOMMODATION-武汉大学国际教育学院英文网站",
+          "title_ru": "Проживание — англоязычный сайт Школы международного образования Уханьского университета",
+          "summary_ru": "Официальная страница о заселении: корпуса для иностранцев в Кленовом саду и при медицинском колледже, с кондиционерами, интернетом и водонагревателями.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://admission.whu.edu.cn/info/1641/5121.htm",
+          "title_orig": "Introduction to the 2024 Summer Program of the School of International Education, Wuhan University",
+          "title_ru": "Летняя программа Школы международного образования Уханьского университета 2024 года",
+          "summary_ru": "Официальное описание летней программы для иностранцев, организованной Школой международного образования.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://uol.de/en/going-abroad/outside-of-europe/asia/china-wuhan-wuhan-university",
+          "title_orig": "China, Wuhan: Wuhan University // University of Oldenburg",
+          "title_ru": "Китай, Ухань: Уханьский университет // Университет Ольденбурга",
+          "summary_ru": "Немецкий вуз-партнёр об обмене: недорогие общежития для иностранцев, дешёвые столовые, жаркое влажное лето и почти никакого английского в городе.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "life",
+          "published": "2026-09"
+        },
+        {
+          "url": "https://studychina.chinadaily.com.cn/s/202312/12/WS65780e90498ed2d7b7ea2b20/journey-to-excellence-my-academic-story-at-wuhan-university.html",
+          "title_orig": "Journey to excellence: My academic story at Wuhan University",
+          "title_ru": "Путь к успеху: моя академическая история в Уханьском университете",
+          "summary_ru": "Студент из Марокко рассказывает об исследовательской работе, клубах, культурных фестивалях и преодолении языкового барьера в университете.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "study",
+          "published": "2023-12"
+        },
+        {
+          "url": "https://studychina.chinaservicesinfo.com/s/202303/03/WS64014d73498ea274927b11c1/student-life-on-a-beautiful-campus.html",
+          "title_orig": "Student life on a beautiful campus",
+          "title_ru": "Студенческая жизнь в красивом кампусе",
+          "summary_ru": "Студент из Непала вспоминает архитектуру кампуса, сакуровую аллею, холм Лоцзя, футбол и кино под открытым небом.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "campus",
+          "published": "2023-03"
+        },
+        {
+          "url": "https://innopolis.university/success-stories/glazkov-oleg/",
+          "title_orig": "Summer School 2025 Wuhan University, China",
+          "title_ru": "Летняя школа 2025, Уханьский университет, Китай",
+          "summary_ru": "Участник из Университета Иннополис о летней школе LuoJia Global: лекции, вечерняя жизнь кампуса и прогулки по Уханю.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "russians",
+          "published": null
+        },
+        {
+          "url": "https://resources.digmandarin.com/wuhan-university/",
+          "title_orig": "武汉大学 Wuhan University (WHU)",
+          "title_ru": "Уханьский университет (WHU)",
+          "summary_ru": "Справка о программах китайского языка для иностранцев: долгосрочные курсы разных уровней, годовые стажировки и короткие групповые программы.",
+          "lang": "en",
+          "platform": "blog",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=OK71botBJDY",
+          "title_orig": "My life in Wuhan University",
+          "title_ru": "Моя жизнь в Уханьском университете",
+          "summary_ru": "Англоязычный влог о жизни в университете и о внеучебных возможностях кампуса.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=CehVNEbfM84",
+          "title_orig": "Inside Wuhan University The Most BEAUTIFUL Campus in China!",
+          "title_ru": "Внутри Уханьского университета — самый красивый кампус Китая!",
+          "summary_ru": "Видеопрогулка по кампусу, который часто называют одним из красивейших в Китае.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=k5iWAEfZ558",
+          "title_orig": "WHUer's Vlog: Zuotao Cultural Space",
+          "title_ru": "Влог студента Уханьского университета: культурное пространство Цзотао",
+          "summary_ru": "Короткий студенческий влог о культурном пространстве Цзотао на территории университета.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.zhihu.com/question/54028503",
+          "title_orig": "武汉大学的宿舍怎么样？ - 知乎",
+          "title_ru": "Какие общежития в Уханьском университете?",
+          "summary_ru": "Вопрос на форуме, в ответах на который студенты описывают общежития университета, типы комнат и бытовые удобства.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.zhihu.com/question/326887223",
+          "title_orig": "武汉大学的宿舍条件如何？校区内有哪些生活设施？ - 知乎",
+          "title_ru": "Каковы условия в общежитиях Уханьского университета и какая инфраструктура есть в кампусе?",
+          "summary_ru": "Обсуждение на форуме: студенты рассказывают об условиях в общежитиях и бытовой инфраструктуре кампуса.",
+          "lang": "zh",
+          "platform": "zhihu",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV1ZL4y1b7Ci/",
+          "title_orig": "武汉大学研究生新生宿舍",
+          "title_ru": "Общежитие для новых магистрантов Уханьского университета",
+          "summary_ru": "Влог о комнате в общежитии для магистрантов-первокурсников.",
+          "lang": "zh",
+          "platform": "bilibili",
+          "topic": "campus",
+          "published": "2021-09"
+        }
+      ]
+    },
+    "xi-an-jiaotong-liverpool-university": {
+      "name_zh": "西交利物浦大学",
+      "description": {
+        "text_ru": "Сиань Цзяотун-Ливерпульский университет основан в 2006 году Сианьским университетом Цзяотун и Ливерпульским университетом как некоммерческий китайско-иностранный вуз. Главный кампус находится в Сучжоуском индустриальном парке, ещё один — в Тайцане. Все программы преподаются на английском, а бакалавры обычно получают дипломы обоих вузов, включая ливерпульский.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Xi%27an_Jiaotong%E2%80%93Liverpool_University",
+          "https://www.xjtlu.edu.cn/en/admissions/global/frequently-asked-questions"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://www.xjtlu.edu.cn/en/admissions/global/accommodation",
+          "title_orig": "International, Chinese Hong Kong, Macao, and Taiwan students accommodation - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Проживание для иностранных студентов и студентов из Гонконга, Макао и Тайваня",
+          "summary_ru": "Подробный обзор квартир и общежитий для иностранцев у кампусов в Сучжоу и Тайцане: типы комнат, кухни, расстояние до занятий, правила заселения.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/campus-life/our-campus",
+          "title_orig": "Our Campus - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Наш кампус — Сиань Цзяотун-Ливерпульский университет",
+          "summary_ru": "Описание трёх частей кампуса в Сучжоу с современными учебными и спортивными зданиями и отдельного кампуса предпринимательского колледжа в Тайцане.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "campus",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/admissions/global/frequently-asked-questions",
+          "title_orig": "Frequently Asked Questions - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Часто задаваемые вопросы",
+          "summary_ru": "Ответы для иностранцев: обучение полностью на английском, курсы китайского до уровня HSK 4, страховка, проживание и около двухсот студенческих клубов.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "study",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/admissions/pre-arrival-information",
+          "title_orig": "Pre-arrival information - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Информация перед приездом",
+          "summary_ru": "Пошаговая памятка для зачисленных иностранцев: виза, бронирование жилья, встреча в аэропорту, регистрация в полиции, медосмотр, вид на жительство и вводная неделя.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "admission",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/study/suzhou-life",
+          "title_orig": "Life in Suzhou - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Жизнь в Сучжоу",
+          "summary_ru": "Официальный гид по городу: классические сады, традиционные ремёсла и современный индустриальный парк, плюс разделы о еде, покупках и досуге.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "city",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/campus-life/suzhou-life/living-costs",
+          "title_orig": "Living costs - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Стоимость жизни",
+          "summary_ru": "Примерный месячный бюджет студента в Сучжоу для трёх стилей жизни: жильё, связь, еда, транспорт и развлечения.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/study/lifeinsuzhou/transportation-sz",
+          "title_orig": "Transportation - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Транспорт в Сучжоу",
+          "summary_ru": "Как передвигаться по Сучжоу и за его пределы: метро рядом с кампусом, автобусы, такси, общественные велосипеды, вокзалы и ближайшие аэропорты.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "city",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/campus-life/sports-and-activities",
+          "title_orig": "Sports and Club Activities - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Спорт и студенческие клубы",
+          "summary_ru": "Около двухсот студенческих организаций, спортивные центры на кампусах, ярмарка клубов для первокурсников и волонтёрские программы.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/campus-life/health-and-wellbeing",
+          "title_orig": "Health and Wellbeing - Xi'an Jiaotong-Liverpool University",
+          "title_ru": "Здоровье и благополучие",
+          "summary_ru": "Психологическая служба на английском и китайском, ближайшие больницы и аптеки, часть из которых работает круглосуточно и с англоговорящим персоналом.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/news/2026/03/norwegian-students-find-new-perspective-in-china-at-xjtlu",
+          "title_orig": "Norwegian students find new perspective in China at XJTLU",
+          "title_ru": "Студенты из Норвегии по-новому взглянули на Китай благодаря учёбе в XJTLU",
+          "summary_ru": "Магистранты из Норвегии хвалят современный кампус, оплату телефоном, доступные кафе и международную среду, признаваясь, что переезд поначалу пугал.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": "2026-03"
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/news/2025/11/malaysians-discover-new-sides-of-studying-in-china",
+          "title_orig": "Malaysians discover new sides of studying in China",
+          "title_ru": "Студенты из Малайзии открывают новые стороны учёбы в Китае",
+          "summary_ru": "Двое иностранных студентов рассказывают о первом опыте научной работы и о стипендии как мосте между культурами.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "study",
+          "published": "2025-11"
+        },
+        {
+          "url": "https://www.xjtlu.edu.cn/en/news/grad-2025-a-journey-of-adaptation-discovery-and-growth",
+          "title_orig": "Grad 2025: 'A journey of adaptation, discovery, and growth'",
+          "title_ru": "Выпуск 2025: «Путь адаптации, открытий и роста»",
+          "summary_ru": "Иностранный выпускник магистратуры описывает быстрый темп учёбы, важность упорства и советует выходить за пределы своей культурной компании.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "study",
+          "published": "2025-06"
+        },
+        {
+          "url": "https://www.liverpool.ac.uk/xjtlu/study-in-china/year-in-china/",
+          "title_orig": "Year in China",
+          "title_ru": "Год в Китае",
+          "summary_ru": "Страница Ливерпульского университета о годе учёбы в кампусах XJTLU в Сучжоу или Тайцане с треками по китаистике, предпринимательству и креативным индустриям.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "study",
+          "published": null
+        }
+      ]
+    },
+    "xi-an-jiaotong-university": {
+      "name_zh": "西安交通大学",
+      "description": {
+        "text_ru": "Сианьский университет Цзяотун ведёт историю от школы Наньян, основанной в 1896 году в Шанхае; в 1956 году основная часть вуза переехала в Сиань, столицу провинции Шэньси. Это исследовательский университет с сильной инженерной школой, член Лиги C9, с четырьмя кампусами — Синцин, Яньта, Цюйцзян и «Инновационная гавань».",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Xi%27an_Jiaotong_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://sie.xjtu.edu.cn/en/info/1032/1542.htm",
+          "title_orig": "Introduction to International Student Apartments of Xi'an Jiaotong University",
+          "title_ru": "Общежития для иностранных студентов Сианьского университета Цзяотун",
+          "summary_ru": "Квартиры для иностранцев на кампусах Синцин, Яньта и «Инновационная гавань»: кондиционер, отопление, санузел, общие кухни и прачечные.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://sie.xjtu.edu.cn/en/info/1032/1545.htm",
+          "title_orig": "1.Implementation rules for service and management of International Student Apartments",
+          "title_ru": "Правила обслуживания и управления общежитиями для иностранных студентов",
+          "summary_ru": "Официальные правила проживания: бронированием, заселением и повседневным управлением общежитиями занимается Школа международного образования.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://en.xjtu.edu.cn/2018-10/23/c_602394.htm",
+          "title_orig": "XJTU welcomes 2018 international students",
+          "title_ru": "Сианьский университет Цзяотун встречает иностранных студентов набора 2018 года",
+          "summary_ru": "Новость о приёме иностранцев более чем из ста стран, включая Россию и Казахстан; в адаптации — история вуза, китайские обычаи и местные законы.",
+          "lang": "en",
+          "platform": "official",
+          "topic": "life",
+          "published": "2018-10"
+        },
+        {
+          "url": "https://subsites.chinadaily.com.cn/xjtu/2023-10/07/c_935326.htm",
+          "title_orig": "XJTU holds opening ceremony for 2023 international students",
+          "title_ru": "Университет провёл церемонию начала учёбы для иностранных студентов 2023 года",
+          "summary_ru": "Более шестисот новых иностранных студентов из свыше семидесяти стран и регионов начали учёбу в университете.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "life",
+          "published": "2023-10"
+        },
+        {
+          "url": "https://subsites.chinadaily.com.cn/xjtu/2025-06/27/c_1104023.htm",
+          "title_orig": "Kazakhstani student embraces Chinese culture in Xi'an",
+          "title_ru": "Студентка из Казахстана открывает для себя китайскую культуру в Сиане",
+          "summary_ru": "История выпускницы магистратуры по управлению бизнесом: преодоление языкового барьера, свободный китайский, увлечение классическим танцем и культурным обменом.",
+          "lang": "en",
+          "platform": "media",
+          "topic": "life",
+          "published": "2025-06"
+        },
+        {
+          "url": "https://news.xjtu.edu.cn/info/1014/213516.htm",
+          "title_orig": "【陕西头条】世相丨从“生根”到“发芽”：俄罗斯女孩西安创业记",
+          "title_ru": "От «корней» к «росткам»: как девушка из России открыла своё дело в Сиане",
+          "summary_ru": "Выпускница магистратуры по менеджменту из России осталась в Сиане и основала консалтинговую компанию в сфере образования и культурного обмена.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "russians",
+          "published": null
+        },
+        {
+          "url": "https://www.spbstu.ru/pdf_news/view/nachalo-velikogo-uchebnogo-puti.pdf",
+          "title_orig": "Начало Великого учебного пути",
+          "title_ru": "Начало Великого учебного пути",
+          "summary_ru": "Студентка Политеха о летней школе в Сиане: лекции на английском, уроки китайского, экскурсии, сильная жара, острая еда и языковой барьер.",
+          "lang": "ru",
+          "platform": "other",
+          "topic": "russians",
+          "published": "2017-08"
+        },
+        {
+          "url": "https://www.fvsinologie.uzh.ch/en/news/2023/joshuaaustexchangexian.html",
+          "title_orig": null,
+          "title_ru": "Учёба за границей в Сиане",
+          "summary_ru": "Студент-синолог из Цюриха девять месяцев учил китайский в университете: двадцать уроков в неделю, жильё с иностранными соседями, расходы около 2500 юаней в месяц.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "study",
+          "published": "2023-12"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=UAB573NhLZw",
+          "title_orig": "XIAN JIAOTONG UNIVERSITY DORM TOUR 2025 | COMPLETE DORM TOUR | #dormitory #xianjiaotonguniversity",
+          "title_ru": "Обзор общежития Сианьского университета Цзяотун, 2025",
+          "summary_ru": "Иностранный студент проводит полную экскурсию по своему общежитию в Сианьском университете Цзяотун.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "dorm",
+          "published": "2025-07"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=yYDRxrgmOTE",
+          "title_orig": "#XJTUcampus  Online Tour of XJTU",
+          "title_ru": "Онлайн-экскурсия по кампусу университета",
+          "summary_ru": "Иностранные студенты из Лесото и Чада проводят новичков по кампусу Синцин и делятся полезными секретами; видео с официального канала приёмной комиссии.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "campus",
+          "published": "2021-10"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=ibbAC6vqtA4",
+          "title_orig": "Xi'an Jiaotong University | School of International Education | Activities | XJTU Xingqing Campus",
+          "title_ru": "Мероприятия Школы международного образования на кампусе Синцин",
+          "summary_ru": "Студенческое видео о мероприятиях, которые Школа международного образования организует для иностранцев на кампусе Синцин.",
+          "lang": "en",
+          "platform": "youtube",
+          "topic": "life",
+          "published": "2021-02"
+        },
+        {
+          "url": "https://web.tohoku.ac.jp/yusa/index.php/2023/a-memorable-visit-to-xian-jiaotong-university/",
+          "title_orig": "A Memorable Visit to Xi'an Jiaotong University",
+          "title_ru": "Запоминающийся визит в Сианьский университет Цзяотун",
+          "summary_ru": "Отчёт иностранного студента о короткой поездке: огромный новый кампус «Инновационная гавань», городская стена Сианя и терракотовая армия.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "campus",
+          "published": "2023-11"
+        },
+        {
+          "url": "https://www.chinese-forums.com/forums/topic/35385-xian-jiaotong-university/",
+          "title_orig": "Xi'an Jiaotong University",
+          "title_ru": "Сианьский университет Цзяотун — обсуждение на форуме",
+          "summary_ru": "Ветка 2007 года: языковые курсы шести уровней, доброжелательные преподаватели, общежитие с санузлом и кондиционером, спокойный и удобный для жизни Сиань.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "study",
+          "published": "2007-08"
+        },
+        {
+          "url": "https://www.chinese-forums.com/forums/topic/22058-living-at-xian-jiaotong-university/",
+          "title_orig": "Living at Xi'an Jiaotong University",
+          "title_ru": "Жизнь в Сианьском университете Цзяотун",
+          "summary_ru": "Ветка 2009 года о языковых курсах: потрёпанные комнаты в обычном общежитии, отдельное общежитие для стипендиатов, закрытие корпуса в полночь.",
+          "lang": "en",
+          "platform": "other",
+          "topic": "dorm",
+          "published": null
+        },
+        {
+          "url": "https://sie.xjtu.edu.cn/info/1020/2853.htm",
+          "title_orig": "感悟古都文化，体验长安生活——国际教育学院预科中心第二期文化体验课程",
+          "title_ru": "Культура древней столицы и жизнь Чанъаня: второй выезд культурного курса подготовительного центра",
+          "summary_ru": "Слушатели подготовительного центра для иностранцев побывали у пагоды Даяньта, Колокольной башни и в Мусульманском квартале Сианя.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "city",
+          "published": null
+        },
+        {
+          "url": "https://news.xjtu.edu.cn/info/1005/186082.htm",
+          "title_orig": "【青春共家国】西安交大开展中外大学生社会实践活动",
+          "title_ru": "Китайские и иностранные студенты университета вместе проходят летнюю социальную практику",
+          "summary_ru": "Совместные поездки китайских и иностранных студентов по музеям Шэньси, включая музей терракотовой армии и Исторический музей провинции.",
+          "lang": "zh",
+          "platform": "official",
+          "topic": "life",
+          "published": null
+        }
+      ]
+    },
+    "zhejiang-university": {
+      "name_zh": "浙江大学",
+      "description": {
+        "text_ru": "Чжэцзянский университет находится в Ханчжоу, столице провинции Чжэцзян. Он ведёт историю от академии Цюши (1897), а в 1928 году стал Национальным Чжэцзянским университетом; сейчас входит в Лигу C9. Вуз известен сильными исследованиями, особенно в компьютерных науках, и работает на нескольких кампусах, главный из которых — Цзыцзиньган.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Zhejiang_University"
+        ]
+      },
+      "links": [
+        {
+          "url": "https://www.study-abroad.org/ru/blog/cn-best-student-cities/",
+          "title_orig": "Лучшие студенческие города Китая 2026",
+          "title_ru": "Лучшие студенческие города Китая 2026",
+          "summary_ru": "Сравнение студенческих городов Китая; Ханчжоу описан как технологический центр с красивой природой и более доступной жизнью, чем в Шанхае.",
+          "lang": "ru",
+          "platform": "blog",
+          "topic": "city",
+          "published": "2026-03"
+        }
+      ]
+    }
+  }
 }
