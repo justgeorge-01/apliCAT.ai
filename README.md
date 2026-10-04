@@ -329,7 +329,7 @@ REVIEW (Sheet → потом админ-панель) → человек одо�
   `lib/cabinet.ts` (типы, таблица учеников, экспорт JSON, бренд из организации).
 - **Экраны:** `components/TasksPanel.tsx`, `MentorCard.tsx`, `PlanUniversities.tsx` (блоки плана с `readOnly`),
   `pages/Profile.tsx`, `mentor/*` (ученики, карточка, приглашение, организация).
-- **Скриншоты:** `docs/screens/cabinet/`.
+- **Скриншоты:** сняты заново после переделки витрины (старые убраны: на них был бренд реального агентства).
 
 ### Переменные (`app/.env.local`, в git не попадает; шаблон – `app/.env.example`)
 `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` – в сборку (кабинет включается их наличием: `FEATURES.accounts`);

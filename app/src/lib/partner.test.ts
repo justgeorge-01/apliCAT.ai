@@ -1,7 +1,20 @@
-import { describe, expect, it } from "vitest"
+import { afterAll, beforeAll, describe, expect, it } from "vitest"
 
 import { hasLead, partnerBySlug, resolvePartnerSlug } from "./partner"
 import { DEFAULT_PARTNER_SLUG, PARTNERS } from "./partners"
+
+// A fixture partner for the resolver: the public registry carries none.
+beforeAll(() => {
+  PARTNERS.demo = {
+    slug: "demo",
+    name: "Демо-агентство",
+    lead: { label: "Обсудить с наставником", url: "https://t.me/example" },
+    expertPage: { title: "Демо", paragraphs: ["Текст."] },
+  }
+})
+afterAll(() => {
+  delete PARTNERS.demo
+})
 
 describe("partner resolution", () => {
   it("defaults to abitura, which has no lead", () => {
@@ -18,6 +31,10 @@ describe("partner resolution", () => {
     expect(resolvePartnerSlug("?partner=nobody", "demo")).toBe("demo")
     expect(resolvePartnerSlug("?partner=../evil", "nobody")).toBe("abitura")
     expect(partnerBySlug("nobody").slug).toBe("abitura")
+  })
+
+  it("the public registry carries no partner besides the default", () => {
+    expect(Object.keys(PARTNERS).filter((k) => k !== "demo")).toEqual(["abitura"])
   })
 
   it("the demo partner has a clickable lead and an expert page", () => {

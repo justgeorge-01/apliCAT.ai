@@ -2,7 +2,7 @@
 // Создание / обновление организации и её участников (SPEC-cabinet §0.3).
 // Работает напрямую с базой (SUPABASE_DB_URL), поэтому не зависит от RLS.
 //
-//   npm run db:org -- --slug demo --name "Демо-агентство" --telegram example_handle \
+//   npm run db:org -- --slug demo --name "Демо-агентство" --telegram demo_agency_tg \
 //       --tagline "Наставник по поступлению в вузы Китая" \
 //       --admin owner@example.com --mentor mentor@example.com [--code DEMO-7F3K]
 //
