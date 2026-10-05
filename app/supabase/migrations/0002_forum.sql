@@ -54,6 +54,10 @@ create table app_private.forum_rate (
 
 /* ---------- RLS и гранты ---------- */
 
+-- Проект создаётся с выключенным «Automatically expose new tables»: ничего не
+-- открывается API по умолчанию, все права ниже выданы явно.
+grant usage on schema public to anon, authenticated;
+
 alter table public.forum_posts enable row level security;
 
 -- 'deleted' читается тоже: ветка с чужими ответами остаётся, текст уже стёрт
