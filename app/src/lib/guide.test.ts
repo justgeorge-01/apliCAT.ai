@@ -117,3 +117,13 @@ describe("guide routes", () => {
     expect(parseRoute(universityHref("xi-an-jiaotong-university"))).toEqual({ page: "university", id: "xi-an-jiaotong-university" })
   })
 })
+
+describe("ключ Supabase для форума", () => {
+  it("старый anon-ключ идёт и в apikey, и в Authorization; новый publishable – только в apikey", async () => {
+    const { restHeaders } = await import("@/data/forum")
+    expect(restHeaders("eyJhbGciOi.x.y")).toMatchObject({ apikey: "eyJhbGciOi.x.y", Authorization: "Bearer eyJhbGciOi.x.y" })
+    const h = restHeaders("sb_publishable_abc")
+    expect(h.apikey).toBe("sb_publishable_abc")
+    expect(h.Authorization).toBeUndefined()
+  })
+})

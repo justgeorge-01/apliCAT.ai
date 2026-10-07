@@ -152,8 +152,19 @@ export function toThreads(posts: ForumPost[]): ForumThread[] {
 
 const COLUMNS = "id,university_id,parent_id,body,nickname,role,created_at"
 
+/**
+ * Supabase отдаёт два вида публичного ключа: старый anon (JWT, «eyJ…») и новый
+ * publishable («sb_publishable_…»). Оба идут в `apikey`; в Authorization – только
+ * JWT, иначе шлюз ответит 401.
+ */
+export function restHeaders(anonKey: string): Record<string, string> {
+  const headers: Record<string, string> = { apikey: anonKey, "Content-Type": "application/json" }
+  if (anonKey.startsWith("eyJ")) headers.Authorization = `Bearer ${anonKey}`
+  return headers
+}
+
 function restApi(url: string, anonKey: string): ForumApi {
-  const headers = { apikey: anonKey, Authorization: `Bearer ${anonKey}`, "Content-Type": "application/json" }
+  const headers = restHeaders(anonKey)
   async function rpc<T>(fn: string, body: Record<string, unknown>): Promise<T> {
     const res = await fetch(`${url}/rest/v1/rpc/${fn}`, { method: "POST", headers, body: JSON.stringify(body) })
     const text = await res.text()
