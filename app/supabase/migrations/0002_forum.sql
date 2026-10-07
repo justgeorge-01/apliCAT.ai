@@ -298,3 +298,13 @@ grant execute on function public.forum_whoami(uuid) to anon, authenticated;
 grant execute on function public.forum_post(text, text, uuid, bigint, text) to anon, authenticated;
 grant execute on function public.forum_report(bigint, uuid) to anon, authenticated;
 grant execute on function public.forum_delete_own(bigint, uuid) to anon, authenticated;
+
+/* ---------- независимо от галочки «Automatically expose new tables» ---------- */
+
+-- С этой галочкой Supabase по умолчанию раздаёт anon / authenticated права на всё
+-- новое: таблицы, функции, последовательности. Ниже – явные отзывы, поэтому
+-- итоговые права одинаковы при любом её положении (тест прогоняет худший случай).
+revoke all on sequence public.forum_posts_id_seq from anon, authenticated;
+revoke all on app_private.forum_secret, app_private.forum_reports, app_private.forum_rate from anon, authenticated;
+revoke all on function app_private.forum_nickname(text), app_private.forum_author_key(uuid),
+  app_private.forum_redact(text), app_private.forum_has_link(text) from anon, authenticated;

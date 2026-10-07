@@ -67,6 +67,14 @@ beforeAll(async () => {
     create role authenticated nologin;
     create schema extensions;
     grant usage on schema public to anon, authenticated;
+    -- худший случай: проект создан с «Automatically expose new tables» – Supabase
+    -- раздаёт права на всё новое; миграция обязана отозвать лишнее сама
+    alter default privileges in schema public grant all on tables to anon, authenticated;
+    alter default privileges in schema public grant all on functions to anon, authenticated;
+    alter default privileges in schema public grant all on sequences to anon, authenticated;
+    alter default privileges grant all on tables to anon, authenticated;
+    alter default privileges grant all on functions to anon, authenticated;
+    alter default privileges grant all on sequences to anon, authenticated;
   `)
   await db.exec(SQL)
 })
@@ -158,6 +166,12 @@ describe("форум: права посетителя", () => {
     await fails(anon("select status from public.forum_posts limit 1"), /permission denied/)
     const rows = await anon("select id, body, nickname, role, created_at from public.forum_posts limit 1")
     expect(rows.length).toBe(1)
+  })
+
+  it("последовательность и служебные функции закрыты даже при открытых правах по умолчанию", async () => {
+    await fails(anon("select nextval('public.forum_posts_id_seq')"), /permission denied/)
+    await fails(anon("select app_private.forum_nickname('aabbcc')"), /permission denied/)
+    await fails(anon("select count(*) from app_private.forum_rate"), /permission denied/)
   })
 
   it("не пишет мимо функций и не видит служебную схему", async () => {
